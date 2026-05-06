@@ -1,0 +1,9 @@
+archive/*
+public/*
+
+node_modules/*
+tmdb-cache.json
+tmdb-overrides.json
+series-cache.json
+series-groups.json
+.env
