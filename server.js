@@ -58,12 +58,24 @@ try {
   Object.keys(raw).filter(k => !k.startsWith('_')).forEach(k => { overrides[k] = raw[k]; });
 } catch {}
 
+// Local library: movies added outside Letterboxd CSV
+const LOCAL_LIB_FILE = join(__dirname, 'local-library.json');
+let localLib = { watchlist: [], watched: [] };
+try { localLib = { watchlist: [], watched: [], ...JSON.parse(readFileSync(LOCAL_LIB_FILE, 'utf-8')) }; } catch {}
+function saveLocalLib() { writeFileSync(LOCAL_LIB_FILE, JSON.stringify(localLib, null, 2)); }
+// Synthetic URI for a local library entry
+const localUri = tmdbId => `local://movie/${tmdbId}`;
+
 // Series grouping: { "Black Mirror": { tmdbTvId: 42009 }, ... }
-const SERIES_CACHE_FILE = join(__dirname, 'series-cache.json');
-let seriesGroups = {};
-let seriesCache  = {};
-try { seriesGroups = JSON.parse(readFileSync(join(__dirname, 'series-groups.json'), 'utf-8')); } catch {}
-try { seriesCache  = JSON.parse(readFileSync(SERIES_CACHE_FILE, 'utf-8')); } catch {}
+const SERIES_CACHE_FILE   = join(__dirname, 'series-cache.json');
+const DIRECTOR_CACHE_FILE = join(__dirname, 'director-cache.json');
+const DIRECTOR_CACHE_TTL  = 3 * 24 * 60 * 60 * 1000; // 3 days
+let seriesGroups   = {};
+let seriesCache    = {};
+let directorCache  = {};
+try { seriesGroups  = JSON.parse(readFileSync(join(__dirname, 'series-groups.json'), 'utf-8')); } catch {}
+try { seriesCache   = JSON.parse(readFileSync(SERIES_CACHE_FILE, 'utf-8')); } catch {}
+try { directorCache = JSON.parse(readFileSync(DIRECTOR_CACHE_FILE, 'utf-8')); } catch {}
 // Strip the comment key
 delete seriesGroups['_comment'];
 
@@ -89,6 +101,7 @@ async function fetchSeriesData(seriesName) {
       posterPath:   d.poster_path   || null,
       overview:     d.overview      || '',
       genres:       (d.genres || []).map(g => g.name),
+      countries:    (d.production_countries || []).map(c => c.name),
       voteAverage:  Math.round((d.vote_average || 0) * 10) / 10,
       voteCount:    d.vote_count    || 0,
       firstAirYear: d.first_air_date ? parseInt(d.first_air_date.slice(0, 4)) : null,
@@ -113,22 +126,26 @@ async function fetchSeriesData(seriesName) {
 
 async function initSeriesCache() {
   for (const sn of Object.keys(seriesGroups)) {
-    // Re-fetch if cache entry is missing episodeTitles (older format)
-    if (!seriesCache[sn] || !seriesCache[sn].episodeTitles) await fetchSeriesData(sn);
+    // Re-fetch if cache entry is missing episodeTitles or countries (older format)
+    if (!seriesCache[sn] || !seriesCache[sn].episodeTitles || seriesCache[sn].countries === undefined) await fetchSeriesData(sn);
   }
 }
 
 // Returns the series name if this movie title matches a known series prefix (e.g. "Black Mirror: ...")
 // Supports both "Series: Episode" and "Series - Episode" naming conventions,
 // and exact episode title matching for anthology series (e.g. Cabinet of Curiosities)
-function getSeriesGroup(name) {
+function getSeriesGroup(name, year) {
   const nl = name.toLowerCase().trim();
   for (const sn of Object.keys(seriesGroups)) {
     const snl = sn.toLowerCase();
     if (nl === snl || nl.startsWith(snl + ':') || nl.startsWith(snl + ' - ')) return sn;
-    // Anthology fallback: match by exact episode title fetched from TMDB
+    // Anthology fallback: match by exact episode title from TMDB, but guard against
+    // false positives by requiring the movie year to be within 3 years of the series.
     const sc = seriesCache[sn];
-    if (sc?.episodeTitles?.some(t => t.toLowerCase() === nl)) return sn;
+    if (sc?.episodeTitles?.some(t => t.toLowerCase() === nl)) {
+      if (year && sc.firstAirYear && Math.abs(parseInt(year) - sc.firstAirYear) > 3) continue;
+      return sn;
+    }
   }
   return null;
 }
@@ -185,6 +202,18 @@ async function enrichOne(movie) {
   const uri  = movie['Letterboxd URI'];
   const name = encodeURIComponent(movie['Name']);
   const year = movie['Year'];
+
+  // Local library entry: fetch directly by tmdbId stored in cache or extract from URI
+  if (uri.startsWith('local://movie/')) {
+    const existing = tmdbCache[uri];
+    if (existing?.tmdbId) return existing; // already enriched
+    const tmdbId = parseInt(uri.replace('local://movie/', ''));
+    if (!tmdbId || !TMDB_KEY) return null;
+    try {
+      const d = await tmdbFetch(`${TMDB_BASE}/movie/${tmdbId}?api_key=${TMDB_KEY}&language=en-US&append_to_response=credits`);
+      return buildCacheEntry(d);
+    } catch { return null; }
+  }
 
   // Manual override: null = skip, number = movie TMDB ID, { id, type:'tv' } = TV entry
   if (uri in overrides) {
@@ -312,8 +341,22 @@ async function runEnrichment() {
   if (!TMDB_KEY) { console.log('⚠  No TMDB_API_KEY'); return; }
 
   const toEnrich = watchlist.filter(m => {
-    const c = tmdbCache[m['Letterboxd URI']];
-    return !c || (!c.tmdbId && !c.notFound && !c.failed);
+    const uri = m['Letterboxd URI'];
+    const c   = tmdbCache[uri];
+    if (c?.tmdbId) {
+      // Already enriched — only re-run if the override ID changed
+      if (!(uri in overrides)) return false;
+      const ov = overrides[uri];
+      if (!ov) return false;
+      const expectedId = typeof ov === 'object' ? ov.id : ov;
+      return c.tmdbId !== expectedId;
+    }
+    if (uri in overrides) {
+      if (!c) return true;               // never tried
+      const RETRY_AFTER = 4 * 60 * 60 * 1000;
+      return !c.failedAt || (Date.now() - c.failedAt > RETRY_AFTER);
+    }
+    return !c || (!c.notFound && !c.failed);
   });
 
   if (!toEnrich.length) { console.log('✓ Watchlist fully enriched'); return; }
@@ -327,7 +370,7 @@ async function runEnrichment() {
     await Promise.all(batch.map(async movie => {
       const uri  = movie['Letterboxd URI'];
       const data = await enrichOne(movie);
-      tmdbCache[uri] = data ?? { failed: true };
+      tmdbCache[uri] = data ?? { failed: true, failedAt: Date.now() };
       enrichStatus.done++;
       if (!data?.tmdbId) enrichStatus.errors++;
     }));
@@ -368,7 +411,7 @@ function buildMovie(row) {
     countries:   c?.countries   ?? [],
     language:    c?.language    ?? null,
     directors:   c?.directors   ?? [],
-    seriesGroup: getSeriesGroup(row['Name']),
+    seriesGroup: getSeriesGroup(row['Name'], parseInt(row['Year']) || null),
     enriched:    !!(c?.tmdbId),
     enrichFailed:!!(c?.failed || c?.notFound),
     // suspectMatch: only flag when there is NO override — an override is intentional
@@ -423,6 +466,51 @@ function personalizedScore(movie, profile) {
   return base + genreBonus * 0.6 + decadeBonus * 0.3;
 }
 
+// Builds the full discover film pool (director films not in user's library).
+// Shared by /api/discover, /api/discover/random, and /api/movies/suggest?discover=true.
+function buildDiscoverPool() {
+  const watchlistIds = new Set(watchlist.map(m => tmdbCache[m['Letterboxd URI']]?.tmdbId).filter(Boolean));
+  const watchedIds   = new Set(watchedList.map(m => tmdbCache[m['Letterboxd URI']]?.tmdbId).filter(Boolean));
+  const tmdbIdToCache = {};
+  for (const c of Object.values(tmdbCache)) {
+    if (c?.tmdbId) tmdbIdToCache[c.tmdbId] = c;
+  }
+  const affinityMap = {};
+  for (const entry of Object.values(directorCache)) {
+    if (!entry?.person?.name) continue;
+    const inLibrary = entry.movies.filter(m => watchlistIds.has(m.tmdbId) || watchedIds.has(m.tmdbId)).length;
+    affinityMap[entry.person.name] = inLibrary;
+  }
+  const filmMap = new Map();
+  for (const entry of Object.values(directorCache)) {
+    if (!entry?.person?.name || !entry.movies) continue;
+    const dirName = entry.person.name;
+    const affinity = affinityMap[dirName] || 0;
+    for (const m of entry.movies) {
+      if (watchlistIds.has(m.tmdbId) || watchedIds.has(m.tmdbId)) continue;
+      const cached = tmdbIdToCache[m.tmdbId];
+      if (filmMap.has(m.tmdbId)) {
+        const f = filmMap.get(m.tmdbId);
+        if (!f.directors.includes(dirName)) f.directors.push(dirName);
+        f.affinity = Math.max(f.affinity, affinity);
+      } else {
+        filmMap.set(m.tmdbId, {
+          ...m,
+          id:        `discover-${m.tmdbId}`,
+          source:    'discover',
+          directors: [dirName],
+          affinity,
+          genres:    cached?.genres    || [],
+          runtime:   cached?.runtime   || null,
+          countries: cached?.countries || [],
+          posterId:  (m.tmdbId && existsSync(join(__dirname, 'public', 'posters', `${m.tmdbId}.jpg`))) ? String(m.tmdbId) : null,
+        });
+      }
+    }
+  }
+  return [...filmMap.values()];
+}
+
 // ── Routes ────────────────────────────────────────────────────────────────────
 
 app.get('/api/movies', (req, res) => {
@@ -465,7 +553,7 @@ app.get('/api/movies', (req, res) => {
       .map(buildMovie);
     // Also include watched series episodes so they can be grouped into series cards
     const watchedSeriesEps = watchedList
-      .filter(m => !watchlistUris.has(m['Letterboxd URI']) && getSeriesGroup(m['Name']))
+      .filter(m => !watchlistUris.has(m['Letterboxd URI']) && getSeriesGroup(m['Name'], parseInt(m['Year']) || null))
       .map(m => ({ ...buildMovie(m), watched: true }));
     movies = [...movies, ...watchedSeriesEps];
   }
@@ -510,7 +598,7 @@ app.get('/api/movies', (req, res) => {
         watched:      sortedEps.every(e => e.watched),
         ratioUsed:    1,
         directors:    [],
-        countries:    [],
+        countries:    sc?.countries   ?? [],
       };
     });
   }
@@ -524,8 +612,14 @@ app.get('/api/movies', (req, res) => {
     );
   }
   if (director) movies = movies.filter(m => (m.directors || []).includes(director));
-  if (genre && genre !== 'all') movies = movies.filter(m => m.genres.includes(genre));
-  if (country && country !== 'all') movies = movies.filter(m => (m.countries || []).includes(country));
+  if (genre && genre !== 'all') {
+    movies      = movies.filter(m => m.genres.includes(genre));
+    seriesCards = seriesCards.filter(s => s.genres.includes(genre));
+  }
+  if (country && country !== 'all') {
+    movies      = movies.filter(m => (m.countries || []).includes(country));
+    seriesCards = seriesCards.filter(s => (s.countries || []).includes(country));
+  }
   if (maxRuntime) {
     const max = parseInt(maxRuntime);
     // Use adjustedRatio for time filtering so Animation/new movies aren't wrongly excluded
@@ -583,7 +677,7 @@ app.get('/api/movies', (req, res) => {
   watchedList.forEach(m => allMoviesForBroken.set(m['Letterboxd URI'], m));
   watchlist.forEach(m => allMoviesForBroken.set(m['Letterboxd URI'], m));
   const brokenCount = [...allMoviesForBroken.entries()].filter(([uri, row]) => {
-    if (getSeriesGroup(row['Name'])) return false;
+    if (getSeriesGroup(row['Name'], parseInt(row['Year']) || null)) return false;
     if (uri in overrides) return false;   // overrides are intentional
     const c = tmdbCache[uri];
     if (!c) return false;
@@ -643,15 +737,23 @@ app.get('/api/movies/suggest', (req, res) => {
   const exclude = (req.query.exclude || '').split(',').filter(Boolean);
   const foryou  = req.query.foryou === 'true';
   const mode    = req.query.mode || 'feature'; // 'feature' | 'shorts'
+  const discover = req.query.discover === 'true';
 
   const MAX_MOVIES = mode === 'shorts' ? 8 : 4;
-  const MIN_EFF    = mode === 'shorts' ? 5  : 65; // feature: skip micro-shorts
-  const PREF_EFF   = mode === 'shorts' ? 70 : 80; // preferred runtime threshold
+  const MIN_EFF    = mode === 'shorts' ? 5  : 40;
+  const PREF_EFF   = mode === 'shorts' ? 70 : 80;
 
-  let movies = watchlist
-    .filter(m => !watchedSet.has(m['Letterboxd URI']))
-    .map(buildMovie)
-    .filter(m => m.enriched && m.runtime && m.released && !exclude.includes(m.id));
+  let movies;
+  if (discover) {
+    movies = buildDiscoverPool()
+      .filter(m => m.runtime && !exclude.includes(m.id))
+      .map(m => ({ ...m, name: m.title }));
+  } else {
+    movies = watchlist
+      .filter(m => !watchedSet.has(m['Letterboxd URI']))
+      .map(buildMovie)
+      .filter(m => m.enriched && m.runtime && m.released && !exclude.includes(m.id));
+  }
 
   // Pre-filter: must fit in budget and meet mode minimum
   movies = movies.filter(m => {
@@ -787,6 +889,398 @@ app.post('/api/overrides', async (req, res) => {
   res.json({ ok: true, movie: wlMovie ? buildMovie(wlMovie) : null });
 });
 
+// ── Director filmography ──────────────────────────────────────────────────────
+
+function saveDirectorCache() {
+  writeFileSync(DIRECTOR_CACHE_FILE, JSON.stringify(directorCache));
+}
+
+function buildLibrarySets() {
+  return {
+    watchlistIds: new Set(watchlist.map(m => tmdbCache[m['Letterboxd URI']]?.tmdbId).filter(Boolean)),
+    watchedIds:   new Set(watchedList.map(m => tmdbCache[m['Letterboxd URI']]?.tmdbId).filter(Boolean)),
+  };
+}
+
+function annotateWithLibrary(movies, watchlistIds, watchedIds) {
+  // Build tmdbId → cache lookup so we can merge in genres/runtime for director films
+  const idToCache = new Map();
+  for (const c of Object.values(tmdbCache)) {
+    if (c?.tmdbId && !idToCache.has(c.tmdbId)) idToCache.set(c.tmdbId, c);
+  }
+  return movies.map(m => {
+    const c = idToCache.get(m.tmdbId);
+    return {
+      ...m,
+      genres:      c?.genres   || [],
+      runtime:     c?.runtime  || null,
+      countries:   c?.countries || [],
+      inWatchlist: watchlistIds.has(m.tmdbId),
+      watched:     watchedIds.has(m.tmdbId),
+      posterId:    existsSync(join(__dirname, 'public', 'posters', `${m.tmdbId}.jpg`)) ? String(m.tmdbId) : null,
+    };
+  });
+}
+
+async function fetchDirectorFilmography(name) {
+  const search = await tmdbFetch(`${TMDB_BASE}/search/person?query=${encodeURIComponent(name)}&api_key=${TMDB_KEY}&language=en-US`);
+  const person = search.results?.[0];
+  if (!person) return null;
+
+  const credits = await tmdbFetch(`${TMDB_BASE}/person/${person.id}/movie_credits?api_key=${TMDB_KEY}&language=en-US`);
+
+  const movies = (credits.crew || [])
+    .filter(m => m.job === 'Director' && m.release_date)
+    .sort((a, b) => b.release_date.localeCompare(a.release_date))
+    .map(m => ({
+      tmdbId:      m.id,
+      title:       m.title,
+      year:        parseInt(m.release_date.slice(0, 4)),
+      posterPath:  m.poster_path || null,
+      voteAverage: Math.round((m.vote_average || 0) * 10) / 10,
+      voteCount:   m.vote_count  || 0,
+      overview:    m.overview    || '',
+    }));
+
+  return {
+    cachedAt: Date.now(),
+    person:   { id: person.id, name: person.name, profilePath: person.profile_path || null },
+    movies,
+  };
+}
+
+// Refresh a stale cache entry in the background (fire-and-forget)
+function refreshDirectorInBackground(name) {
+  const key = name.toLowerCase();
+  fetchDirectorFilmography(name)
+    .then(entry => {
+      if (entry) { directorCache[key] = entry; saveDirectorCache(); }
+    })
+    .catch(() => {});
+}
+
+app.get('/api/director/filmography', async (req, res) => {
+  const name = (req.query.name || '').trim();
+  if (!name || !TMDB_KEY) return res.json({ person: null, movies: [] });
+
+  const key    = name.toLowerCase();
+  const cached = directorCache[key];
+  const now    = Date.now();
+  const { watchlistIds, watchedIds } = buildLibrarySets();
+
+  // Always serve from cache immediately if available (stale-while-revalidate)
+  if (cached) {
+    if (now - cached.cachedAt > DIRECTOR_CACHE_TTL) refreshDirectorInBackground(name);
+    return res.json({ person: cached.person, movies: annotateWithLibrary(cached.movies, watchlistIds, watchedIds) });
+  }
+
+  // First-ever request: fetch synchronously then cache
+  try {
+    const entry = await fetchDirectorFilmography(name);
+    if (!entry) return res.json({ person: null, movies: [] });
+    directorCache[key] = entry;
+    saveDirectorCache();
+    res.json({ person: entry.person, movies: annotateWithLibrary(entry.movies, watchlistIds, watchedIds) });
+  } catch (e) {
+    console.error('Director filmography error:', e.message);
+    res.status(500).json({ person: null, movies: [] });
+  }
+});
+
+// Proactively backfill filmographies for all directors in the library
+async function backfillDirectorCache() {
+  if (!TMDB_KEY) return;
+  const allDirectors = new Set(
+    [...watchlist, ...watchedList]
+      .flatMap(m => tmdbCache[m['Letterboxd URI']]?.directors || [])
+  );
+  const toFetch = [...allDirectors].filter(d => {
+    const e = directorCache[d.toLowerCase()];
+    return !e || (Date.now() - e.cachedAt > DIRECTOR_CACHE_TTL);
+  });
+  if (!toFetch.length) return;
+  console.log(`🎬 Backfilling director cache: ${toFetch.length} directors`);
+  let saved = 0;
+  for (const name of toFetch) {
+    try {
+      const entry = await fetchDirectorFilmography(name);
+      if (entry) {
+        directorCache[name.toLowerCase()] = entry;
+        saved++;
+        // Save every 10 directors so restarts don't lose progress
+        if (saved % 10 === 0) saveDirectorCache();
+      }
+    } catch {}
+    await new Promise(r => setTimeout(r, 300));
+  }
+  saveDirectorCache();
+  console.log('🎬 Director cache backfill complete');
+}
+
+// After director backfill: fetch full details + posters for all discover films
+async function backfillDiscoverDetails() {
+  if (!TMDB_KEY) return;
+
+  // Collect all unique (tmdbId, posterPath) pairs from directorCache
+  const allFilms = new Map(); // tmdbId → posterPath
+  for (const entry of Object.values(directorCache)) {
+    for (const film of (entry.movies || [])) {
+      if (film.tmdbId && !allFilms.has(film.tmdbId)) {
+        allFilms.set(film.tmdbId, film.posterPath);
+      }
+    }
+  }
+  if (!allFilms.size) return;
+
+  // Pass 1: fetch full TMDB details for films missing from tmdbCache
+  const existingIds = new Set(Object.values(tmdbCache).map(c => c?.tmdbId).filter(Boolean));
+  const toFetch = [...allFilms.keys()].filter(id => !existingIds.has(id));
+
+  if (toFetch.length) {
+    console.log(`📽  Backfilling details for ${toFetch.length} discover films...`);
+    let done = 0;
+    for (const tmdbId of toFetch) {
+      const uri = localUri(tmdbId);
+      if (tmdbCache[uri]?.tmdbId) { done++; continue; }
+      try {
+        const d = await tmdbFetch(`${TMDB_BASE}/movie/${tmdbId}?api_key=${TMDB_KEY}&language=en-US&append_to_response=credits`);
+        tmdbCache[uri] = buildCacheEntry(d);
+        if (d.poster_path) allFilms.set(tmdbId, d.poster_path); // update with accurate path
+        done++;
+      } catch {}
+      if (done % 20 === 0) saveCache();
+      await new Promise(r => setTimeout(r, 300));
+    }
+    saveCache();
+    console.log(`📽  Detail backfill done: ${done}/${toFetch.length} films`);
+  }
+
+  // Pass 2: download missing poster files (image CDN, gentler rate limit)
+  let postersDone = 0;
+  for (const [tmdbId, fallbackPath] of allFilms) {
+    const posterFile = join(__dirname, 'public', 'posters', `${tmdbId}.jpg`);
+    if (existsSync(posterFile)) continue;
+    const uri    = localUri(tmdbId);
+    const path   = tmdbCache[uri]?.posterPath || fallbackPath;
+    if (!path) continue;
+    try {
+      const r = await fetch(`https://image.tmdb.org/t/p/w342${path}`);
+      if (r.ok) { writeFileSync(posterFile, Buffer.from(await r.arrayBuffer())); postersDone++; }
+    } catch {}
+    await new Promise(r => setTimeout(r, 80));
+  }
+  if (postersDone > 0) console.log(`📽  Downloaded ${postersDone} discover posters`);
+}
+
+// ── TMDB movie details (for discover films) ───────────────────────────────────
+
+app.get('/api/tmdb/movie/:tmdbId', async (req, res) => {
+  const id = parseInt(req.params.tmdbId);
+  if (!id || !TMDB_KEY) return res.status(400).json({ error: 'invalid' });
+
+  // Check existing cache first
+  const tempUri = `local://movie/${id}`;
+  if (tmdbCache[tempUri]?.tmdbId) return res.json(tmdbCache[tempUri]);
+  const found = Object.values(tmdbCache).find(c => c?.tmdbId === id);
+  if (found) return res.json(found);
+
+  try {
+    const d = await tmdbFetch(`${TMDB_BASE}/movie/${id}?api_key=${TMDB_KEY}&language=en-US&append_to_response=credits`);
+    const entry = buildCacheEntry(d);
+    tmdbCache[tempUri] = entry;
+    saveCache();
+
+    // Download poster so subsequent discover loads use local file
+    if (d.poster_path) {
+      const posterFile = join(__dirname, 'public', 'posters', `${id}.jpg`);
+      if (!existsSync(posterFile)) {
+        fetch(`https://image.tmdb.org/t/p/w342${d.poster_path}`)
+          .then(r => r.ok ? r.arrayBuffer() : null)
+          .then(buf => { if (buf) writeFileSync(posterFile, Buffer.from(buf)); })
+          .catch(() => {});
+      }
+    }
+
+    res.json(entry);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ── Local library ─────────────────────────────────────────────────────────────
+
+app.get('/api/local-library', (req, res) => {
+  res.json(localLib);
+});
+
+app.post('/api/local-library', async (req, res) => {
+  const { tmdbId, title, year, posterPath, action } = req.body; // action: 'watchlist' | 'watched'
+  if (!tmdbId || !action) return res.status(400).json({ error: 'tmdbId and action required' });
+
+  const uri = localUri(tmdbId);
+
+  // Fetch full details if not yet cached
+  if (!tmdbCache[uri]?.tmdbId && TMDB_KEY) {
+    try {
+      const d = await tmdbFetch(`${TMDB_BASE}/movie/${tmdbId}?api_key=${TMDB_KEY}&language=en-US&append_to_response=credits`);
+      tmdbCache[uri] = buildCacheEntry(d);
+      saveCache();
+    } catch {}
+  }
+
+  const entry = { tmdbId, title, year, posterPath: posterPath || tmdbCache[uri]?.posterPath || null };
+
+  // Remove from both lists first to avoid dupes
+  localLib.watchlist = localLib.watchlist.filter(e => e.tmdbId !== tmdbId);
+  localLib.watched   = localLib.watched.filter(e => e.tmdbId !== tmdbId);
+
+  if (action === 'watchlist') {
+    entry.addedAt = new Date().toISOString().slice(0, 10);
+    localLib.watchlist.push(entry);
+  } else if (action === 'watched') {
+    entry.watchedAt = new Date().toISOString().slice(0, 10);
+    localLib.watched.push(entry);
+  }
+
+  saveLocalLib();
+
+  // Update live in-memory lists so grid reflects change without restart
+  const row = makeLocalRow({ ...entry, addedAt: entry.addedAt, watchedAt: entry.watchedAt });
+  watchlist   = watchlist.filter(m => m['Letterboxd URI'] !== uri);
+  watchedList = watchedList.filter(m => m['Letterboxd URI'] !== uri);
+  watchedSet.delete(uri);
+  if (action === 'watchlist') {
+    watchlist.push(row);
+  } else {
+    watchedList.push(row);
+    watchedSet.add(uri);
+  }
+
+  res.json({ ok: true });
+});
+
+app.delete('/api/local-library/:tmdbId', (req, res) => {
+  const tmdbId = parseInt(req.params.tmdbId);
+  if (!tmdbId) return res.status(400).json({ error: 'invalid' });
+  const uri = localUri(tmdbId);
+
+  localLib.watchlist = localLib.watchlist.filter(e => e.tmdbId !== tmdbId);
+  localLib.watched   = localLib.watched.filter(e => e.tmdbId !== tmdbId);
+  saveLocalLib();
+
+  watchlist   = watchlist.filter(m => m['Letterboxd URI'] !== uri);
+  watchedList = watchedList.filter(m => m['Letterboxd URI'] !== uri);
+  watchedSet.delete(uri);
+
+  res.json({ ok: true });
+});
+
+// ── Discover ──────────────────────────────────────────────────────────────────
+
+app.get('/api/discover', (req, res) => {
+  const { sort = 'affinity', page = 1, limit = 28, q, genre, country, maxRuntime } = req.query;
+
+  let films = buildDiscoverPool();
+
+  // Aggregate genres/countries from ALL films (pre-filter) so the dropdowns reflect discover's universe
+  const discoverGenreCount = {};
+  const discoverCountryCount = {};
+  films.forEach(f => {
+    (f.genres || []).forEach(g => { discoverGenreCount[g] = (discoverGenreCount[g] || 0) + 1; });
+    (f.countries || []).forEach(c => { discoverCountryCount[c] = (discoverCountryCount[c] || 0) + 1; });
+  });
+  const discoverGenres    = Object.entries(discoverGenreCount).sort((a, b) => b[1] - a[1]).map(([g]) => g);
+  const discoverCountries = Object.entries(discoverCountryCount).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+
+  if (q) {
+    const nq = q.toLowerCase();
+    films = films.filter(f =>
+      f.title.toLowerCase().includes(nq) ||
+      f.directors.some(d => d.toLowerCase().includes(nq))
+    );
+  }
+  if (genre && genre !== 'all') {
+    films = films.filter(f => f.genres.includes(genre));
+  }
+  if (country && country !== 'all') {
+    films = films.filter(f => (f.countries || []).includes(country));
+  }
+  if (maxRuntime) {
+    const max = parseInt(maxRuntime);
+    films = films.filter(f => f.runtime && Math.round(f.runtime * (parseFloat(req.query.ratio) || 1)) <= max);
+  }
+
+  // Sorting
+  if (sort === 'affinity') {
+    films.sort((a, b) => {
+      const s = f => f.affinity * (f.voteAverage || 0) * Math.log10((f.voteCount || 0) + 10);
+      return s(b) - s(a);
+    });
+  } else if (sort === 'rating') {
+    films.sort((a, b) => {
+      const ra = (a.voteCount || 0) >= 100 ? (a.voteAverage || 0) : -1;
+      const rb = (b.voteCount || 0) >= 100 ? (b.voteAverage || 0) : -1;
+      return rb - ra;
+    });
+  } else if (sort === 'votes') {
+    films.sort((a, b) => (b.voteCount || 0) - (a.voteCount || 0));
+  } else if (sort === 'year-new') {
+    films.sort((a, b) => (b.year || 0) - (a.year || 0));
+  } else if (sort === 'year-old') {
+    films.sort((a, b) => (a.year || 0) - (b.year || 0));
+  }
+
+  const total = films.length;
+  const pg    = parseInt(page);
+  const lim   = parseInt(limit);
+  const start = (pg - 1) * lim;
+  const slice = films.slice(start, start + lim);
+
+  const movies = slice.map(f => ({
+    id:          f.id,
+    source:      'discover',
+    tmdbId:      f.tmdbId,
+    name:        f.title,
+    year:        f.year,
+    posterPath:  f.posterPath,
+    posterId:    f.posterId,
+    voteAverage: f.voteAverage,
+    voteCount:   f.voteCount,
+    overview:    f.overview,
+    directors:   f.directors,
+    genres:      f.genres,
+    countries:   f.countries || [],
+    runtime:     f.runtime,
+    enriched:    true,
+    released:    true,
+    watched:     false,
+  }));
+
+  res.json({ movies, total, page: pg, hasMore: start + slice.length < total, genres: discoverGenres, countries: discoverCountries });
+});
+
+app.get('/api/discover/random', (req, res) => {
+  const { maxRuntime } = req.query;
+  const ratio = parseFloat(req.query.ratio) || 1;
+  let pool = buildDiscoverPool().filter(f => f.runtime);
+  if (maxRuntime) {
+    const max = parseInt(maxRuntime);
+    pool = pool.filter(f => Math.round(f.runtime * ratio) <= max);
+  }
+  if (!pool.length) return res.json({ film: null });
+  pool.sort((a, b) => {
+    const s = f => f.affinity * (f.voteAverage || 0) * Math.log10((f.voteCount || 0) + 10);
+    return s(b) - s(a);
+  });
+  const TOP = Math.max(50, Math.floor(pool.length * 0.1));
+  pool = pool.slice(0, TOP);
+  const f = pool[Math.floor(Math.random() * pool.length)];
+  res.json({ film: { id: f.id, source: 'discover', tmdbId: f.tmdbId, name: f.title, year: f.year,
+    posterPath: f.posterPath, posterId: f.posterId, voteAverage: f.voteAverage, voteCount: f.voteCount,
+    overview: f.overview, directors: f.directors, genres: f.genres, countries: f.countries || [],
+    runtime: f.runtime, enriched: true, released: true, watched: false } });
+});
+
 // ── Series management ─────────────────────────────────────────────────────────
 
 const SERIES_GROUPS_FILE = join(__dirname, 'series-groups.json');
@@ -876,7 +1370,7 @@ app.get('/api/enrich-status', (req, res) => {
   watchedList.forEach(m => allForBroken.set(m['Letterboxd URI'], m));
   watchlist.forEach(m => allForBroken.set(m['Letterboxd URI'], m));
   const brokenCount = [...allForBroken.entries()].filter(([uri, row]) => {
-    if (getSeriesGroup(row['Name'])) return false;
+    if (getSeriesGroup(row['Name'], parseInt(row['Year']) || null)) return false;
     const c = tmdbCache[uri];
     if (!c) return false;
     const ly = parseInt(row['Year']) || 0;
@@ -1023,7 +1517,7 @@ app.get('/api/analytics', (req, res) => {
       rewatchMap[e['Name']] = (rewatchMap[e['Name']] || 0) + 1;
     }
   });
-  const rewatches = Object.entries(rewatchMap).sort((a, b) => b[1] - a[1]).slice(0, 10)
+  const rewatches = Object.entries(rewatchMap).filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1])
     .map(([name, count]) => {
       const c = nameToCache[name];
       return { name, count: count + 1, posterPath: c?.posterPath ?? null, tmdbId: c?.tmdbId ?? null };
@@ -1114,6 +1608,16 @@ app.get('/api/analytics', (req, res) => {
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
+function makeLocalRow(entry) {
+  return {
+    'Letterboxd URI': localUri(entry.tmdbId),
+    'Name':  entry.title,
+    'Year':  String(entry.year || ''),
+    'Date':  entry.addedAt || entry.watchedAt || '',
+    '_local': true,
+  };
+}
+
 function init() {
   watchlist = loadCSV('watchlist.csv');
   try { ratingsList = loadCSV('ratings.csv'); } catch {}
@@ -1124,6 +1628,22 @@ function init() {
 
   if (existsSync(CACHE_FILE)) {
     try { tmdbCache = JSON.parse(readFileSync(CACHE_FILE, 'utf-8')); } catch {}
+  }
+
+  // Merge local library entries on top of Letterboxd CSVs
+  const lbxdWlUris = new Set(watchlist.map(m => m['Letterboxd URI']));
+  const lbxdWdUris = new Set(watchedList.map(m => m['Letterboxd URI']));
+  for (const entry of localLib.watchlist) {
+    const uri = localUri(entry.tmdbId);
+    if (!lbxdWlUris.has(uri) && !lbxdWdUris.has(uri)) watchlist.push(makeLocalRow(entry));
+  }
+  for (const entry of localLib.watched) {
+    const uri = localUri(entry.tmdbId);
+    if (!lbxdWdUris.has(uri)) {
+      const row = makeLocalRow(entry);
+      watchedList.push(row);
+      watchedSet.add(uri);
+    }
   }
 
   const enrichedCount = Object.values(tmdbCache).filter(v => v?.tmdbId).length;

@@ -6,4 +6,8 @@ tmdb-cache.json
 tmdb-overrides.json
 series-cache.json
 series-groups.json
+director-cache.json
+local-library.json
 .env
+
+.DS_Store

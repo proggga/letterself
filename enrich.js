@@ -78,12 +78,19 @@ Object.keys(overrides).filter(k => k.startsWith('_')).forEach(k => delete overri
 // ── What needs doing? ─────────────────────────────────────────────────────────
 
 const overrideUris = new Set(Object.keys(overrides));
-// Always re-process overrides so corrections take effect immediately.
+// Re-process overrides only when the cached result is missing or the override ID changed.
 // Also re-process suspect matches — TMDB may have added the film since the last run.
 const toEnrich  = allMovies.filter(m => {
   const uri = m['Letterboxd URI'];
-  if (overrideUris.has(uri)) return true;
   const c = cache[uri];
+  if (overrideUris.has(uri)) {
+    if (!c?.tmdbId) return true;   // no result yet — try
+    // Re-run only if the override value changed since we last cached it
+    const ov = overrides[uri];
+    if (!ov) return false;
+    const expectedId = typeof ov === 'object' ? ov.id : ov;
+    return c.tmdbId !== expectedId;
+  }
   if (!c) return true;
   if (c.suspectMatch) return true;            // re-check in case TMDB now has the right film
   if (c.notFound && !c.tvFallbackTried) return true;  // retry notFound entries with TV search
@@ -274,7 +281,7 @@ if (toEnrich.length) {
     await Promise.all(toEnrich.slice(i, i + BATCH).map(async movie => {
       const uri  = movie['Letterboxd URI'];
       const data = await enrichOne(movie);
-      cache[uri] = data ?? { failed: true };
+      cache[uri] = data ?? { failed: true, failedAt: Date.now() };
       done++;
       if (!data?.tmdbId) errors++;
     }));
