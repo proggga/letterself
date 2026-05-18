@@ -57,3 +57,7 @@ clean-cache:
 clean-posters:
 	rm -rf public/posters/
 	@echo "Posters deleted. Run 'make posters' to re-download."
+
+diff:
+	python3 letterboxd_out.py "../Letterboxd Top 500 Updates - Update Notes.csv" out.csv
+	diff out.csv out.csv.back

@@ -1,6 +1,11 @@
 archive/*
 public/*
 
+top500.csv
+letterboxd_out.csv
+out.csv
+out.csv.back
+
 node_modules/*
 tmdb-cache.json
 tmdb-overrides.json
@@ -8,6 +13,9 @@ series-cache.json
 series-groups.json
 director-cache.json
 local-library.json
+tmdb-title-cache.json
+tmdb-title-overrides.json
 .env
 
 .DS_Store
+__pycache__
