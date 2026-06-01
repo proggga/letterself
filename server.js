@@ -1425,6 +1425,7 @@ app.get('/api/analytics', (req, res) => {
   // ── Decades (use all rated movies by year from CSV, no enrichment needed)
   const decMap = {};
   allRated.forEach(m => {
+    if (!m.year || m.year < 1880) return;
     const d = Math.floor(m.year / 10) * 10;
     if (!decMap[d]) decMap[d] = { count: 0, mySum: 0, tmdbSum: 0, tmdbN: 0 };
     decMap[d].count++; decMap[d].mySum += m.myRating;
@@ -1486,16 +1487,28 @@ app.get('/api/analytics', (req, res) => {
   const pace = Object.entries(paceMap).sort((a, b) => a[0].localeCompare(b[0])).slice(-24)
     .map(([month, count]) => ({ month, count }));
 
-  // ── Seasonal watching (which months of the year you watch most)
+  // ── Seasonal watching (average per month, normalized across years)
   const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const seasonMap  = Array(12).fill(0);
+  const seasonYears = Array.from({length: 12}, () => new Set());
+  const nowYear = new Date().getFullYear().toString();
+  const nowMonth = new Date().getMonth(); // 0-indexed
   diary.forEach(e => {
     const date = e['Watched Date'] || e['Date'];
     if (!date) return;
     const mo = parseInt(date.slice(5, 7)) - 1;
-    if (mo >= 0 && mo < 12) seasonMap[mo]++;
+    const yr = date.slice(0, 4);
+    if (mo >= 0 && mo < 12) {
+      // Skip current incomplete month
+      if (yr === nowYear && mo === nowMonth) return;
+      seasonMap[mo]++;
+      seasonYears[mo].add(yr);
+    }
   });
-  const seasonal = monthNames.map((name, i) => ({ name, count: seasonMap[i] }));
+  const seasonal = monthNames.map((name, i) => {
+    const years = seasonYears[i].size || 1;
+    return { name, count: Math.round(seasonMap[i] / years * 10) / 10 };
+  });
 
   // ── Rewatches from diary (with poster lookup)
   // Diary URIs are diary-entry-specific, NOT canonical movie URIs — build name→cache via watchlist+ratings
@@ -1520,8 +1533,11 @@ app.get('/api/analytics', (req, res) => {
   const rewatches = Object.entries(rewatchMap).filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1])
     .map(([name, count]) => {
       const c = nameToCache[name];
-      return { name, count: count + 1, posterPath: c?.posterPath ?? null, tmdbId: c?.tmdbId ?? null };
-    });
+      const r = ratingsList.find(r => r['Name'] === name);
+      const myRating = r ? parseFloat(r['Rating']) || 0 : 0;
+      return { name, count: count + 1, myRating, posterPath: c?.posterPath ?? null, tmdbId: c?.tmdbId ?? null };
+    })
+    .sort((a, b) => b.count - a.count || b.myRating - a.myRating);
   const totalRewatches = Object.values(rewatchMap).reduce((s, n) => s + n, 0);
 
   // ── Film length buckets (enriched rated movies)
@@ -1540,20 +1556,20 @@ app.get('/api/analytics', (req, res) => {
     else                       lengthBuckets[4].count++;
   });
 
-  // ── Popularity tiers
+  // ── Popularity tiers (adjusted for TMDB scale — max ~40K votes on TMDB)
   const tiers = [
-    { label: 'Hidden gem',   sublabel: '< 1K votes',    count: 0 },
-    { label: 'Arthouse',     sublabel: '1K – 10K',       count: 0 },
-    { label: 'Mid-range',    sublabel: '10K – 100K',     count: 0 },
-    { label: 'Popular',      sublabel: '100K – 500K',    count: 0 },
-    { label: 'Blockbuster',  sublabel: '500K+',          count: 0 },
+    { label: 'Hidden gem',   sublabel: '< 500 votes',     count: 0 },
+    { label: 'Arthouse',     sublabel: '500 – 2K',        count: 0 },
+    { label: 'Mid-range',    sublabel: '2K – 8K',         count: 0 },
+    { label: 'Popular',      sublabel: '8K – 20K',        count: 0 },
+    { label: 'Blockbuster',  sublabel: '20K+',            count: 0 },
   ];
   E.forEach(m => {
     const v = m.voteCount || 0;
-    if      (v < 1000)   tiers[0].count++;
-    else if (v < 10000)  tiers[1].count++;
-    else if (v < 100000) tiers[2].count++;
-    else if (v < 500000) tiers[3].count++;
+    if      (v < 500)    tiers[0].count++;
+    else if (v < 2000)   tiers[1].count++;
+    else if (v < 8000)   tiers[2].count++;
+    else if (v < 20000)  tiers[3].count++;
     else                 tiers[4].count++;
   });
 
@@ -1581,6 +1597,109 @@ app.get('/api/analytics', (req, res) => {
   const topGenres  = Object.entries(profile.genrePrefs).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([g, s]) => ({ genre: g, score: Math.round(s * 10) / 10 }));
   const topDecades = Object.entries(profile.decadePrefs).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([d, s]) => ({ decade: +d, score: Math.round(s * 10) / 10 }));
 
+  // ── Cinephile DNA Radar Chart
+  const totalE = E.length || 1;
+  // Explorer: unique countries diversity (normalized to 0-100)
+  const uniqueCountries = new Set(); E.forEach(m => (m.countries||[]).forEach(c => uniqueCountries.add(c)));
+  const explorerScore = Math.min(100, Math.round(uniqueCountries.size / 80 * 100));
+  // Indie: % in hidden gem + arthouse tiers
+  const indieCount = E.filter(m => (m.voteCount||0) < 10000).length;
+  const indieScore = Math.round(indieCount / totalE * 100);
+  // Critic: how much you diverge from crowd (harsher = higher)
+  const withCrowd = E.filter(m => m.voteAverage && m.voteCount >= 100);
+  const avgDivergence = withCrowd.length ? withCrowd.reduce((s, m) => s + (m.voteAverage/2 - m.myRating), 0) / withCrowd.length : 0;
+  const criticScore = Math.min(100, Math.max(0, Math.round(50 + avgDivergence * 25)));
+  // Binger: monthly pace normalized (60+/mo = 100)
+  const bingerScore = Math.min(100, Math.round(monthlyPace / 60 * 100));
+  // Retro: weighted toward older films (pre-2000 gets more weight)
+  const retroCount = allRated.filter(m => m.year && m.year < 2000).length;
+  const retroScore = Math.min(100, Math.round(retroCount / (allRated.length || 1) * 130));
+  // Loyalist: rewatch rate + director concentration
+  const rewatchRate = diary.length ? (Object.values(rewatchMap).reduce((s,n)=>s+n,0) / diary.length) : 0;
+  const dirCountMap = {}; E.forEach(m => { const c = tmdbCache[ratingsList.find(r => r['Name']===m.name && r['Year']===String(m.year))?.['Letterboxd URI']]; (c?.directors||[]).forEach(d => { dirCountMap[d] = (dirCountMap[d]||0)+1; }); });
+  const topDirShare = Object.values(dirCountMap).sort((a,b)=>b-a).slice(0,3).reduce((s,n)=>s+n,0) / totalE;
+  const loyalistScore = Math.min(100, Math.round((rewatchRate * 200 + topDirShare * 200) / 2));
+  const radarChart = [
+    { axis: 'Explorer', value: explorerScore, description: `${uniqueCountries.size} countries` },
+    { axis: 'Indie', value: indieScore, description: `${indieCount} films < 10K votes` },
+    { axis: 'Critic', value: criticScore, description: avgDivergence > 0 ? `${avgDivergence.toFixed(1)}★ harsher than crowd` : `${Math.abs(avgDivergence).toFixed(1)}★ gentler than crowd` },
+    { axis: 'Binger', value: bingerScore, description: `${Math.round(monthlyPace*10)/10} movies/month` },
+    { axis: 'Retro', value: retroScore, description: `${retroCount} pre-2000 films` },
+    { axis: 'Loyalist', value: loyalistScore, description: `${totalRewatches} rewatches` },
+  ];
+
+  // ── Director Spotlight (top 10 most watched)
+  const dirFilms = {};
+  E.forEach(m => {
+    const uri = ratingsList.find(r => r['Name'] === m.name && r['Year'] === String(m.year))?.['Letterboxd URI'];
+    const c = uri ? tmdbCache[uri] : null;
+    (c?.directors || []).forEach(d => {
+      if (!dirFilms[d]) dirFilms[d] = [];
+      dirFilms[d].push({ name: m.name, year: m.year, myRating: m.myRating, posterPath: m.posterPath, tmdbId: m.tmdbId });
+    });
+  });
+  const directorSpotlight = Object.entries(dirFilms)
+    .filter(([, films]) => films.length >= 2)
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, 10)
+    .map(([name, films]) => {
+      const avgR = Math.round(films.reduce((s, f) => s + f.myRating, 0) / films.length * 10) / 10;
+      const best = films.reduce((a, b) => a.myRating >= b.myRating ? a : b);
+      const worst = films.reduce((a, b) => a.myRating <= b.myRating ? a : b);
+      return { name, count: films.length, avgRating: avgR, best, worst, films: films.sort((a,b) => b.myRating - a.myRating) };
+    });
+
+  // ── Rating Evolution (quarterly averages over time)
+  const quarterMap = {};
+  diary.forEach(e => {
+    const date = e['Watched Date'] || e['Date'];
+    const rating = parseFloat(e['Rating']);
+    if (!date || !rating) return;
+    const y = date.slice(0, 4);
+    const q = Math.ceil(parseInt(date.slice(5, 7)) / 3);
+    const key = `${y}-Q${q}`;
+    if (!quarterMap[key]) quarterMap[key] = { sum: 0, count: 0 };
+    quarterMap[key].sum += rating; quarterMap[key].count++;
+  });
+  const ratingEvolution = Object.entries(quarterMap)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .slice(-16)
+    .map(([quarter, v]) => ({ quarter, avg: Math.round(v.sum / v.count * 100) / 100, count: v.count }));
+
+  // ── Genre × Decade Heatmap
+  const gdMap = {};
+  const heatGenres = new Set();
+  const heatDecades = new Set();
+  E.forEach(m => {
+    const decade = Math.floor(m.year / 10) * 10;
+    if (!decade) return;
+    m.genres.forEach(g => {
+      const key = `${g}|${decade}`;
+      if (!gdMap[key]) gdMap[key] = { sum: 0, count: 0 };
+      gdMap[key].sum += m.myRating; gdMap[key].count++;
+      heatGenres.add(g);
+      heatDecades.add(decade);
+    });
+  });
+  const topHeatGenres = [...heatGenres].filter(g => {
+    let total = 0;
+    for (const [k, v] of Object.entries(gdMap)) { if (k.startsWith(g + '|')) total += v.count; }
+    return total >= 5;
+  }).sort((a, b) => {
+    let ta = 0, tb = 0;
+    for (const [k, v] of Object.entries(gdMap)) { if (k.startsWith(a + '|')) ta += v.count; if (k.startsWith(b + '|')) tb += v.count; }
+    return tb - ta;
+  }).slice(0, 8);
+  const sortedHeatDecades = [...heatDecades].sort((a, b) => a - b);
+  const genreDecadeHeatmap = {
+    genres: topHeatGenres,
+    decades: sortedHeatDecades,
+    cells: topHeatGenres.map(g => sortedHeatDecades.map(d => {
+      const cell = gdMap[`${g}|${d}`];
+      return cell ? { avg: Math.round(cell.sum / cell.count * 10) / 10, count: cell.count } : null;
+    })),
+  };
+
   res.json({
     overview: {
       total:             allRated.length,
@@ -1603,6 +1722,7 @@ app.get('/api/analytics', (req, res) => {
     divergence: { hiddenGems, overrated },
     pace, seasonal, popularityTiers: tiers, lengthBuckets,
     tasteProfile: { topGenres, topDecades },
+    radarChart, directorSpotlight, ratingEvolution, genreDecadeHeatmap,
   });
 });
 
