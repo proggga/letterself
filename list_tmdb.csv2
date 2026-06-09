@@ -1,0 +1,447 @@
+tmdbID,Title,Year,Directors,Review
+1050035,Monster,2023,Hirokazu Kore-eda,#1 · Japan
+976893,Perfect Days,2023,Wim Wenders,#2 · Japan
+758866,Drive My Car,2021,Ryusuke Hamaguchi,#3 · Japan
+354759,Happy Hour,2015,Ryusuke Hamaguchi,#4 · Japan
+129,Spirited Away,2001,Hayao Miyazaki,#5 · Japan
+8392,My Neighbor Totoro,1988,Hayao Miyazaki,#6 · Japan
+11645,Ran,1985,Akira Kurosawa,#7 · Japan
+16672,Woman in the Dunes,1964,Hiroshi Teshigahara,#8 · Japan
+14537,Harakiri,1962,Masaki Kobayashi,#9 · Japan
+20532,Sansho the Bailiff,1954,Kenji Mizoguchi,#10 · Japan
+346,Seven Samurai,1954,Akira Kurosawa,#11 · Japan
+18148,Tokyo Story,1953,Yasujirō Ozu,#12 · Japan
+14696,Ugetsu,1953,Kenji Mizoguchi,#13 · Japan
+3782,Ikiru,1952,Akira Kurosawa,#14 · Japan
+548,Rashômon,1950,Akira Kurosawa,#15 · Japan
+20530,Late Spring,1949,Yasujirō Ozu,#16 · Japan
+505192,Shoplifters,2018,Hirokazu Kore-eda,#17 · Japan
+372058,Your Name,2016,Makoto Shinkai,#18 · Japan
+315846,Our Little Sister,2015,Hirokazu Kore-eda,#19 · Japan
+319373,Sweet Bean,2015,Naomi Kawase,#20 · Japan
+28422,Love Exposure,2008,Sion Sono,#21 · Japan
+25050,Still Walking,2008,Hirokazu Kore-eda,#22 · Japan
+4935,Howl's Moving Castle,2004,Hayao Miyazaki,#23 · Japan
+38047,Eureka,2000,Shinji Aoyama,#24 · Japan
+5910,Fireworks,1997,Takeshi Kitano,#25 · Japan
+10494,Perfect Blue,1997,Satoshi Kon,#26 · Japan
+128,Princess Mononoke,1997,Hayao Miyazaki,#27 · Japan
+18872,Maborosi,1995,Hirokazu Kore-eda,#28 · Japan
+115784,Moving,1993,Shinji Sōmai,#29 · Japan
+149,Akira,1988,Katsuhiro Otomo,#30 · Japan
+12477,Grave of the Fireflies,1988,Isao Takahata,#31 · Japan
+51929,The Emperor's Naked Army Marches On,1987,Kazuo Hara,#32 · Japan
+125257,Muddy River,1981,Kōhei Oguri,#33 · Japan
+42170,Vengeance Is Mine,1979,Shōhei Imamura,#34 · Japan
+104251,Pastoral: To Die in the Country,1974,Shūji Terayama,#35 · Japan
+1556,Funeral Parade of Roses,1969,Toshio Matsumoto,#36 · Japan
+98193,Death by Hanging,1968,Nagisa Ōshima,#37 · Japan
+29452,The Face of Another,1966,Hiroshi Teshigahara,#38 · Japan
+117212,A Fugitive from the Past,1965,Tomu Uchida,#39 · Japan
+3780,Red Beard,1965,Akira Kurosawa,#40 · Japan
+3763,Onibaba,1964,Kaneto Shindō,#41 · Japan
+111398,Yearning,1964,Mikio Naruse,#42 · Japan
+12493,High and Low,1963,Akira Kurosawa,#43 · Japan
+50759,An Autumn Afternoon,1962,Yasujirō Ozu,#44 · Japan
+11878,Yojimbo,1961,Akira Kurosawa,#45 · Japan
+3764,The Naked Island,1960,Kaneto Shindō,#46 · Japan
+36872,When a Woman Ascends the Stairs,1960,Mikio Naruse,#47 · Japan
+31217,The Human Condition,1959,Masaki Kobayashi,#48 · Japan
+3777,Throne of Blood,1957,Akira Kurosawa,#49 · Japan
+77285,Floating Clouds,1955,Mikio Naruse,#50 · Japan
+35861,The Crucified Lovers,1954,Kenji Mizoguchi,#51 · Japan
+181097,An Inn at Osaka,1954,Heinosuke Gosho,#52 · Japan
+43339,Twenty-four Eyes,1954,Keisuke Kinoshita,#53 · Japan
+43364,The Life of Oharu,1952,Kenji Mizoguchi,#54 · Japan
+50247,Early Summer,1951,Yasujirō Ozu,#55 · Japan
+46069,The Story of the Last Chrysanthemums,1939,Kenji Mizoguchi,#56 · Japan
+84237,Humanity and Paper Balloons,1937,Sadao Yamanaka,#57 · Japan
+112501,Tange Sazen and the Pot Worth a Million Ryo,1935,Sadao Yamanaka,#58 · Japan
+28268,"I Was Born, But...",1932,Yasujirō Ozu,#59 · Japan
+1476614,All of a Sudden,2026,Ryusuke Hamaguchi,#60 · Japan
+1001010,Winter in Sokcho,2024,Koya Kamura,#61 · France
+795811,Wheel of Fortune and Fantasy,2021,Ryusuke Hamaguchi,#62 · Japan
+499651,Inland Sea,2018,Kazuhiro Soda,#63 · Japan
+177945,"Like Father, Like Son",2013,Hirokazu Kore-eda,#64 · Japan
+722105,Ping Pong,2013,Natalia Krawczuk,#65 · Japan
+149871,The Tale of the Princess Kaguya,2013,Isao Takahata,#66 · Japan
+8937,Tokyo Sonata,2008,Kiyoshi Kurosawa,#67 · Japan
+27337,Linda Linda Linda,2005,Nobuhiro Yamashita,#68 · Japan
+21712,Mind Game,2004,Masaaki Yuasa,#69 · Japan
+2517,Nobody Knows,2004,Hirokazu Kore-eda,#70 · Japan
+15318,The Taste of Tea,2004,Katsuhito Ishii,#71 · Japan
+36281,Shara,2003,Naomi Kawase,#72 · Japan
+12496,The Twilight Samurai,2002,Yoji Yamada,#73 · Japan
+17962,After Life,1998,Hirokazu Kore-eda,#74 · Japan
+36095,Cure,1997,Kiyoshi Kurosawa,#75 · Japan
+115786,The Friends,1994,Shinji Sōmai,#76 · Japan
+7500,Sonatine,1993,Takeshi Kitano,#77 · Japan
+15080,Only Yesterday,1991,Isao Takahata,#78 · Japan
+31743,Hachi-ko,1987,Seijiro Koyama,#79 · Japan
+81,Nausicaä of the Valley of the Wind,1984,Hayao Miyazaki,#80 · Japan
+125290,A Japanese Village,1982,Shinsuke Ogawa,#81 · Japan
+25623,House,1977,Nobuhiko Obayashi,#82 · Japan
+5879,In the Realm of the Senses,1976,Nagisa Ōshima,#83 · Japan
+9764,Dersu Uzala,1975,Akira Kurosawa,#84 · Soviet Union
+34326,The Yakuza Papers 1: Battles Without Honour and Humanity,1973,Kinji Fukasaku,#85 · Japan
+194901,Home from the Sea,1972,Yoji Yamada,#86 · Japan
+12469,The Long Darkness,1972,Kei Kumai,#87 · Japan
+125374,Minamata: The Victims and Their World,1971,Noriaki Tsuchimoto,#88 · Japan
+104452,This Transient Life,1970,Akio Jissoji,#89 · Japan
+104193,Boy,1969,Nagisa Ōshima,#90 · Japan
+78117,Eros + Massacre,1969,Yoshishige Yoshida,#91 · Japan
+126432,Scattered Clouds,1967,Mikio Naruse,#92 · Japan
+90560,Red Angel,1966,Yasuzō Masumura,#93 · Japan
+104374,Woman of the Lake,1966,Yoshishige Yoshida,#94 · Japan
+30959,Kwaidan,1964,Masaki Kobayashi,#95 · Japan
+61475,Pale Flower,1964,Masahiro Shinoda,#96 · Japan
+42984,The Insect Woman,1963,Shōhei Imamura,#97 · Japan
+162616,She and He,1963,Susumu Hani,#98 · Japan
+31427,Fires on the Plain,1959,Kon Ichikawa,#99 · Japan
+28276,Good Morning,1959,Yasujirō Ozu,#100 · Japan
+116690,Ballad of Narayama,1958,Keisuke Kinoshita,#101 · Japan
+125217,Sun in the Last Days of the Shogunate,1957,Yūzō Kawashima,#102 · Japan
+55192,Tokyo Twilight,1957,Yasujirō Ozu,#103 · Japan
+33319,The Burmese Harp,1956,Kon Ichikawa,#104 · Japan
+43255,Street of Shame,1956,Kenji Mizoguchi,#105 · Japan
+45987,Taira Clan Saga,1955,Kenji Mizoguchi,#106 · Japan
+112244,She Was Like a Wild Chrysanthemum,1955,Keisuke Kinoshita,#107 · Japan
+46492,Sound of the Mountain,1954,Mikio Naruse,#108 · Japan
+117779,Where Chimneys Are Seen,1953,Heinosuke Gosho,#109 · Japan
+125358,Lightning,1952,Mikio Naruse,#110 · Japan
+97714,Children of the Beehive,1948,Hiroshi Shimizu,#111 · Japan
+125232,The Ball at the Anjo House,1947,Kōzaburō Yoshimura,#112 · Japan
+115596,Ornamental Hairpin,1941,Hiroshi Shimizu,#113 · Japan
+123168,Earth,1939,Tomu Uchida,#114 · Japan
+95762,"Our Neighbor, Miss Yae",1934,Yasujirō Shimazu,#115 · Japan
+94525,A Page of Madness,1926,Teinosuke Kinugasa,#116 · Japan
+1156125,Evil Does Not Exist,2023,Ryusuke Hamaguchi,#117 · Japan
+584253,A Girl Missing,2019,Koji Fukada,#118 · Japan
+487850,Asako I & II,2018,Ryusuke Hamaguchi,#119 · Japan
+483542,Hanagatami,2017,Nobuhiko Obayashi,#120 · Japan
+513434,One Cut of the Dead,2017,Shinichiro Ueda,#121 · Japan
+473888,Ryuichi Sakamoto: Coda,2017,Stephen Nomura Schible,#122 · United States
+265193,Still the Water,2014,Naomi Kawase,#123 · Japan
+229173,The Tale of Iya,2013,Tetsuichirô Tsuta,#124 · Japan
+102001,Like Someone in Love,2012,Abbas Kiarostami,#125 · Japan
+286716,Peace,2010,Kazuhiro Soda,#126 · Japan
+16804,Departures,2008,Yojiro Takita,#127 · Japan
+73714,Franz Kafka's A Country Doctor,2007,Koji Yamamura,#128 · Japan
+46101,United Red Army,2007,Kōji Wakamatsu,#129 · Japan
+31512,Memories of Matsuko,2006,Tetsuya Nakashima,#130 · Japan
+4977,Paprika,2006,Satoshi Kon,#131 · Japan
+33431,A Snake of June,2002,Shinya Tsukamoto,#132 · Japan
+16664,All About Lily Chou-Chou,2001,Shunji Iwai,#133 · Japan
+968100,Millennium Actress,2001,Shingo Amamiya,#134 · Japan
+3176,Battle Royale,2000,Kinji Fukasaku,#135 · Japan
+466313,After the Rain,1999,Ross Kettle,#136 · France
+29545,Audition,1999,Reed Richmond,#137 · Japan
+4291,Kikujiro,1999,Takeshi Kitano,#138 · Japan
+49939,M/Other,1999,Nobuhiro Suwa,#139 · Japan
+2671,Ring,1998,Hideo Nakata,#140 · Japan
+11239,Shall We Dance?,1996,Masayuki Suō,#141 · Japan
+25063,Sleeping Man,1996,Kōhei Oguri,#142 · Japan
+9323,Ghost in the Shell,1995,Mamoru Oshii,#143 · Japan
+21832,Neon Genesis Evangelion,1995,"Hideaki Anno, Kazuya Tsurumaki, Masayuki, Seiji Mizushima, Masahiko Otsuka, Hiroyuki Ishido, Shoichi Masuo, Naoyasu Habu, Tetsuya Watanabe, Minoru Ohara, Tsuyoshi Kaga, Tensai Okamura, Ken Ando, Akira Takamura, Keiichi Sugiyama",#144 · Japan
+37797,Whisper of the Heart,1995,Yoshifumi Kondo,#145 · Japan
+185827,A Dedicated Life,1994,Kazuo Hara,#146 · Japan
+185987,Black Rain,1989,Shōhei Imamura,#147 · Japan
+16859,Kiki's Delivery Service,1989,Hayao Miyazaki,#148 · Japan
+41428,Tetsuo: The Iron Man,1989,Shinya Tsukamoto,#149 · Japan
+10515,Castle in the Sky,1986,Hayao Miyazaki,#150 · Japan
+103393,The Sea and Poison,1986,Kei Kumai,#151 · Japan
+15916,Angel's Egg,1985,Mamoru Oshii,#152 · Japan
+56335,Himatsuri: Fire Festival,1985,Mitsuo Yanagimachi,#153 · Japan
+11830,Tampopo,1985,Jūzō Itami,#154 · Japan
+108634,Typhoon Club,1985,Shinji Sōmai,#155 · Japan
+42095,The Funeral,1984,Jūzō Itami,#156 · Japan
+42113,The Ballad of Narayama,1983,Shōhei Imamura,#157 · Japan
+117129,The Family Game,1983,Yoshimitsu Morita,#158 · Japan
+11953,Kagemusha,1980,Akira Kurosawa,#159 · Japan
+110899,Zigeunerweisen,1980,Seijun Suzuki,#160 · Japan
+59352,The Man Who Stole the Sun,1979,Kazuhiko Hasegawa,#161 · Japan
+22557,The Yellow Handkerchief,1977,Yoji Yamada,#162 · Japan
+129375,The Shiranui Sea,1975,Noriaki Tsuchimoto,#163 · Japan
+12470,Brothel No. 8,1974,Kei Kumai,#164 · Japan
+29268,The Castle of Sand,1974,Yoshitarō Nomura,#165 · Japan
+2487,Lady Snowblood,1973,Toshiya Fujita,#166 · Japan
+94127,Narita: Heta Village,1973,Shinsuke Ogawa,#167 · Japan
+123094,Goodbye CP,1972,Kazuo Hara,#168 · Japan
+94466,The Ceremony,1971,Nagisa Ōshima,#169 · Japan
+389638,Narita: Peasants of the Second Fortress,1971,Shinsuke Ogawa,#170 · Japan
+104548,Pandemonium,1971,Toshio Matsumoto,#171 · Japan
+104549,"Throw Away Your Books, Rally in the Streets",1971,Shūji Terayama,#172 · Japan
+104241,Heroic Purgatory,1970,Yoshishige Yoshida,#173 · Japan
+261528,Where Spring Comes Late,1970,Yoji Yamada,#174 · Japan
+45713,Double Suicide,1969,Masahiro Shinoda,#175 · Japan
+104441,Nanami: The Inferno of First Love,1968,Susumu Hani,#176 · Japan
+50696,Profound Desires of the Gods,1968,Shōhei Imamura,#177 · Japan
+14755,The Affair,1967,Sidney Lumet,#178 · Japan
+123866,Affair in the Snow,1967,Yoshishige Yoshida,#179 · Japan
+17905,Branded to Kill,1967,Seijun Suzuki,#180 · Japan
+85692,A Man Vanishes,1967,Shōhei Imamura,#181 · Japan
+264393,Flame and Women,1967,Yoshishige Yoshida,#182 · Japan
+27031,Samurai Rebellion,1967,Masaki Kobayashi,#183 · Japan
+42721,Fighting Elegy,1966,Seijun Suzuki,#184 · Japan
+42718,The Pornographers,1966,Shōhei Imamura,#185 · Japan
+104254,Silence Has No Wings,1966,Kazuo Kuroki,#186 · Japan
+19884,The Sword of Doom,1966,Kihachi Okamoto,#187 · Japan
+45706,Tokyo Drifter,1966,Seijun Suzuki,#188 · Japan
+43618,Tokyo Olympiad,1965,Kon Ichikawa,#189 · Japan
+219245,With Beauty and Sorrow,1965,Masahiro Shinoda,#190 · Japan
+49571,Intentions of Murder,1964,Shōhei Imamura,#191 · Japan
+27197,An Actor's Revenge,1963,Kon Ichikawa,#192 · Japan
+164695,Bad Boys,1961,Susumu Hani,#193 · Japan
+28273,The End of Summer,1961,Yasujirō Ozu,#194 · Japan
+155659,Happiness of Us Alone,1961,Zenzō Matsuyama,#195 · Japan
+31104,Pigs and Battleships,1961,Shōhei Imamura,#196 · Japan
+111397,A Wife Confesses,1961,Yasuzō Masumura,#197 · Japan
+21967,Late Autumn,1960,Yasujirō Ozu,#198 · Japan
+109276,Night and Fog in Japan,1960,Nagisa Ōshima,#199 · Japan
+46918,Floating Weeds,1959,Yasujirō Ozu,#200 · Japan
+97149,Conflagration,1958,Kon Ichikawa,#201 · Japan
+76754,Giants and Toys,1958,Yasuzō Masumura,#202 · Japan
+1059,The Hidden Fortress,1958,Akira Kurosawa,#203 · Japan
+181359,Elegy of the North,1957,Heinosuke Gosho,#204 · Japan
+376093,The Balloon,1956,Yūzō Kawashima,#205 · Japan
+86664,Crazed Fruit,1956,Kō Nakahira,#206 · Japan
+20531,Early Spring,1956,Yasujirō Ozu,#207 · Japan
+46493,Flowing,1956,Mikio Naruse,#208 · Japan
+125222,Suzaki Paradise: Red Light District,1956,Yūzō Kawashima,#209 · Japan
+93424,A Bloody Spear at Mount Fuji,1955,Tomu Uchida,#210 · Japan
+256662,The Eternal Breasts (Forever a Woman),1955,Kinuyo Tanaka,#211 · Japan
+1678,Godzilla,1954,Ishirō Honda,#212 · Japan
+45993,The Woman of Rumour,1954,Kenji Mizoguchi,#213 · Japan
+45991,A Geisha,1953,Kenji Mizoguchi,#214 · Japan
+46043,Miss Oyu,1951,Kenji Mizoguchi,#215 · Japan
+47184,Repast,1951,Mikio Naruse,#216 · Japan
+30368,Stray Dog,1949,Akira Kurosawa,#217 · Japan
+45978,The 47 Ronin,1941,Kenji Mizoguchi,#218 · Japan
+255945,Four Seasons of Children,1939,Hiroshi Shimizu,#219 · Japan
+244115,The Straits of Love and Hate,1937,Kenji Mizoguchi,#220 · Japan
+52047,The Only Son,1936,Yasujirō Ozu,#221 · Japan
+43877,Osaka Elegy,1936,Kenji Mizoguchi,#222 · Japan
+100033,Mr. Thank You,1936,Hiroshi Shimizu,#223 · Japan
+128722,Priest of Darkness,1936,Sadao Yamanaka,#224 · Japan
+74581,Sisters of the Gion,1936,Kenji Mizoguchi,#225 · Japan
+89462,An Inn in Tokyo,1935,Yasujirō Ozu,#226 · Japan
+92950,Wife! Be Like a Rose!,1935,Mikio Naruse,#227 · Japan
+164105,The Dancing Girl of Izu,1933,Heinosuke Gosho,#228 · Japan
+64728,Japanese Girls at the Harbor,1933,Hiroshi Shimizu,#229 · Japan
+168751,The Water Magician,1933,Kenji Mizoguchi,#230 · Japan
+190147,Crossroads,1928,Teinosuke Kinugasa,#231 · Japan
+125354,A Diary of Chuji's Travels III,1927,Daisuke Itō,#232 · Japan
+1379266,Kokuho,2025,Sang-il Lee,#233 · Japan
+1244244,Cloud,2024,Kiyoshi Kurosawa,#234 · Japan
+1244492,Look Back,2024,Kiyotaka Oshiyama,#235 · Japan
+1295035,Super Happy Forever,2024,Igarashi Kohei,#236 · Japan
+508883,The Boy and the Heron,2023,Hayao Miyazaki,#237 · Japan
+928730,"Small, Slow but Steady",2022,Sho Miyake,#238 · Japan
+916224,Suzume,2022,Makoto Shinkai,#239 · Japan
+695089,"Onoda: 10,000 Nights in the Jungle",2021,Arthur Harari,#240 · France
+718498,Aristocrats,2020,Yukiko Sode,#241 · Japan
+814476,The Goldfish: Dreaming of the Sea,2020,Sara Ogawa,#242 · Japan
+946942,On the Street,2020,Jirassaya Wongsutin,#243 · Japan
+676211,Red Post on Escher Street,2020,Sion Sono,#244 · Japan
+688301,Wife of a Spy,2020,Kiyoshi Kurosawa,#245 · Japan
+575806,Domains,2019,Natsuka Kusano,#246 · Japan
+616538,Labyrinth of Cinema,2019,Nobuhiko Obayashi,#247 · Japan
+474206,The Night I Swam,2017,"Damien Manivel, Igarashi Kohei",#248 · France
+392795,Harmonium,2016,Koji Fukada,#249 · Japan
+378108,In This Corner of the World,2016,Sunao Katabuchi,#250 · Japan
+334991,Journey to the Shore,2015,Kiyoshi Kurosawa,#251 · Japan
+336026,Little Forest: Winter & Spring,2015,Junichi Mori,#252 · Japan
+294682,Little Forest: Summer/Autumn,2014,Junichi Mori,#253 · Japan
+279186,0.5 mm,2014,Momoko Ando,#254 · Japan
+242828,When Marnie Was There,2014,Hiromasa Yonebayashi,#255 · Japan
+,Attack on Titan,2013,Tetsuro Araki,#256 · Japan · TV series — skipped
+198375,The Garden of Words,2013,Makoto Shinkai,#257 · Japan
+200145,A Story of Yonosuke,2013,Shuichi Okita,#258 · Japan
+149870,The Wind Rises,2013,Hayao Miyazaki,#259 · Japan
+,Penance,2012,Kiyoshi Kurosawa,#260 · Japan · TV series — skipped
+85836,Hara-kiri: Death of a Samurai,2011,Takashi Miike,#261 · Japan
+79382,I Wish,2011,Hirokazu Kore-eda,#262 · Japan
+85032,Kotoko,2011,Shinya Tsukamoto,#263 · Japan
+80649,Sweet Little Lies,2010,Hitoshi Yazaki,#264 · Japan
+,The Tatami Galaxy,2010,Masaaki Yuasa,#265 · Japan · TV series — skipped
+20722,The House of Small Cubes,2008,Kunio Kato,#266 · Japan
+,Kaiba,2008,Masaaki Yuasa,#267 · Japan · TV series — skipped
+12429,Ponyo,2008,Hayao Miyazaki,#268 · Japan
+25656,Glasses,2007,Naoko Ogigami,#269 · Japan
+2010,The Mourning Forest,2007,Naomi Kawase,#270 · Japan
+20527,Love and Honor,2006,Yoji Yamada,#271 · Japan
+89116,The Professor and His Beloved Equation,2006,Takashi Koizumi,#272 · Japan
+13754,Tekkonkinkreet,2006,Michael Arias,#273 · Japan
+13430,Always - Sunset on Third Street,2005,Takashi Yamazaki,#274 · Japan
+38013,Hanging Garden,2005,Toshiaki Toyoda,#275 · Japan
+42041,Noriko's Dinner Table,2005,Sion Sono,#276 · Japan
+79229,A Perfect Couple,2005,Nobuhiro Suwa,#277 · Japan
+27799,Hana and Alice,2004,Shunji Iwai,#278 · Japan
+34019,The Hidden Blade,2004,Yoji Yamada,#279 · Japan
+26275,Kamikaze Girls,2004,Tetsuya Nakashima,#280 · Japan
+16133,Survive Style 5+,2004,Gen Sekiguchi,#281 · Japan
+29269,Tony Takitani,2004,Jun Ichikawa,#282 · Japan
+72443,"Josee, the Tiger and the Fish",2003,Isshin Inudo,#283 · Japan
+13398,Tokyo Godfathers,2003,Satoshi Kon,#284 · Japan
+81792,Vibrator,2003,Ryuichi Hiroki,#285 · Japan
+246,Zatoichi,2003,Takeshi Kitano,#286 · Japan
+26886,Bright Future,2002,Kiyoshi Kurosawa,#287 · Japan
+870,Dolls,2002,Takeshi Kitano,#288 · Japan
+265350,Daido Moriyama: Stray Dog of Tokyo,2001,Kenjirō Fujii,#289 · Japan
+25051,Distance,2001,Hirokazu Kore-eda,#290 · Japan
+89800,Harmful Insect,2001,Akihiko Shiota,#291 · Japan
+9696,Ichi the Killer,2001,Takashi Miike,#292 · Japan
+37712,Pistol Opera,2001,Seijun Suzuki,#293 · Japan
+27324,Pulse,2001,Kiyoshi Kurosawa,#294 · Japan
+208327,Red Persimmons,2001,"Shinsuke Ogawa, Peng Xiaolian",#295 · Japan
+257864,A Tender Place,2001,Shunichi Nagasaki,#296 · Japan
+73138,Face,2000,Junji Sakamoto,#297 · Japan
+39056,Ritual,2000,Hideaki Anno,#298 · Japan
+16198,My Neighbors the Yamadas,1999,Isao Takahata,#299 · Japan
+20617,Taboo,1999,Nagisa Ōshima,#300 · Japan
+72696,Glassy Ocean,1998,Shigeru Tamura,#301 · Japan
+,Berserk,1997,Naohito Takahashi,#302 · Japan · TV series — skipped
+20506,The Eel,1997,Shōhei Imamura,#303 · Japan
+18491,The End of Evangelion,1997,"Kazuya Tsurumaki, Hideaki Anno",#304 · Japan
+76760,Labyrinth of Dreams,1997,Gakuryu Ishii,#305 · Japan
+36895,Suzaku,1997,Naomi Kawase,#306 · Japan
+146678,2/Duo,1997,Nobuhiro Suwa,#307 · Japan
+261560,Haru,1996,Yoshimitsu Morita,#308 · Japan
+27233,Kids Return,1996,Takeshi Kitano,#309 · Japan
+36304,Village of Dreams,1996,Yōichi Higashi,#310 · Japan
+104268,August in the Water,1995,Gakuryu Ishii,#311 · Japan
+26896,Like Grains of Sand,1995,Ryosuke Hashiguchi,#312 · Japan
+47002,Love Letter,1995,Shunji Iwai,#313 · Japan
+305896,Ursa Minor Blue,1995,Shigeru Tamura,#314 · Japan
+239328,Welcome Home,1995,Makoto Shinozaki,#315 · Japan
+305815,Fe,1994,Kanji Nakajima,#316 · Japan
+162437,Katatsumori,1994,Naomi Kawase,#317 · Japan
+383578,Living on the River Agano,1992,Makoto Satō,#318 · Japan
+11621,Porco Rosso,1992,Hayao Miyazaki,#319 · Japan
+108433,Tokyo Decadence,1992,Banmei Takahashi,#320 · Japan
+225614,My Sons,1991,Yoji Yamada,#321 · Japan
+23606,A Scene at the Sea,1991,Takeshi Kitano,#322 · Japan
+569836,Shimanto River,1991,Hideo Onchi,#323 · Japan
+12516,Akira Kurosawa's Dreams,1990,Akira Kurosawa,#324 · Japan
+26936,Boiling Point,1990,Takeshi Kitano,#325 · Japan
+101976,The Cherry Orchard,1990,Shun Nakahara,#326 · Japan
+185725,March Comes in Like a Lion,1990,Hitoshi Yazaki,#327 · Japan
+128775,The Sting of Death,1990,Kōhei Oguri,#328 · Japan
+154738,Legend of the Galactic Heroes,1988,"Noboru Ishiguro, Akio Sakai",#329 · Japan
+357587,Magino Village: A Tale,1987,Shinsuke Ogawa,#330 · Japan
+42011,A Taxing Woman,1987,Jūzō Itami,#331 · Japan
+164378,"Bound for the Fields, the Mountains and the Seacoast",1986,Nobuhiko Obayashi,#332 · Japan
+298973,"His Motorbike, Her Island",1986,Nobuhiko Obayashi,#333 · Japan
+132702,To Sleep So as to Dream,1986,Kaizo Hayashi,#334 · Japan
+154442,Tree Without Leaves,1986,Kaneto Shindō,#335 · Japan
+261525,Lonely Heart,1985,Nobuhiko Obayashi,#336 · Japan
+104292,Farewell to the Ark,1984,Shūji Terayama,#337 · Japan
+47217,Jumping,1984,Osamu Tezuka,#338 · Japan
+213135,The Catch,1983,Shinji Sōmai,#339 · Japan
+62385,The Girl Who Leapt Through Time,1983,Nobuhiko Obayashi,#340 · Japan
+42116,The Makioka Sisters,1983,Kon Ichikawa,#341 · Japan
+11948,"Merry Christmas, Mr. Lawrence",1983,Nagisa Ōshima,#342 · United Kingdom
+33341,Fall Guy,1982,Kinji Fukasaku,#343 · Japan
+175679,"Heart, Beating in the Dark",1982,Shunichi Nagasaki,#344 · Japan
+129689,"I Are You, You Am Me",1982,Nobuhiko Obayashi,#345 · Japan
+169977,Distant Thunder,1981,Kichitaro Negishi,#346 · Japan
+49695,Grass Labyrinth,1979,Shūji Terayama,#347 · France
+15371,Lupin III: The Castle of Cagliostro,1979,Hayao Miyazaki,#348 · Japan
+189635,Bittersweet,1978,David Miller,#349 · Japan
+137172,The Demon,1978,Yoshitarō Nomura,#350 · Japan
+49096,Empire of Passion,1978,Nagisa Ōshima,#351 · Japan
+195028,Ballad of Orin,1977,Masahiro Shinoda,#352 · Japan
+597740,Magino Story: Raising Silkworms,1977,Shinsuke Ogawa,#353 · Japan
+76715,The Inugami Family,1976,Kon Ichikawa,#354 · Japan
+129377,Lullaby of the Earth,1976,Yasuzō Masumura,#355 · Japan
+64649,The Watcher in the Attic,1976,Noboru Tanaka,#356 · Japan
+96754,The Youth Killer,1976,Kazuhiko Hasegawa,#357 · Japan
+153119,Dojoji Temple,1975,Kihachiro Kawamoto,#358 · Japan
+261538,Tora-san Meets the Songstress Again,1975,Yoji Yamada,#359 · Japan
+130639,Extreme Private Eros: Love Song 1974,1974,Kazuo Hara,#360 · Japan
+125228,Failed Youth,1974,Tatsumi Kumashiro,#361 · Japan
+277261,The Fossil,1974,Masaki Kobayashi,#362 · Japan
+86520,Himiko,1974,Masahiro Shinoda,#363 · Japan
+64847,Belladonna of Sadness,1973,Eiichi Yamamoto,#364 · Japan
+104282,Coup d'état,1973,Yoshishige Yoshida,#365 · Japan
+52874,The Yakuza Papers 3: Proxy War,1973,Kinji Fukasaku,#366 · Japan
+106569,The Demon,1972,Kihachiro Kawamoto,#367 · Japan
+71138,Female Prisoner #701: Scorpion,1972,Shunya Ito,#368 · Japan
+41471,Lone Wolf and Cub: Sword of Vengeance,1972,Kenji Misumi,#369 · Japan
+101740,Inn of Evil,1971,Masaki Kobayashi,#370 · Japan
+33205,Dodes'ka-den,1970,Akira Kurosawa,#371 · Japan
+104343,The Man Who Left His Will on Film,1970,Nagisa Ōshima,#372 · Japan
+68429,"Go, Go Second Time Virgin",1969,Kōji Wakamatsu,#373 · Japan
+40149,Kuroneko,1968,Kaneto Shindō,#374 · Japan
+38728,A Colt Is My Passport,1967,Takashi Nomura,#375 · Japan
+202773,Portrait of Chieko,1967,Noboru Nakamura,#376 · Japan
+378371,Thirst for Love,1966,Junya Satō,#377 · Japan
+42720,Violence at Noon,1966,Nagisa Ōshima,#378 · Japan
+115647,The Wife of Seisaku,1965,Yasuzō Masumura,#379 · Japan
+46917,Sword of the Beast,1965,Hideo Gosha,#380 · Japan
+105582,White Morning,1965,Hiroshi Teshigahara,#381 · Japan
+88562,Assassination,1964,Masahiro Shinoda,#382 · Japan
+280843,The Scent of Incense,1964,Keisuke Kinoshita,#383 · Japan
+217707,The Shape of Night,1964,Noboru Nakamura,#384 · Japan
+58878,Three Outlaw Samurai,1964,Hideo Gosha,#385 · Japan
+264301,The Closed Vagina,1963,Masao Adachi,#386 · Japan
+168295,A Legend or Was It?,1963,Keisuke Kinoshita,#387 · Japan
+191817,The Third Shadow,1963,Umetsugu Inoue,#388 · Japan
+202763,Twin Sisters of Kyoto,1963,Noboru Nakamura,#389 · Japan
+37939,Youth of the Beast,1963,Seijun Suzuki,#390 · Japan
+33342,Akitsu Springs,1962,Yoshishige Yoshida,#391 · Japan
+49570,Foundry Town,1962,Kirio Urayama,#392 · Japan
+125253,The Graceful Brute,1962,Yūzō Kawashima,#393 · Japan
+261680,The Mad Fox,1962,Tomu Uchida,#394 · Japan
+54146,Pitfall,1962,Hiroshi Teshigahara,#395 · Japan
+11712,Sanjuro,1962,Akira Kurosawa,#396 · Japan
+16692,The Tale of Zatoichi,1962,Kenji Misumi,#397 · Japan
+97535,Bitter End of a Sweet Night,1961,Yoshishige Yoshida,#398 · Japan
+105470,Immortal Love,1961,Keisuke Kinoshita,#399 · Japan
+31589,The Bad Sleep Well,1960,Akira Kurosawa,#400 · Japan
+88527,Cruel Story of Youth,1960,Nagisa Ōshima,#401 · Japan
+125251,Her Brother,1960,Kon Ichikawa,#402 · Japan
+95508,The Warped Ones,1960,Koreyoshi Kurahara,#403 · Japan
+158249,Chikamatsu's Love in Osaka,1959,Tomu Uchida,#404 · Japan
+125229,Samurai Vendetta,1959,Kazuo Mori,#405 · Japan
+28272,Equinox Flower,1958,Yasujirō Ozu,#406 · Japan
+37293,Stakeout,1958,Yoshitarō Nomura,#407 · Japan
+119779,Summer Clouds,1958,Mikio Naruse,#408 · Japan
+98636,Kisses,1957,Yasuzō Masumura,#409 · Japan
+118691,Snow Country,1957,Shirō Toyoda,#410 · Japan
+255784,Times of Joy and Sorrow,1957,Keisuke Kinoshita,#411 · Japan
+398525,Our Town,1956,Yūzō Kawashima,#412 · Japan
+118783,The Heart,1955,Kon Ichikawa,#413 · Japan
+91426,Princess Yang Kwei-fei,1955,Kenji Mizoguchi,#414 · Japan
+36871,Late Chrysanthemums,1954,Mikio Naruse,#415 · Japan
+31372,Samurai I: Musashi Miyamoto,1954,Hiroshi Inagaki,#416 · Japan
+43349,Gate of Hell,1953,Teinosuke Kinugasa,#417 · Japan
+199450,An Inlet of Muddy Water,1953,Tadashi Imai,#418 · Japan
+270055,Love Letter,1953,Kinuyo Tanaka,#419 · Japan
+148513,Wild Geese,1953,Shirō Toyoda,#420 · Japan
+77057,Children of Hiroshima,1952,Kaneto Shindō,#421 · Japan
+55197,Flavor of Green Tea Over Rice,1952,Yasujirō Ozu,#422 · Japan
+46045,Portrait of Madame Yuki,1950,Kenji Mizoguchi,#423 · Japan
+125235,Till We Meet Again,1950,Tadashi Imai,#424 · Japan
+124994,Flame of My Love,1949,Kenji Mizoguchi,#425 · Japan
+255943,Mr. Shosuke Ohara,1949,Hiroshi Shimizu,#426 · Japan
+74126,Record of a Tenement Gentleman,1947,Yasujirō Ozu,#427 · Japan
+127112,Snow Trail,1947,Senkichi Taniguchi,#428 · Japan
+101382,Utamaro and His Five Women,1946,Kenji Mizoguchi,#429 · Japan
+168994,Army,1944,Keisuke Kinoshita,#430 · Japan
+125261,The Life of Matsu the Untamed,1943,Hiroshi Inagaki,#431 · Japan
+257781,Hideko the Bus Conductress,1941,Mikio Naruse,#432 · Japan
+84671,Nobuko,1940,Hiroshi Shimizu,#433 · Japan
+144902,Traveling Actors,1940,Mikio Naruse,#434 · Japan
+125259,Singing Lovebirds,1939,Masahiro Makino,#435 · Japan
+463811,Fallen Blossoms,1938,Tamizo Ishida,#436 · Japan
+91094,The Masseurs and a Woman,1938,Hiroshi Shimizu,#437 · Japan
+211256,Children in the Wind,1937,Hiroshi Shimizu,#438 · Japan
+276759,Okoto and Sasuke,1935,Yasujirō Shimazu,#439 · Japan
+92946,Three Sisters with Maiden Hearts,1935,Mikio Naruse,#440 · Japan
+91150,Apart from You,1933,Mikio Naruse,#441 · Japan
+329926,The Lady Who Wept in Spring,1933,Hiroshi Shimizu,#442 · Japan
+138772,The Neighbor's Wife and Mine,1931,Heinosuke Gosho,#443 · Japan
+196188,What Made Her Do It?,1930,Shigeyoshi Suzuki,#444 · Japan
+171563,Serpent,1925,Buntarō Futagawa,#445 · Japan
+147626,Souls on the Road,1921,Minoru Murata,#446 · Japan
