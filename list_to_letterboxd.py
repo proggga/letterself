@@ -6,7 +6,7 @@ Usage:
     python3 list_to_letterboxd.py
     python3 list_to_letterboxd.py list.txt list_tmdb.csv
 
-Reads TMDB_API_KEY from .env or streamlit_app/.streamlit/secrets.toml.
+Reads TMDB_API_KEY from .env.
 Caches lookups in list-tmdb-cache.json.
 """
 
@@ -45,12 +45,6 @@ def load_api_key(script_dir: Path) -> str:
             key, _, value = line.partition("=")
             if key.strip() == "TMDB_API_KEY":
                 return value.strip().strip('"').strip("'")
-
-    secrets = script_dir / "streamlit_app" / ".streamlit" / "secrets.toml"
-    if secrets.exists():
-        for line in secrets.read_text().splitlines():
-            if "TMDB_API_KEY" in line and "=" in line:
-                return line.split("=", 1)[1].strip().strip('"').strip("'")
     return ""
 
 
@@ -522,7 +516,7 @@ def main() -> None:
 
     api_key = load_api_key(script_dir)
     if not api_key:
-        sys.exit("TMDB_API_KEY not found in .env or streamlit_app/.streamlit/secrets.toml")
+        sys.exit("TMDB_API_KEY not found in .env")
 
     entries = parse_list_txt(in_path)
     print(f"Parsed {len(entries)} entries from {in_path.name}\n")

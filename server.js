@@ -1540,6 +1540,78 @@ app.get('/api/analytics', (req, res) => {
     .sort((a, b) => b.count - a.count || b.myRating - a.myRating);
   const totalRewatches = Object.values(rewatchMap).reduce((s, n) => s + n, 0);
 
+  // ── Recent watches — popular vs rare gems
+  const sortedDiary = [...diary].sort((a, b) => {
+    const da = a['Watched Date'] || a['Date'] || '';
+    const db = b['Watched Date'] || b['Date'] || '';
+    return db.localeCompare(da);
+  });
+  const seenRecent = new Set();
+  const recentEntries = [];
+  for (const e of sortedDiary) {
+    const name = e['Name'];
+    if (!name || seenRecent.has(name)) continue;
+    seenRecent.add(name);
+    recentEntries.push(e);
+  }
+  const toRecentMovie = (e) => {
+    const c = nameToCache[e['Name']] || {};
+    const r = ratingsList.find(r => r['Name'] === e['Name']);
+    const myRating = parseFloat(e['Rating']) || (r ? parseFloat(r['Rating']) || 0 : 0);
+    return {
+      name: e['Name'],
+      year: parseInt(e['Year']) || 0,
+      watchedDate: e['Watched Date'] || e['Date'] || '',
+      myRating,
+      voteCount: c.voteCount || 0,
+      voteAverage: c.voteAverage ?? null,
+      posterPath: c.posterPath ?? null,
+      tmdbId: c.tmdbId ?? null,
+    };
+  };
+  const MAINSTREAM_MIN_VOTES = 2000; // mid-range tier and above — no padding below this
+  const recentPopular = recentEntries.slice(0, 100)
+    .map(toRecentMovie)
+    .filter(m => m.voteCount >= MAINSTREAM_MIN_VOTES)
+    .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))
+    .slice(0, 10);
+
+  const rarePool = recentEntries.slice(0, 100)
+    .map(toRecentMovie)
+    .filter(m => m.voteCount > 0);
+  const rareVotes = rarePool.map(m => m.voteCount).sort((a, b) => a - b);
+  const rareCutoff = rareVotes[Math.floor(rareVotes.length * 0.25)] || 0;
+  const rarestGems = rarePool
+    .filter(m => m.voteCount <= rareCutoff)
+    .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))
+    .slice(0, 10);
+
+  // ── Year progress (YTD from Jan 1)
+  const now = new Date();
+  const year = now.getFullYear();
+  const dayOfYear = Math.floor((now - new Date(year, 0, 1)) / 86400000) + 1;
+  const daysInYear = ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) ? 366 : 365;
+  const ytdDiary = diary.filter(e => {
+    const d = e['Watched Date'] || e['Date'] || '';
+    return d.startsWith(String(year));
+  });
+  const uniqueYtd = new Set(ytdDiary.map(e => e['Name']).filter(Boolean)).size;
+  const totalYtd = ytdDiary.length;
+  const avgPerDay = dayOfYear ? Math.round(totalYtd / dayOfYear * 100) / 100 : 0;
+  const ytdMinutes = ytdDiary.reduce((s, e) => {
+    const rt = nameToCache[e['Name']]?.runtime || avgRuntime;
+    return s + rt;
+  }, 0);
+  const yearProgress = {
+    year,
+    dayOfYear,
+    daysInYear,
+    uniqueMovies: uniqueYtd,
+    totalWithRepeats: totalYtd,
+    avgPerDay,
+    hoursWatched: Math.round(ytdMinutes / 60),
+  };
+
   // ── Film length buckets (enriched rated movies)
   const lengthBuckets = [
     { label: 'Short',      sublabel: '< 80 min',     count: 0 },
@@ -1712,6 +1784,9 @@ app.get('/api/analytics', (req, res) => {
     diaryTotal: diary.length,
     totalRewatches,
     rewatches,
+    recentPopular,
+    rarestGems,
+    yearProgress,
     watchlistEta: {
       remaining:   remaining.length,
       hoursLeft:   watchlistHoursLeft,
