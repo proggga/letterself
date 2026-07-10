@@ -1511,31 +1511,30 @@ app.get('/api/analytics', (req, res) => {
   });
 
   // ── Rewatches from diary (with poster lookup)
-  // Diary URIs are diary-entry-specific, NOT canonical movie URIs — build name→cache via watchlist+ratings
-  const nameToCache = {};
-  watchlist.forEach(m => {
-    const c = tmdbCache[m['Letterboxd URI']];
-    if (c?.posterPath) nameToCache[m['Name']] = c;
-  });
-  ratingsList.forEach(r => {
-    if (!nameToCache[r['Name']]) {
-      const c = tmdbCache[r['Letterboxd URI']];
-      if (c?.posterPath) nameToCache[r['Name']] = c;
-    }
-  });
+  // Diary URIs are diary-entry-specific, NOT canonical movie URIs — build name+year→cache
+  const filmKey = (name, year) => `${name}|${parseInt(year) || 0}`;
+  const filmCache = {};
+  for (const row of [...watchlist, ...ratingsList]) {
+    const name = row['Name'];
+    if (!name) continue;
+    const c = tmdbCache[row['Letterboxd URI']];
+    if (c?.tmdbId) filmCache[filmKey(name, row['Year'])] = c;
+  }
 
   const rewatchMap = {};
   diary.forEach(e => {
     if ((e['Rewatch'] || '').toLowerCase() === 'yes') {
-      rewatchMap[e['Name']] = (rewatchMap[e['Name']] || 0) + 1;
+      rewatchMap[filmKey(e['Name'], e['Year'])] = (rewatchMap[filmKey(e['Name'], e['Year'])] || 0) + 1;
     }
   });
   const rewatches = Object.entries(rewatchMap).filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1])
-    .map(([name, count]) => {
-      const c = nameToCache[name];
-      const r = ratingsList.find(r => r['Name'] === name);
+    .map(([key, count]) => {
+      const name = key.slice(0, key.lastIndexOf('|'));
+      const year = parseInt(key.slice(key.lastIndexOf('|') + 1)) || 0;
+      const c = filmCache[key];
+      const r = ratingsList.find(r => r['Name'] === name && parseInt(r['Year']) === year);
       const myRating = r ? parseFloat(r['Rating']) || 0 : 0;
-      return { name, count: count + 1, myRating, posterPath: c?.posterPath ?? null, tmdbId: c?.tmdbId ?? null };
+      return { name, year, count: count + 1, myRating, posterPath: c?.posterPath ?? null, tmdbId: c?.tmdbId ?? null };
     })
     .sort((a, b) => b.count - a.count || b.myRating - a.myRating);
   const totalRewatches = Object.values(rewatchMap).reduce((s, n) => s + n, 0);
@@ -1549,18 +1548,19 @@ app.get('/api/analytics', (req, res) => {
   const seenRecent = new Set();
   const recentEntries = [];
   for (const e of sortedDiary) {
-    const name = e['Name'];
-    if (!name || seenRecent.has(name)) continue;
-    seenRecent.add(name);
+    const key = filmKey(e['Name'], e['Year']);
+    if (!e['Name'] || seenRecent.has(key)) continue;
+    seenRecent.add(key);
     recentEntries.push(e);
   }
   const toRecentMovie = (e) => {
-    const c = nameToCache[e['Name']] || {};
-    const r = ratingsList.find(r => r['Name'] === e['Name']);
+    const year = parseInt(e['Year']) || 0;
+    const c = filmCache[filmKey(e['Name'], year)] || {};
+    const r = ratingsList.find(r => r['Name'] === e['Name'] && parseInt(r['Year']) === year);
     const myRating = parseFloat(e['Rating']) || (r ? parseFloat(r['Rating']) || 0 : 0);
     return {
       name: e['Name'],
-      year: parseInt(e['Year']) || 0,
+      year,
       watchedDate: e['Watched Date'] || e['Date'] || '',
       myRating,
       voteCount: c.voteCount || 0,
@@ -1591,9 +1591,9 @@ app.get('/api/analytics', (req, res) => {
     .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))) {
     if (rarestGems.length >= 12) break;
     rarestGems.push(m);
-    rarePicked.add(m.name);
+    rarePicked.add(filmKey(m.name, m.year));
   }
-  for (const m of rarePool.filter(x => !rarePicked.has(x.name) && !RARE_GEM_SKIP.has(x.name))
+  for (const m of rarePool.filter(x => !rarePicked.has(filmKey(x.name, x.year)) && !RARE_GEM_SKIP.has(x.name))
     .sort((a, b) => a.voteCount - b.voteCount || b.watchedDate.localeCompare(a.watchedDate))) {
     if (rarestGems.length >= 12) break;
     rarestGems.push(m);
@@ -1612,7 +1612,7 @@ app.get('/api/analytics', (req, res) => {
   const totalYtd = ytdDiary.length;
   const avgPerDay = dayOfYear ? Math.round(totalYtd / dayOfYear * 100) / 100 : 0;
   const ytdMinutes = ytdDiary.reduce((s, e) => {
-    const rt = nameToCache[e['Name']]?.runtime || avgRuntime;
+    const rt = filmCache[filmKey(e['Name'], e['Year'])]?.runtime || avgRuntime;
     return s + rt;
   }, 0);
   const yearProgress = {
