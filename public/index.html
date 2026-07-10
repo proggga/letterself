@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Night</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ─── Header ─────────────────────────────────────────────────────────── -->
+  <header class="header">
+    <!-- Row 1: brand · time · speed · enrich bar -->
+    <div class="header-row">
+      <div class="header-brand">
+        <span class="logo">🎬</span>
+        <span class="logo-text">Movie Night</span>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label">Time available</label>
+        <div class="time-inputs">
+          <input type="number" id="hours-input" class="time-input" value="2" min="0" max="12"> h
+          <input type="number" id="mins-input"  class="time-input" value="30" min="0" max="59"> m
+        </div>
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label">Watch speed</label>
+        <div class="ratio-btns" id="ratio-btns">
+          <button class="ratio-btn" data-ratio="1.0"  title="Watch everything">Full</button>
+          <button class="ratio-btn active" data-ratio="0.88" title="Skip obvious filler ~12% faster">Light</button>
+          <button class="ratio-btn" data-ratio="0.80" title="Skip slow scenes ~20% faster">Med</button>
+          <button class="ratio-btn" data-ratio="0.70" title="Skip anything slow ~30% faster">Fast</button>
+        </div>
+      </div>
+
+      <div class="header-spacer"></div>
+
+      <div class="enrich-wrap" id="enrich-wrap" title="TMDB data loading progress">
+        <div class="enrich-bar"><div class="enrich-fill" id="enrich-fill"></div></div>
+        <span class="enrich-label" id="enrich-label">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Row 2: action buttons -->
+    <div class="header-row action-row">
+      <button class="btn btn-primary" id="plan-btn">📋 Plan Night</button>
+      <button class="btn btn-random" id="random-btn">🎲 Random</button>
+      <button class="btn btn-ghost" id="discover-btn">✦ Discover</button>
+      <button class="btn btn-stats" id="stats-btn">📊 Stats</button>
+      <button class="btn btn-ghost" id="overrides-btn">🔧 Overrides</button>
+      <button class="btn btn-ghost" id="broken-btn" title="Show only movies with wrong or missing TMDB data">⚠ Fix broken</button>
+      <button class="btn btn-ghost" id="series-btn">📺 Series</button>
+    </div>
+  </header>
+
+  <!-- ─── Sub-controls ────────────────────────────────────────────────────── -->
+  <div class="subbar">
+    <div class="sort-group">
+      <span class="subbar-label">Sort</span>
+      <button class="sort-btn" data-sort="votes"    >Popular</button>
+      <button class="sort-btn" data-sort="rating"   >Rating</button>
+      <button class="sort-btn" data-sort="foryou"   >For You ✦</button>
+      <button class="sort-btn" data-sort="affinity" style="display:none">For You ✦</button>
+      <button class="sort-btn" data-sort="year-new" >Newest</button>
+      <button class="sort-btn" data-sort="year-old" >Oldest</button>
+      <button class="sort-btn" data-sort="runtime"  >Shortest</button>
+    </div>
+    <div class="filter-group">
+      <input type="search" id="search-input" class="search-input" placeholder="Search movies…">
+      <select id="genre-select" class="genre-select">
+        <option value="all">All genres</option>
+      </select>
+      <select id="country-select" class="genre-select">
+        <option value="all">All countries</option>
+      </select>
+      <label class="fit-label">
+        <input type="checkbox" id="fit-toggle"> Fits in time
+      </label>
+      <button class="eye-toggle-btn" id="show-watched-btn" title="Show watched movies in grid">Show watched</button>
+      <button class="eye-toggle-btn" id="darken-watched-btn" title="Dim watched movie posters">Dim watched</button>
+    </div>
+    <span class="result-count" id="result-count"></span>
+  </div>
+
+  <!-- ─── Main grid ────────────────────────────────────────────────────────── -->
+  <main>
+    <div id="movie-grid" class="movie-grid"></div>
+    <div id="scroll-sentinel" class="scroll-sentinel"></div>
+    <div id="no-results" class="no-results hidden">
+      <p>No movies match your filters.</p>
+      <p class="hint">Try a different sort, uncheck "Fits in time", or wait for more movies to be enriched.</p>
+    </div>
+  </main>
+
+  <!-- ─── Queue bar ────────────────────────────────────────────────────────── -->
+  <div id="queue-bar" class="queue-bar hidden">
+    <div id="queue-list" class="queue-list"></div>
+    <div class="queue-summary">
+      <span id="queue-time" class="queue-time"></span>
+      <span id="queue-finish" class="queue-finish"></span>
+      <div class="queue-actions">
+        <button class="btn btn-primary btn-sm" id="queue-plan-btn">View Plan</button>
+        <button class="btn btn-ghost  btn-sm" id="queue-clear-btn">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Detail modal ─────────────────────────────────────────────────────── -->
+  <div id="detail-modal" class="modal hidden">
+    <div class="modal-backdrop" id="detail-backdrop"></div>
+    <div class="modal-box detail-box">
+      <button class="modal-close" id="detail-close">✕</button>
+      <div id="detail-body"></div>
+    </div>
+  </div>
+
+  <!-- ─── Night plan modal ─────────────────────────────────────────────────── -->
+  <div id="night-modal" class="modal hidden">
+    <div class="modal-backdrop" id="night-backdrop"></div>
+    <div class="modal-box night-box">
+      <button class="modal-close" id="night-close">✕</button>
+      <div id="night-body"></div>
+    </div>
+  </div>
+
+  <!-- ─── Overrides modal ──────────────────────────────────────────────────── -->
+  <div id="overrides-modal" class="modal hidden">
+    <div class="modal-backdrop" id="overrides-backdrop"></div>
+    <div class="modal-box overrides-box">
+      <button class="modal-close" id="overrides-close">✕</button>
+      <div id="overrides-body"></div>
+    </div>
+  </div>
+
+  <!-- ─── Director filmography modal ─────────────────────────────────────────── -->
+  <div id="director-modal" class="modal hidden">
+    <div class="modal-backdrop" id="director-backdrop"></div>
+    <div class="modal-box director-box">
+      <button class="modal-close" id="director-close">✕</button>
+      <div id="director-body"></div>
+    </div>
+  </div>
+
+  <!-- ─── Series management modal ──────────────────────────────────────────── -->
+  <div id="series-modal" class="modal hidden">
+    <div class="modal-backdrop" id="series-backdrop"></div>
+    <div class="modal-box series-mgmt-box">
+      <button class="modal-close" id="series-close">✕</button>
+      <div id="series-body"></div>
+    </div>
+  </div>
+
+  <!-- ─── Analytics overlay ──────────────────────────────────────────────────── -->
+  <div id="stats-overlay" class="stats-overlay hidden">
+    <div class="stats-header">
+      <span class="stats-title">📊 Your Watch Stats</span>
+      <button class="btn btn-ghost btn-sm" id="stats-close">✕ Close</button>
+    </div>
+    <div id="stats-body" class="stats-body">
+      <div class="stats-loading">Loading your data…</div>
+    </div>
+  </div>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TMDB Overrides — Movie Night</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .ov-page { max-width: 860px; margin: 0 auto; padding: 28px 20px 80px; }
+    .ov-page-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+    .ov-page-sub   { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 28px; }
+
+    .ov-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      transition: border-color 0.15s;
+    }
+    .ov-card:hover { border-color: rgba(255,255,255,0.12); }
+
+    /* Left: Letterboxd info */
+    .ov-lbxd { min-width: 0; flex: 1; }
+    .ov-lbxd-name { font-size: 0.95rem; font-weight: 700; }
+    .ov-lbxd-year { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+    .ov-lbxd-link { font-size: 0.72rem; color: var(--text-dim); text-decoration: none; display: inline-block; margin-top: 6px; }
+    .ov-lbxd-link:hover { color: var(--accent); }
+
+    /* Arrow */
+    .ov-arrow { font-size: 1.2rem; color: var(--text-dim); flex-shrink: 0; padding-top: 2px; }
+
+    /* Right: TMDB match */
+    .ov-tmdb { display: flex; gap: 12px; align-items: flex-start; flex: 1.5; min-width: 0; }
+    .ov-tmdb-poster {
+      width: 56px; height: 84px; border-radius: 4px; object-fit: cover;
+      flex-shrink: 0; background: var(--surface-2);
+    }
+    .ov-tmdb-poster-ph {
+      width: 56px; height: 84px; border-radius: 4px; background: var(--surface-2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: rgba(255,255,255,0.1); flex-shrink: 0;
+    }
+    .ov-tmdb-info { min-width: 0; flex: 1; }
+    .ov-tmdb-badge {
+      display: inline-block; font-size: 0.68rem; padding: 2px 8px;
+      border-radius: 10px; font-weight: 600; margin-bottom: 4px;
+    }
+    .ov-tmdb-badge.skip    { background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+    .ov-tmdb-badge.forced  { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(245,200,66,0.3); }
+    .ov-tmdb-name  { font-size: 0.88rem; font-weight: 600; }
+    .ov-tmdb-year  { font-size: 0.75rem; color: var(--text-dim); }
+    .ov-tmdb-genres{ font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
+    .ov-tmdb-link  { font-size: 0.72rem; color: var(--text-dim); text-decoration: none; display: inline-block; margin-top: 5px; }
+    .ov-tmdb-link:hover { color: var(--accent); }
+
+    /* Actions column */
+    .ov-actions { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+
+    /* Edit form */
+    .ov-edit-form {
+      display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid var(--border);
+      flex-basis: 100%; /* force onto new line */
+    }
+    .ov-edit-form.hidden { display: none; }
+    .ov-edit-input {
+      width: 220px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text);
+      padding: 5px 10px; font-size: 0.82rem; font-family: inherit;
+    }
+    .ov-edit-input:focus { outline: none; border-color: var(--accent); }
+    .ov-edit-search { font-size: 0.75rem; color: var(--text-dim); text-decoration: none; align-self: center; }
+    .ov-edit-search:hover { color: var(--accent); }
+
+    .ov-empty {
+      text-align: center; padding: 60px 20px;
+      color: var(--text-dim); font-size: 0.9rem;
+    }
+    .ov-empty a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .ov-card { flex-wrap: wrap; }
+      .ov-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-row">
+      <a href="/" class="header-brand" style="text-decoration:none">
+        <span class="logo">🎬</span>
+        <span class="logo-text">Movie Night</span>
+      </a>
+      <span style="color:var(--text-dim);font-size:0.85rem;margin-left:4px">/ TMDB Overrides</span>
+      <div class="header-spacer"></div>
+      <a href="/" class="btn btn-ghost btn-sm" style="text-decoration:none">← Back to movies</a>
+    </div>
+  </header>
+
+  <main class="ov-page">
+    <div class="ov-page-title">🔧 TMDB Overrides</div>
+    <div class="ov-page-sub">
+      Each entry shows the Letterboxd movie and its current TMDB match.
+      Use the edit form to correct a wrong match, or remove to let auto-search run again.
+    </div>
+    <div id="ov-list"><div style="color:var(--text-dim);padding:40px 0">Loading…</div></div>
+  </main>
+
+  <script>
+    const CDN = (path, size = 'w185') =>
+      path ? `https://image.tmdb.org/t/p/${size}${path}` : null;
+
+    async function load() {
+      const data = await fetch('/api/overrides').then(r => r.json());
+      render(data);
+    }
+
+    function render(data) {
+      const list = document.getElementById('ov-list');
+      if (!data.length) {
+        list.innerHTML = `<div class="ov-empty">No overrides set yet.<br><br>
+          Use the <strong>"Wrong match?"</strong> button in any movie's detail on the <a href="/">main page</a> to add one.</div>`;
+        return;
+      }
+
+      list.innerHTML = '';
+      data.forEach(o => list.appendChild(buildCard(o)));
+    }
+
+    function buildCard(o) {
+      const wrap = document.createElement('div');
+      wrap.className = 'ov-card';
+
+      const c  = o.current;
+      const ov = o.override;
+
+      // Letterboxd side
+      const lbxd = document.createElement('div');
+      lbxd.className = 'ov-lbxd';
+      lbxd.innerHTML = `
+        <div class="ov-lbxd-name">${esc(o.name)}</div>
+        <div class="ov-lbxd-year">${o.year || '—'}</div>
+        <a class="ov-lbxd-link" href="${esc(o.uri)}" target="_blank" rel="noopener">View on Letterboxd ↗</a>`;
+
+      // Arrow
+      const arrow = document.createElement('div');
+      arrow.className = 'ov-arrow';
+      arrow.textContent = '→';
+
+      // TMDB side
+      const tmdbWrap = document.createElement('div');
+      tmdbWrap.className = 'ov-tmdb';
+
+      if (ov.isSkip) {
+        tmdbWrap.innerHTML = `
+          <div class="ov-tmdb-poster-ph">✗</div>
+          <div class="ov-tmdb-info">
+            <span class="ov-tmdb-badge skip">Skip — not on TMDB</span>
+            <div class="ov-tmdb-name" style="color:var(--text-dim)">Excluded from enrichment</div>
+          </div>`;
+      } else if (c) {
+        const posterUrl = c.posterPath ? `/posters/${c.mediaType === 'tv' ? 'tv-' : ''}${c.tmdbId}.jpg` : null;
+        const posterCdn = CDN(c.posterPath);
+        const tmdbPath  = c.mediaType === 'tv' ? `tv/${c.tmdbId}` : `movie/${c.tmdbId}`;
+        const releaseYear = c.releaseDate ? c.releaseDate.slice(0, 4) : '';
+        tmdbWrap.innerHTML = `
+          ${posterUrl
+            ? `<img class="ov-tmdb-poster" src="${esc(posterUrl)}" ${posterCdn ? `data-cdn="${esc(posterCdn)}"` : ''} data-name="${esc(o.name)}" alt="">`
+            : `<div class="ov-tmdb-poster-ph">?</div>`}
+          <div class="ov-tmdb-info">
+            <span class="ov-tmdb-badge forced">Override: TMDB #${c.tmdbId}${c.mediaType === 'tv' ? ' (TV)' : ''}</span>
+            <div class="ov-tmdb-name">${esc(o.name)}</div>
+            ${releaseYear ? `<div class="ov-tmdb-year">${releaseYear}</div>` : ''}
+            ${c.genres?.length ? `<div class="ov-tmdb-genres">${c.genres.slice(0, 3).map(esc).join(' · ')}</div>` : ''}
+            <a class="ov-tmdb-link" href="https://www.themoviedb.org/${tmdbPath}" target="_blank" rel="noopener">View on TMDB ↗</a>
+          </div>`;
+      } else {
+        tmdbWrap.innerHTML = `
+          <div class="ov-tmdb-poster-ph">?</div>
+          <div class="ov-tmdb-info">
+            <span class="ov-tmdb-badge forced">TMDB #${ov.id} (${ov.type})</span>
+            <div class="ov-tmdb-year" style="margin-top:4px">Data loading…</div>
+          </div>`;
+      }
+
+      // Actions
+      const actions = document.createElement('div');
+      actions.className = 'ov-actions';
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'btn btn-ghost btn-sm';
+      editBtn.textContent = 'Edit';
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'btn btn-ghost btn-sm';
+      removeBtn.style.color = 'var(--love)';
+      removeBtn.textContent = 'Remove';
+
+      actions.appendChild(editBtn);
+      actions.appendChild(removeBtn);
+
+      // Edit form (hidden)
+      const editForm = document.createElement('div');
+      editForm.className = 'ov-edit-form hidden';
+      editForm.innerHTML = `
+        <input type="text" class="ov-edit-input" placeholder="TMDB URL or ID (e.g. themoviedb.org/tv/123)">
+        <a class="ov-edit-search" href="https://www.themoviedb.org/search?query=${encodeURIComponent(o.name)}" target="_blank" rel="noopener">Search TMDB ↗</a>
+        <button class="btn btn-primary btn-sm ov-save-btn">Save</button>
+        <button class="btn btn-ghost btn-sm ov-skip-btn">Not on TMDB</button>
+        <button class="btn btn-ghost btn-sm ov-cancel-btn">Cancel</button>`;
+
+      wrap.appendChild(lbxd);
+      wrap.appendChild(arrow);
+      wrap.appendChild(tmdbWrap);
+      wrap.appendChild(actions);
+      wrap.appendChild(editForm);
+
+      // Wire events
+      editBtn.addEventListener('click', () => {
+        editForm.classList.toggle('hidden');
+        editForm.querySelector('.ov-edit-input').focus();
+      });
+
+      editForm.querySelector('.ov-cancel-btn').addEventListener('click', () => {
+        editForm.classList.add('hidden');
+      });
+
+      async function applyOverride(body) {
+        editBtn.disabled = true; removeBtn.disabled = true;
+        try {
+          await fetch('/api/overrides', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          });
+          await load(); // reload entire list
+        } catch { editBtn.disabled = false; removeBtn.disabled = false; }
+      }
+
+      editForm.querySelector('.ov-save-btn').addEventListener('click', () => {
+        const raw = editForm.querySelector('.ov-edit-input').value.trim();
+        const match = raw.match(/\/(movie|tv)\/(\d+)/);
+        const mediaType = match ? match[1] : 'movie';
+        const id = match ? parseInt(match[2]) : parseInt(raw);
+        if (!id) return;
+        applyOverride({ uri: o.uri, tmdbId: id, mediaType });
+      });
+
+      editForm.querySelector('.ov-skip-btn').addEventListener('click', () => {
+        applyOverride({ uri: o.uri, tmdbId: null });
+      });
+
+      removeBtn.addEventListener('click', () => {
+        if (!confirm(`Remove override for "${o.name}"? The movie will be re-matched automatically.`)) return;
+        applyOverride({ uri: o.uri, clear: true });
+      });
+
+      return wrap;
+    }
+
+    function esc(s) {
+      return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Fallback for poster images
+    document.addEventListener('error', e => {
+      const img = e.target;
+      if (img.tagName !== 'IMG') return;
+      if (img.dataset.cdn) { img.src = img.dataset.cdn; delete img.dataset.cdn; }
+      else if (img.dataset.name) { img.style.display = 'none'; }
+    }, true);
+
+    load();
+  </script>
+</body>
+</html>

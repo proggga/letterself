@@ -1574,7 +1574,7 @@ app.get('/api/analytics', (req, res) => {
     .map(toRecentMovie)
     .filter(m => m.voteCount >= MAINSTREAM_MIN_VOTES)
     .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))
-    .slice(0, 10);
+    .slice(0, 12);
 
   const rarePool = recentEntries.slice(0, 100)
     .map(toRecentMovie)
@@ -1584,7 +1584,7 @@ app.get('/api/analytics', (req, res) => {
   const rarestGems = rarePool
     .filter(m => m.voteCount <= rareCutoff)
     .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))
-    .slice(0, 10);
+    .slice(0, 12);
 
   // ── Year progress (YTD from Jan 1)
   const now = new Date();
