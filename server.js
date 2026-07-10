@@ -1576,9 +1576,14 @@ app.get('/api/analytics', (req, res) => {
     .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))
     .slice(0, 12);
 
+  const currentYear = new Date().getFullYear();
+  const RARE_GEM_MIN_AGE_YEARS = 2; // skip recent releases — TMDB votes haven't settled yet
+  const rareGemMaxYear = currentYear - RARE_GEM_MIN_AGE_YEARS;
+  const isMatureGem = (m) => !m.year || m.year <= rareGemMaxYear;
+
   const rarePool = recentEntries.slice(0, 100)
     .map(toRecentMovie)
-    .filter(m => m.voteCount > 0);
+    .filter(m => m.voteCount > 0 && isMatureGem(m));
   const rareVotes = rarePool.map(m => m.voteCount).sort((a, b) => a - b);
   const rareCutoff = rareVotes[Math.floor(rareVotes.length * 0.25)] || 0;
   const RARE_GEM_SKIP = new Set([
@@ -1623,6 +1628,110 @@ app.get('/api/analytics', (req, res) => {
     totalWithRepeats: totalYtd,
     avgPerDay,
     hoursWatched: Math.round(ytdMinutes / 60),
+  };
+
+  // ── Year highlights: diary milestones + weekly pace
+  const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const shortDate = (dateStr) => {
+    if (!dateStr || dateStr.length < 10) return '';
+    return `${MONTH_SHORT[parseInt(dateStr.slice(5, 7), 10) - 1]} ${parseInt(dateStr.slice(8, 10), 10)}`;
+  };
+  const weekRangeLabel = (start, end) => {
+    const sm = MONTH_SHORT[parseInt(start.slice(5, 7), 10) - 1];
+    const em = MONTH_SHORT[parseInt(end.slice(5, 7), 10) - 1];
+    const sd = parseInt(start.slice(8, 10), 10);
+    const ed = parseInt(end.slice(8, 10), 10);
+    return sm === em ? `${sm} ${sd}—${ed}` : `${sm} ${sd}—${em} ${ed}`;
+  };
+  const isoWeekOf = (dateStr) => {
+    const d = new Date(dateStr + 'T12:00:00');
+    const target = new Date(d);
+    const dayNr = (d.getDay() + 6) % 7;
+    target.setDate(d.getDate() - dayNr + 3);
+    const firstThu = new Date(target.getFullYear(), 0, 4);
+    const week = 1 + Math.round((target - firstThu) / (7 * 86400000));
+    let yr = target.getFullYear();
+    if (d.getMonth() === 0 && week > 50) yr = d.getFullYear();
+    if (d.getMonth() === 11 && week === 1) yr = d.getFullYear();
+    return { year: yr, week };
+  };
+  const isoWeekRange = (yr, week) => {
+    const jan4 = new Date(yr, 0, 4);
+    const week1Mon = new Date(jan4);
+    week1Mon.setDate(jan4.getDate() - ((jan4.getDay() + 6) % 7));
+    const start = new Date(week1Mon);
+    start.setDate(week1Mon.getDate() + (week - 1) * 7);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    const fmt = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+    return { start: fmt(start), end: fmt(end) };
+  };
+
+  const ytdSorted = [...ytdDiary].sort((a, b) =>
+    (a['Watched Date'] || a['Date'] || '').localeCompare(b['Watched Date'] || b['Date'] || ''));
+  const ordinal = (n) => {
+    if (n % 100 >= 11 && n % 100 <= 13) return `${n}th`;
+    return `${n}${{ 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th'}`;
+  };
+  const toMilestoneEntry = (e, n, label, kind) => {
+    const filmYear = parseInt(e['Year']) || 0;
+    const c = filmCache[filmKey(e['Name'], filmYear)] || {};
+    const watchedDate = e['Watched Date'] || e['Date'] || '';
+    return {
+      n, label, kind, name: e['Name'], year: filmYear, watchedDate,
+      dateLabel: shortDate(watchedDate),
+      posterPath: c.posterPath ?? null,
+      tmdbId: c.tmdbId ?? null,
+    };
+  };
+  const MILESTONE_EVERY = 50;
+  const diaryMilestones = [];
+  const milestoneNs = new Set();
+  if (ytdSorted.length > 0) {
+    diaryMilestones.push(toMilestoneEntry(ytdSorted[0], 1, '1st', 'first'));
+    milestoneNs.add(1);
+  }
+  for (let n = MILESTONE_EVERY; n <= ytdSorted.length; n += MILESTONE_EVERY) {
+    diaryMilestones.push(toMilestoneEntry(ytdSorted[n - 1], n, ordinal(n), 'interval'));
+    milestoneNs.add(n);
+  }
+  const lastN = ytdSorted.length;
+  if (lastN > 1 && !milestoneNs.has(lastN)) {
+    diaryMilestones.push(toMilestoneEntry(ytdSorted[lastN - 1], lastN, 'Last', 'last'));
+  }
+
+  const weekCounts = {};
+  ytdSorted.forEach(e => {
+    const date = e['Watched Date'] || e['Date'];
+    if (!date) return;
+    const { year: wy, week } = isoWeekOf(date);
+    if (wy !== year) return;
+    weekCounts[week] = (weekCounts[week] || 0) + 1;
+  });
+  let peakWeek = 0, peakCount = 0;
+  const weeklyWatches = [];
+  for (let w = 1; w <= 52; w++) {
+    const count = weekCounts[w] || 0;
+    const range = isoWeekRange(year, w);
+    if (count > peakCount) { peakCount = count; peakWeek = w; }
+    weeklyWatches.push({ week: w, count, start: range.start, end: range.end, isPeak: false });
+  }
+  if (peakCount > 0) {
+    const peak = weeklyWatches.find(w => w.week === peakWeek);
+    if (peak) peak.isPeak = true;
+  }
+  const busiestWeek = peakCount > 0 ? {
+    week: peakWeek,
+    count: peakCount,
+    ...isoWeekRange(year, peakWeek),
+    rangeLabel: weekRangeLabel(isoWeekRange(year, peakWeek).start, isoWeekRange(year, peakWeek).end),
+  } : null;
+
+  const yearHighlights = {
+    year,
+    milestones: diaryMilestones,
+    weeklyWatches,
+    busiestWeek,
   };
 
   // ── Film length buckets (enriched rated movies)
@@ -1799,7 +1908,9 @@ app.get('/api/analytics', (req, res) => {
     rewatches,
     recentPopular,
     rarestGems,
+    rareGemMinAgeYears: RARE_GEM_MIN_AGE_YEARS,
     yearProgress,
+    yearHighlights,
     watchlistEta: {
       remaining:   remaining.length,
       hoursLeft:   watchlistHoursLeft,

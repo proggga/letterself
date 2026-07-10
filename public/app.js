@@ -102,6 +102,19 @@ function finishTime(totalMins) {
 function initials(name) {
   return (name || '?').split(' ').slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '?';
 }
+function splitEvenRows(items, maxPerRow) {
+  const n = items.length;
+  if (n <= maxPerRow) return [items];
+  for (let rowCount = 2; rowCount <= n; rowCount++) {
+    const perRow = Math.ceil(n / rowCount);
+    if (perRow <= maxPerRow) {
+      const rows = [];
+      for (let i = 0; i < n; i += perRow) rows.push(items.slice(i, i + perRow));
+      return rows;
+    }
+  }
+  return [items];
+}
 
 // ── API ───────────────────────────────────────────────────────────────────────
 async function api(path) {
@@ -1552,7 +1565,7 @@ function renderStats(d) {
   const body = document.getElementById('stats-body');
   const { overview, decades, genres, countries, languages, divergence, pace, seasonal,
           popularityTiers, lengthBuckets, tasteProfile, diaryTotal, totalRewatches, rewatches,
-          recentPopular, rarestGems, yearProgress,
+          recentPopular, rarestGems, yearProgress, yearHighlights, rareGemMinAgeYears,
           watchlistEta, radarChart, directorSpotlight, ratingEvolution, genreDecadeHeatmap } = d;
 
   // ── Overview cards
@@ -1727,6 +1740,41 @@ function renderStats(d) {
   const recentPopularHTML = (recentPopular||[]).map(m => mkRecentItem(m)).join('');
   const rarestGemsHTML = (rarestGems||[]).map(m => mkRecentItem(m)).join('');
 
+  // ── Year highlights — milestones + busiest week
+  const yh = yearHighlights;
+  const mkMilestoneItem = (m) => {
+    const pAttrs = posterAttrs(m, 'w154');
+    return `
+    <div class="milestone-item${m.kind ? ` milestone-${m.kind}` : ''}" title="${esc(m.name)} (${m.year})">
+      ${pAttrs
+        ? `<img class="milestone-poster" ${pAttrs} alt="${esc(m.name)}" loading="lazy">`
+        : `<div class="milestone-poster milestone-poster-ph">${initials(m.name)}</div>`}
+      <div class="milestone-label">${m.label}</div>
+      <div class="milestone-date">${m.dateLabel}</div>
+    </div>`;
+  };
+  const statsBodyEl = document.getElementById('stats-body');
+  const milestoneMaxPerRow = Math.max(3, Math.floor(((statsBodyEl?.clientWidth || 1100) - 48) / 112));
+  const milestoneRows = splitEvenRows(yh?.milestones || [], milestoneMaxPerRow);
+  const milestonesHTML = milestoneRows.map(row =>
+    `<div class="milestone-row" style="--milestone-cols:${row.length}">${row.map(mkMilestoneItem).join('')}</div>`
+  ).join('');
+  const weekMax = Math.max(...(yh?.weeklyWatches || []).map(w => w.count), 1);
+  const weekBarsHTML = (yh?.weeklyWatches || []).map(w => {
+    const h = Math.max(Math.round(w.count / weekMax * 88), w.count ? 3 : 1);
+    const callout = w.isPeak && yh?.busiestWeek ? `
+      <div class="week-peak-callout">
+        <div class="week-peak-num">${w.count} films</div>
+        <div class="week-peak-meta">Week ${w.week}</div>
+        <div class="week-peak-range">${yh.busiestWeek.rangeLabel}</div>
+      </div>` : '';
+    return `
+    <div class="week-bar-wrap" title="Week ${w.week}: ${w.count} films">
+      ${callout}
+      <div class="week-bar${w.isPeak ? ' peak' : ''}" style="height:${h}px"></div>
+    </div>`;
+  }).join('');
+
   // ── Taste profile
   const tasteGenHTML  = tasteProfile.topGenres.map(x => `<div class="taste-chip">${esc(x.genre)} <span class="taste-chip-score">★${x.score}</span></div>`).join('');
   const tasteDecHTML  = tasteProfile.topDecades.map(x => `<div class="taste-chip">${x.decade}s <span class="taste-chip-score">★${x.score}</span></div>`).join('');
@@ -1847,6 +1895,23 @@ function renderStats(d) {
       </div>
     </div>` : ''}
 
+    ${yh?.milestones?.length ? `
+    <div class="stats-section">
+      <div class="stats-section-title">Diary milestones — ${yh.year}</div>
+      <div class="milestone-grid">${milestonesHTML}</div>
+    </div>` : ''}
+
+    ${yh?.weeklyWatches?.length ? `
+    <div class="stats-section">
+      <div class="stats-section-title">Most watched week of ${yh.year}</div>
+      <div class="week-chart">
+        <div class="week-bars">${weekBarsHTML}</div>
+        <div class="week-months">
+          <span>Jan</span><span>Apr</span><span>Jul</span><span>Oct</span>
+        </div>
+      </div>
+    </div>` : ''}
+
     ${watchlistEta ? `
     <div class="stats-section">
       <div class="stats-section-title">Watchlist countdown</div>
@@ -1883,7 +1948,7 @@ function renderStats(d) {
         <div class="recent-watches-col">
           <div class="recent-watches-heading">
             <div class="divergence-col-title gem">💎 Rarest gems</div>
-            <div class="recent-watches-caption">Bottom 25% votes · last 100 · newest first</div>
+            <div class="recent-watches-caption">Bottom 25% votes · last 100 · ${rareGemMinAgeYears ?? 2}+ yrs old · newest first</div>
           </div>
           <div class="recent-poster-grid">${rarestGemsHTML || '<div class="recent-watches-empty">Need diary + TMDB data</div>'}</div>
         </div>
