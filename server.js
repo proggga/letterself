@@ -1581,10 +1581,23 @@ app.get('/api/analytics', (req, res) => {
     .filter(m => m.voteCount > 0);
   const rareVotes = rarePool.map(m => m.voteCount).sort((a, b) => a - b);
   const rareCutoff = rareVotes[Math.floor(rareVotes.length * 0.25)] || 0;
-  const rarestGems = rarePool
-    .filter(m => m.voteCount <= rareCutoff)
-    .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))
-    .slice(0, 12);
+  const RARE_GEM_SKIP = new Set([
+    'Disclosure Day',      // Spielberg — TMDB votes still low / wrong match
+    'Fanny and Alexander', // classic — TMDB undercount
+  ]);
+  const rarestGems = [];
+  const rarePicked = new Set();
+  for (const m of rarePool.filter(x => x.voteCount <= rareCutoff && !RARE_GEM_SKIP.has(x.name))
+    .sort((a, b) => b.watchedDate.localeCompare(a.watchedDate))) {
+    if (rarestGems.length >= 12) break;
+    rarestGems.push(m);
+    rarePicked.add(m.name);
+  }
+  for (const m of rarePool.filter(x => !rarePicked.has(x.name) && !RARE_GEM_SKIP.has(x.name))
+    .sort((a, b) => a.voteCount - b.voteCount || b.watchedDate.localeCompare(a.watchedDate))) {
+    if (rarestGems.length >= 12) break;
+    rarestGems.push(m);
+  }
 
   // ── Year progress (YTD from Jan 1)
   const now = new Date();

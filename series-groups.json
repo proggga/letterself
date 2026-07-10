@@ -1,0 +1,18 @@
+{
+  "_comment": "Series grouping config. Key = prefix used in Letterboxd episode titles. tmdbTvId = TMDB TV show ID.",
+  "Black Mirror": {
+    "tmdbTvId": 42009
+  },
+  "Secret Level": {
+    "tmdbTvId": 261579
+  },
+  "Gen V": {
+    "tmdbTvId": 205715
+  },
+  "Guillermo del Toro's Cabinet of Curiosities": {
+    "tmdbTvId": 83659
+  },
+  "Love, Death & Robots": {
+    "tmdbTvId": 86831
+  }
+}

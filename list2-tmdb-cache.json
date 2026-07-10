@@ -1,0 +1,2226 @@
+{
+  "In the Mood for Love:2000": {
+    "tmdbId": 843,
+    "title": "In the Mood for Love",
+    "year": 2000,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "So Long, My Son:2019": {
+    "tmdbId": 493899,
+    "title": "So Long, My Son",
+    "year": 2019,
+    "directors": [
+      "Wang Xiaoshuai"
+    ]
+  },
+  "Chungking Express:1994": {
+    "tmdbId": 11104,
+    "title": "Chungking Express",
+    "year": 1994,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "A Time to Live and a Time to Die:1985": {
+    "tmdbId": 45999,
+    "title": "The Time to Live and the Time to Die",
+    "year": 1985,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "Spring in a Small Town:1948": {
+    "tmdbId": 21058,
+    "title": "Spring in a Small Town",
+    "year": 1948,
+    "directors": [
+      "Fei Mu"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "An Elephant Sitting Still:2018": {
+    "tmdbId": 499556,
+    "title": "An Elephant Sitting Still",
+    "year": 2018,
+    "directors": [
+      "Hu Bo"
+    ]
+  },
+  "A Brighter Summer Day:1991": {
+    "tmdbId": 15804,
+    "title": "A Brighter Summer Day",
+    "year": 1991,
+    "directors": [
+      "Edward Yang"
+    ]
+  },
+  "Yi Yi:2000": {
+    "tmdbId": 25538,
+    "title": "Yi Yi",
+    "year": 2000,
+    "directors": [
+      "Edward Yang"
+    ]
+  },
+  "The Goddess:1934": {
+    "tmdbId": 112698,
+    "title": "The Goddess",
+    "year": 1934,
+    "directors": [
+      "Wu Yonggang"
+    ]
+  },
+  "Raise the Red Lantern:1991": {
+    "tmdbId": 10404,
+    "title": "Raise the Red Lantern",
+    "year": 1991,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Dragon Inn:1967": {
+    "tmdbId": 104237,
+    "title": "Dragon Inn",
+    "year": 1967,
+    "directors": [
+      "King Hu"
+    ]
+  },
+  "Street Angel:1937": {
+    "tmdbId": 112699,
+    "title": "Street Angel",
+    "year": 1937,
+    "directors": [
+      "Muzhi Yuan"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Daybreak:1933": {
+    "tmdbId": 163802,
+    "title": "Daybreak",
+    "year": 1933,
+    "directors": [
+      "Sun Yu"
+    ]
+  },
+  "The Terrorizers:1986": {
+    "tmdbId": 78450,
+    "title": "Terrorizers",
+    "year": 1986,
+    "directors": [
+      "Edward Yang"
+    ]
+  },
+  "A Summer at Grandpa's:1984": {
+    "tmdbId": 92989,
+    "title": "A Summer at Grandpa's",
+    "year": 1984,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "My Memories of Old Beijing:1983": {
+    "tmdbId": 195237,
+    "title": "My Memories of Old Beijing",
+    "year": 1983,
+    "directors": [
+      "Wu Yigong"
+    ]
+  },
+  "The Spring River Flows East:1947": {
+    "tmdbId": 140260,
+    "title": "The Spring River Flows East",
+    "year": 1947,
+    "directors": [
+      "Chusheng Cai",
+      "Zheng Jun-li"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "A City of Sadness:1989": {
+    "tmdbId": 49982,
+    "title": "A City of Sadness",
+    "year": 1989,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "Days of Being Wild:1990": {
+    "tmdbId": 18311,
+    "title": "Days of Being Wild",
+    "year": 1990,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "Two Stage Sisters:1965": {
+    "tmdbId": 154633,
+    "title": "Two Stage Sisters",
+    "year": 1964,
+    "directors": [
+      "Xie Jin"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Center Stage:1991": {
+    "tmdbId": 68004,
+    "title": "Center Stage",
+    "year": 1991,
+    "directors": [
+      "Stanley Kwan Kam-Pang"
+    ]
+  },
+  "Red Sorghum:1987": {
+    "tmdbId": 42006,
+    "title": "Red Sorghum",
+    "year": 1988,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "The Puppetmaster:1993": {
+    "tmdbId": 96712,
+    "title": "The Puppetmaster",
+    "year": 1993,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "The Day the Sun Turned Cold:1994": {
+    "tmdbId": 48144,
+    "title": "The Day the Sun Turned Cold",
+    "year": 1994,
+    "directors": [
+      "Yim Ho"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "A Touch of Zen:1971": {
+    "tmdbId": 44154,
+    "title": "A Touch of Zen",
+    "year": 1970,
+    "directors": [
+      "King Hu"
+    ]
+  },
+  "Farewell My Concubine:1993": {
+    "tmdbId": 10997,
+    "title": "Farewell My Concubine",
+    "year": 1993,
+    "directors": [
+      "Chen Kaige"
+    ]
+  },
+  "In the Heat of the Sun:1994": {
+    "tmdbId": 161285,
+    "title": "In the Heat of the Sun",
+    "year": 1994,
+    "directors": [
+      "Jiang Wen"
+    ]
+  },
+  "To Live:1994": {
+    "tmdbId": 31439,
+    "title": "To Live",
+    "year": 1994,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Fallen Angels:1995": {
+    "tmdbId": 11220,
+    "title": "Fallen Angels",
+    "year": 1995,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "Yellow Earth:1984": {
+    "tmdbId": 92990,
+    "title": "Yellow Earth",
+    "year": 1984,
+    "directors": [
+      "Chen Kaige"
+    ]
+  },
+  "Crouching Tiger, Hidden Dragon:2000": {
+    "tmdbId": 146,
+    "title": "Crouching Tiger, Hidden Dragon",
+    "year": 2000,
+    "directors": [
+      "Ang Lee"
+    ]
+  },
+  "Rebels of the Neon God:1992": {
+    "tmdbId": 57564,
+    "title": "Rebels of the Neon God",
+    "year": 1994,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "The Blue Kite:1993": {
+    "tmdbId": 44162,
+    "title": "The Blue Kite",
+    "year": 1994,
+    "directors": [
+      "Tian Zhuangzhuang"
+    ]
+  },
+  "Eat Drink Man Woman:1994": {
+    "tmdbId": 10451,
+    "title": "Eat Drink Man Woman",
+    "year": 1994,
+    "directors": [
+      "Ang Lee"
+    ]
+  },
+  "Tie Xi Qu: West of the Tracks - Part 3: Rails:2002": {
+    "excluded": true
+  },
+  "Tie Xi Qu: West of the Tracks - Part 2: Remnants:2002": {
+    "excluded": true
+  },
+  "Devils on the Doorstep:2000": {
+    "tmdbId": 25838,
+    "title": "Devils on the Doorstep",
+    "year": 2001,
+    "directors": [
+      "Jiang Wen"
+    ]
+  },
+  "Platform:2000": {
+    "tmdbId": 80427,
+    "title": "Platform",
+    "year": 2001,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "Still Life:2006": {
+    "tmdbId": 2346,
+    "title": "Still Life",
+    "year": 2006,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "Oxhide II:2009": {
+    "tmdbId": 119746,
+    "title": "Oxhide II",
+    "year": 2009,
+    "directors": [
+      "Liu Jiayin"
+    ]
+  },
+  "2046:2004": {
+    "tmdbId": 844,
+    "title": "2046",
+    "year": 2004,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "Three Sisters:2012": {
+    "tmdbId": 128230,
+    "title": "Three Sisters",
+    "year": 2012,
+    "directors": [
+      "Wang Bing"
+    ]
+  },
+  "What Time Is It There?:2001": {
+    "tmdbId": 24166,
+    "title": "What Time Is It There?",
+    "year": 2001,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "A Touch of Sin:2013": {
+    "tmdbId": 187022,
+    "title": "A Touch of Sin",
+    "year": 2013,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "The Assassin:2015": {
+    "tmdbId": 253450,
+    "title": "The Assassin",
+    "year": 2015,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "Romance of a Fruit Peddler:1922": {
+    "tmdbId": 175602,
+    "title": "Romance of a Fruit Peddler",
+    "year": 1922,
+    "directors": [
+      "Shichuan Zhang"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "The Burning of the Red Lotus Temple:1928": {
+    "tmdbId": 342217,
+    "title": "Burning of the Red Lotus Monastery",
+    "year": 1928,
+    "directors": [
+      "Shichuan Zhang"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Red Heroine:1929": {
+    "tmdbId": 267384,
+    "title": "Red Heroine",
+    "year": 1929,
+    "directors": [
+      "Wen Yi-Min"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "The Peach Girl:1931": {
+    "tmdbId": 99679,
+    "title": "The Peach Girl",
+    "year": 1931,
+    "directors": [
+      "Bu Wan-Cang"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Tie Xi Qu: West of the Tracks - Part 1: Rust:2002": {
+    "tmdbId": 86282,
+    "outputTitle": "Tie Xi Qu: West of the Tracks",
+    "outputReview": "#38–40 · China",
+    "title": "Tie Xi Qu: West of the Tracks",
+    "year": 2004,
+    "directors": [
+      "Wang Bing"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Spring Silkworms:1933": {
+    "tmdbId": 202606,
+    "title": "Spring Silkworms",
+    "year": 1933,
+    "directors": [
+      "Bugao Cheng"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Goodbye, Dragon Inn:2003": {
+    "tmdbId": 56616,
+    "title": "Goodbye, Dragon Inn",
+    "year": 2003,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "Little Toys:1933": {
+    "tmdbId": 141906,
+    "title": "Playthings",
+    "year": 1933,
+    "directors": [
+      "Sun Yu"
+    ]
+  },
+  "Song of the Fishermen:1934": {
+    "tmdbId": 183704,
+    "title": "Song of the Fishermen",
+    "year": 1934,
+    "directors": [
+      "Chusheng Cai"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Romance of the West Chamber:1927": {
+    "tmdbId": 150198,
+    "title": "Way Down West",
+    "year": 1927,
+    "directors": [
+      "Hou Yao"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "The Big Road:1935": {
+    "tmdbId": 151243,
+    "title": "The Big Road",
+    "year": 1935,
+    "directors": [
+      "Sun Yu"
+    ]
+  },
+  "Scenes of City Life:1935": {
+    "tmdbId": 193242,
+    "title": "Scenes of City Life",
+    "year": 1935,
+    "directors": [
+      "Muzhi Yuan"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Princess Iron Fan:1941": {
+    "tmdbId": 76737,
+    "title": "Princess Iron Fan",
+    "year": 1941,
+    "directors": [
+      "Wan Laiming",
+      "Guchan Wan"
+    ]
+  },
+  "Crows and Sparrows:1949": {
+    "tmdbId": 100914,
+    "title": "Crows and Sparrows",
+    "year": 1949,
+    "directors": [
+      "Zheng Jun-li"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Cold Nights:1955": {
+    "tmdbId": 176323,
+    "title": "Cold Nights",
+    "year": 1955,
+    "directors": [
+      "Lee Sun-fung"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "New Woman:1935": {
+    "tmdbId": 150314,
+    "title": "New Women",
+    "year": 1935,
+    "directors": [
+      "Chusheng Cai"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Kingdom and the Beauty:1959": {
+    "tmdbId": 176230,
+    "title": "The Kingdom and the Beauty",
+    "year": 1959,
+    "directors": [
+      "Li Han-Hsiang"
+    ]
+  },
+  "The Lin Family Shop:1959": {
+    "tmdbId": 176679,
+    "title": "The Lin Family Shop",
+    "year": 1959,
+    "directors": [
+      "Choui Khoua"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "This Life of Mine:1950": {
+    "tmdbId": 176228,
+    "title": "This Life of Mine",
+    "year": 1950,
+    "directors": [
+      "Shi Hui"
+    ]
+  },
+  "The Purple Hairpin:1959": {
+    "tmdbId": 176313,
+    "title": "The Legend of Purple Hairpin",
+    "year": 1959,
+    "directors": [
+      "Lee Tit"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "The Great Devotion:1960": {
+    "tmdbId": 176617,
+    "title": "The Great Devotion",
+    "year": 1960,
+    "directors": [
+      "Chor Yuen"
+    ]
+  },
+  "The Wild, Wild Rose:1960": {
+    "tmdbId": 157244,
+    "title": "The Wild, Wild Rose",
+    "year": 1960,
+    "directors": [
+      "Wong Tin-Lam"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "In the Face of Demolition:1953": {
+    "tmdbId": 176212,
+    "title": "In the Face of Demolition",
+    "year": 1953,
+    "directors": [
+      "Lee Tit"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "The Red Detachment of Women:1961": {
+    "tmdbId": 184868,
+    "title": "The Red Detachment of Women",
+    "year": 1961,
+    "directors": [
+      "Xie Jin"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Big Li, Little Li and Old Li:1962": {
+    "tmdbId": 320166,
+    "title": "Big Li, Little Li and Old Li",
+    "year": 1962,
+    "directors": [
+      "Xie Jin"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Song at Midnight:1937": {
+    "tmdbId": 30992,
+    "title": "Song at Midnight",
+    "year": 1937,
+    "directors": [
+      "Weibang Ma-Xu"
+    ]
+  },
+  "The Love Eterne:1963": {
+    "tmdbId": 107248,
+    "title": "The Love Eterne",
+    "year": 1963,
+    "directors": [
+      "Li Han-Hsiang"
+    ]
+  },
+  "Sorrows of the Forbidden City:1948": {
+    "tmdbId": 176220,
+    "title": "Sorrows of the Forbidden City",
+    "year": 1948,
+    "directors": [
+      "Zhu Shilin"
+    ]
+  },
+  "Early Spring:1963": {
+    "tmdbId": 176673,
+    "title": "Early Spring",
+    "year": 1963,
+    "directors": [
+      "Xie Tieli"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "The One-Armed Swordsman:1967": {
+    "tmdbId": 54178,
+    "title": "The One-Armed Swordsman",
+    "year": 1967,
+    "directors": [
+      "Chang Cheh"
+    ]
+  },
+  "The Arch:1969": {
+    "tmdbId": 157243,
+    "title": "The Arch",
+    "year": 1969,
+    "directors": [
+      "Tang Shu-Shuen"
+    ]
+  },
+  "The Story of a Discharged Prisoner:1967": {
+    "tmdbId": 157252,
+    "title": "The Story of a Discharged Prisoner",
+    "year": 1967,
+    "directors": [
+      "Patrick Lung Kong"
+    ]
+  },
+  "At Dawn:1967": {
+    "tmdbId": 176325,
+    "title": "At Dawn",
+    "year": 1968,
+    "directors": [
+      "Li Han-Hsiang",
+      "Sung Tsun Shou"
+    ]
+  },
+  "The Winter:1969": {
+    "tmdbId": 176231,
+    "title": "The Winter",
+    "year": 1969,
+    "directors": [
+      "Li Han-Hsiang"
+    ]
+  },
+  "Four Moods:1970": {
+    "tmdbId": 287584,
+    "title": "Four Moods",
+    "year": 1970,
+    "directors": [
+      "Lee Hsing",
+      "King Hu",
+      "Pai Ching-jui",
+      "Li Han-Hsiang"
+    ]
+  },
+  "The Boxer from Shantung:1972": {
+    "tmdbId": 50569,
+    "title": "The Boxer from Shantung",
+    "year": 1972,
+    "directors": [
+      "Chang Cheh",
+      "Pao Hsueh-Li"
+    ]
+  },
+  "Execution in Autumn:1972": {
+    "tmdbId": 176633,
+    "title": "Execution in Autumn",
+    "year": 1972,
+    "directors": [
+      "Lee Hsing"
+    ]
+  },
+  "Intimate Confessions of a Chinese Courtesan:1972": {
+    "tmdbId": 46957,
+    "title": "Intimate Confessions of a Chinese Courtesan",
+    "year": 1972,
+    "directors": [
+      "Chor Yuen"
+    ]
+  },
+  "The 36th Chamber of Shaolin:1978": {
+    "tmdbId": 11841,
+    "title": "The 36th Chamber of Shaolin",
+    "year": 1978,
+    "directors": [
+      "Lau Kar-Leung"
+    ]
+  },
+  "The Butterfly Murders:1979": {
+    "tmdbId": 44914,
+    "title": "The Butterfly Murders",
+    "year": 1979,
+    "directors": [
+      "Tsui Hark"
+    ]
+  },
+  "City without Night:1957": {
+    "tmdbId": 440351,
+    "title": "City Without Nights",
+    "year": 1957,
+    "directors": [
+      "Xiaodan Tang"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Dirty Ho:1979": {
+    "tmdbId": 54182,
+    "title": "Dirty Ho",
+    "year": 1979,
+    "directors": [
+      "Lau Kar-Leung"
+    ]
+  },
+  "Fist of Fury | The Chinese Connection:1972": {
+    "tmdbId": 11713,
+    "title": "Fist of Fury",
+    "year": 1972,
+    "directors": [
+      "Lo Wei"
+    ]
+  },
+  "Evening Rain:1980": {
+    "tmdbId": 259034,
+    "title": "Evening Rain",
+    "year": 1980,
+    "directors": [
+      "Wu Yonggang",
+      "Wu Yigong"
+    ]
+  },
+  "Raining in the Mountain:1979": {
+    "tmdbId": 76294,
+    "title": "Raining in the Mountain",
+    "year": 1979,
+    "directors": [
+      "King Hu"
+    ]
+  },
+  "Legend of the Mountain:1979": {
+    "tmdbId": 191531,
+    "title": "Legend of the Mountain",
+    "year": 1979,
+    "directors": [
+      "King Hu"
+    ]
+  },
+  "The Alley:1981": {
+    "tmdbId": 256129,
+    "title": "The Alley",
+    "year": 1981,
+    "directors": [
+      "Yang Yanjin"
+    ]
+  },
+  "Heroes of the East:1978": {
+    "tmdbId": 40980,
+    "title": "Heroes of the East",
+    "year": 1978,
+    "directors": [
+      "Lau Kar-Leung"
+    ]
+  },
+  "Father and Son:1981": {
+    "tmdbId": 176213,
+    "title": "Father and Son",
+    "year": 1981,
+    "directors": [
+      "Allen Fong"
+    ]
+  },
+  "Boat People:1982": {
+    "tmdbId": 72445,
+    "title": "Boat People",
+    "year": 1982,
+    "directors": [
+      "Ann Hui"
+    ]
+  },
+  "How Yukong Moved the Mountains:1976": {
+    "tmdbId": 129666,
+    "title": "How Yukong Moved the Mountains",
+    "year": 1976,
+    "directors": [
+      "Joris Ivens",
+      "Marceline Loridan-Ivens"
+    ]
+  },
+  "Ah Fei:1983": {
+    "tmdbId": 272122,
+    "title": "Ah Fei",
+    "year": 1983,
+    "directors": [
+      "Wan Jen"
+    ]
+  },
+  "Ah Ying:1983": {
+    "tmdbId": 157236,
+    "title": "Ah Ying",
+    "year": 1983,
+    "directors": [
+      "Allen Fong"
+    ]
+  },
+  "The Boys from Fengkuei:1983": {
+    "tmdbId": 105703,
+    "title": "The Boys from Fengkuei",
+    "year": 1983,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "In Our Time:1982": {
+    "tmdbId": 130922,
+    "title": "In Our Time",
+    "year": 1982,
+    "directors": [
+      "Chang Yi",
+      "Ko I-chen",
+      "Jim Tao",
+      "Edward Yang"
+    ]
+  },
+  "That Day, on the Beach:1983": {
+    "tmdbId": 106373,
+    "title": "That Day, on the Beach",
+    "year": 1983,
+    "directors": [
+      "Edward Yang"
+    ]
+  },
+  "Zu: Warriors from the Magic Mountain:1983": {
+    "tmdbId": 38155,
+    "title": "Zu: Warriors from the Magic Mountain",
+    "year": 1983,
+    "directors": [
+      "Tsui Hark"
+    ]
+  },
+  "An Amorous Woman of Tang Dynasty:1984": {
+    "tmdbId": 184068,
+    "title": "An Amorous Woman of Tang Dynasty",
+    "year": 1984,
+    "directors": [
+      "Eddie Fong Ling-Ching"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "At the Beach:1984": {
+    "tmdbId": 449061,
+    "title": "At the Beach",
+    "year": 1984,
+    "directors": [
+      "Teng Wenji"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "The 8 Diagram Pole Fighter:1984": {
+    "tmdbId": 32520,
+    "title": "The 8 Diagram Pole Fighter",
+    "year": 1984,
+    "directors": [
+      "Lau Kar-Leung"
+    ]
+  },
+  "Homecoming:1984": {
+    "tmdbId": 408646,
+    "title": "Prince and the Revolution: The Homecoming",
+    "year": 1983,
+    "directors": [],
+    "countries": []
+  },
+  "River Without Buoys:1984": {
+    "tmdbId": 193698,
+    "title": "The River Without Buoys",
+    "year": 1984,
+    "directors": [
+      "Wu Tianming"
+    ]
+  },
+  "Shanghai Blues:1984": {
+    "tmdbId": 143479,
+    "title": "Shanghai Blues",
+    "year": 1984,
+    "directors": [
+      "Tsui Hark"
+    ]
+  },
+  "The Sandwich Man:1983": {
+    "tmdbId": 176650,
+    "title": "The Sandwich Man",
+    "year": 1983,
+    "directors": [
+      "Hou Hsiao-hsien",
+      "Wan Jen",
+      "Tseng Chuang-Hsiang"
+    ]
+  },
+  "Taipei Story:1985": {
+    "tmdbId": 106380,
+    "title": "Taipei Story",
+    "year": 1985,
+    "directors": [
+      "Edward Yang"
+    ]
+  },
+  "Growing Up:1983": {
+    "tmdbId": 176656,
+    "title": "Growing Up",
+    "year": 1983,
+    "directors": [
+      "Chen Kun-hou"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "The Horse Thief:1986": {
+    "tmdbId": 42018,
+    "title": "The Horse Thief",
+    "year": 1986,
+    "directors": [
+      "Tian Zhuangzhuang"
+    ]
+  },
+  "A Narrow Lane Celebrity:1985": {
+    "tmdbId": 449063,
+    "title": "A Narrow Lane Celebrity",
+    "year": 1985,
+    "directors": [
+      "Lianwen Cong"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "A Girl from Hunan:1986": {
+    "tmdbId": 244308,
+    "title": "A Girl from Hunan",
+    "year": 1986,
+    "directors": [
+      "Xie Fei",
+      "U Lan"
+    ]
+  },
+  "Kuei-mei, a Woman:1986": {
+    "tmdbId": 256133,
+    "title": "Kuei-mei, a Woman",
+    "year": 1985,
+    "directors": [
+      "Chang Yi"
+    ]
+  },
+  "Wild Mountains:1985": {
+    "tmdbId": 270009,
+    "title": "In the Wild Mountains",
+    "year": 1986,
+    "directors": [
+      "Yan Xueshu"
+    ]
+  },
+  "Hibiscus Town:1986": {
+    "tmdbId": 122973,
+    "title": "Hibiscus Town",
+    "year": 1987,
+    "directors": [
+      "Xie Jin"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Dust in the Wind:1986": {
+    "tmdbId": 45996,
+    "title": "Dust in the Wind",
+    "year": 1986,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "Old Well:1986": {
+    "tmdbId": 127200,
+    "title": "Old Well",
+    "year": 1986,
+    "directors": [
+      "Wu Tianming"
+    ]
+  },
+  "A Better Tomorrow:1986": {
+    "tmdbId": 11471,
+    "title": "A Better Tomorrow",
+    "year": 1986,
+    "directors": [
+      "John Woo"
+    ]
+  },
+  "City on Fire:1987": {
+    "tmdbId": 42120,
+    "title": "City on Fire",
+    "year": 1987,
+    "directors": [
+      "Ringo Lam Ling-Tung"
+    ]
+  },
+  "One and Eight:1983": {
+    "tmdbId": 202515,
+    "title": "One And Eight",
+    "year": 1983,
+    "directors": [
+      "Zhang Junzhao"
+    ]
+  },
+  "An Autumn's Tale:1987": {
+    "tmdbId": 64015,
+    "title": "An Autumn's Tale",
+    "year": 1987,
+    "directors": [
+      "Mabel Cheung Yuen-Ting"
+    ]
+  },
+  "Sacrificed Youth:1985": {
+    "tmdbId": 202514,
+    "title": "Sacrificed Youth",
+    "year": 1985,
+    "directors": [
+      "Zhang Nuanxin"
+    ]
+  },
+  "The Killer:1989": {
+    "tmdbId": 10835,
+    "title": "The Killer",
+    "year": 1989,
+    "directors": [
+      "John Woo"
+    ]
+  },
+  "Rouge:1987": {
+    "tmdbId": 68883,
+    "title": "Rouge",
+    "year": 1987,
+    "directors": [
+      "Stanley Kwan Kam-Pang"
+    ]
+  },
+  "Black Snow:1990": {
+    "tmdbId": 118613,
+    "title": "Black Snow",
+    "year": 1990,
+    "directors": [
+      "Xie Fei"
+    ]
+  },
+  "Bumming in Beijing: The Last Dreamers:1990": {
+    "tmdbId": 139411,
+    "title": "Bumming in Beijing: The Last Dreamers",
+    "year": 1990,
+    "directors": [
+      "Wu Wenguang"
+    ]
+  },
+  "Ju Dou:1990": {
+    "tmdbId": 41821,
+    "title": "Ju Dou",
+    "year": 1990,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Life on a String:1991": {
+    "tmdbId": 41783,
+    "title": "Life on a String",
+    "year": 1991,
+    "directors": [
+      "Chen Kaige"
+    ]
+  },
+  "Banana Paradise:1989": {
+    "tmdbId": 262831,
+    "title": "Banana Paradise",
+    "year": 1989,
+    "directors": [
+      "Wang Tung"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "Secret Love in Peach Blossom Land:1992": {
+    "tmdbId": 202516,
+    "title": "Secret Love in Peach Blossom Land",
+    "year": 1992,
+    "directors": [
+      "Stan Lai"
+    ]
+  },
+  "Autumn Moon:1992": {
+    "tmdbId": 26855,
+    "title": "Autumn Moon",
+    "year": 1992,
+    "directors": [
+      "Clara Law"
+    ]
+  },
+  "Family Portrait:1992": {
+    "tmdbId": 307155,
+    "title": "Family Portrait",
+    "year": 1992,
+    "directors": [
+      "Li Shaohong"
+    ]
+  },
+  "Song of the Exile:1990": {
+    "tmdbId": 41822,
+    "title": "Song of the Exile",
+    "year": 1990,
+    "directors": [
+      "Ann Hui"
+    ]
+  },
+  "The Story of Qiu Ju:1992": {
+    "tmdbId": 38143,
+    "title": "The Story of Qiu Ju",
+    "year": 1992,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Green Snake:1993": {
+    "tmdbId": 39915,
+    "title": "Green Snake",
+    "year": 1993,
+    "directors": [
+      "Tsui Hark"
+    ]
+  },
+  "King of the Children:1987": {
+    "tmdbId": 148597,
+    "title": "King of the Children",
+    "year": 1987,
+    "directors": [
+      "Chen Kaige"
+    ]
+  },
+  "The Days:1993": {
+    "tmdbId": 49927,
+    "title": "The Days",
+    "year": 1994,
+    "directors": [
+      "Wang Xiaoshuai"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "The Women from the Lake of Scented Souls | Woman Sesame Oil Maker:1993": {
+    "tmdbId": 162841,
+    "title": "Women from the Lake of Scented Souls",
+    "year": 1993,
+    "directors": [
+      "Xie Fei"
+    ]
+  },
+  "The Wedding Banquet:1993": {
+    "tmdbId": 9261,
+    "title": "The Wedding Banquet",
+    "year": 1993,
+    "directors": [
+      "Ang Lee"
+    ]
+  },
+  "Ashes of Time:1994": {
+    "tmdbId": 40751,
+    "title": "Ashes of Time",
+    "year": 1994,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "Hill of No Return:1993": {
+    "tmdbId": 176668,
+    "title": "Hill of No Return",
+    "year": 1992,
+    "directors": [
+      "Wang Tung"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "The Red Lotus Society:1994": {
+    "tmdbId": 127001,
+    "title": "Red Lotus Society",
+    "year": 1994,
+    "directors": [
+      "Stan Lai"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "Summer Snow:1994": {
+    "tmdbId": 72507,
+    "title": "Summer Snow",
+    "year": 1995,
+    "directors": [
+      "Ann Hui"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "Feeling from Mountain and Water:1988": {
+    "tmdbId": 195804,
+    "title": "Feeling from Mountain and Water",
+    "year": 1988,
+    "directors": [
+      "Te Wei",
+      "Ma Kexuan",
+      "Yan Shanchun"
+    ]
+  },
+  "Ermo:1994": {
+    "tmdbId": 124468,
+    "title": "Ermo",
+    "year": 1995,
+    "directors": [
+      "Zhou Xiaowen"
+    ],
+    "countries": [
+      "China",
+      "Hong Kong"
+    ]
+  },
+  "A Chinese Odyssey - Part Two: Cinderella:1995": {
+    "tmdbId": 21835,
+    "title": "A Chinese Odyssey Part Two: Cinderella",
+    "year": 1995,
+    "directors": [
+      "Jeffrey Lau Chun-Wai"
+    ]
+  },
+  "A Borrowed Life:1994": {
+    "tmdbId": 163202,
+    "title": "A Borrowed Life",
+    "year": 1995,
+    "directors": [
+      "Wu Nien-jen"
+    ]
+  },
+  "Good Men, Good Women:1995": {
+    "tmdbId": 99600,
+    "title": "Good Men, Good Women",
+    "year": 1995,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "Blush:1994": {
+    "tmdbId": 124609,
+    "title": "Blush",
+    "year": 1996,
+    "directors": [
+      "Li Shaohong"
+    ]
+  },
+  "Postman:1995": {
+    "tmdbId": 237696,
+    "title": "Postman",
+    "year": 1995,
+    "directors": [
+      "He Jianjun"
+    ]
+  },
+  "Siao Yu:1995": {
+    "tmdbId": 238845,
+    "title": "Siao Yu",
+    "year": 1995,
+    "directors": [
+      "Sylvia Chang"
+    ]
+  },
+  "Red Persimmon:1996": {
+    "tmdbId": 262828,
+    "title": "Red Persimmon",
+    "year": 1996,
+    "directors": [
+      "Wang Tung"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "Comrades: Almost a Love Story:1996": {
+    "tmdbId": 37185,
+    "title": "Comrades, Almost a Love Story",
+    "year": 1996,
+    "directors": [
+      "Peter Chan Ho-Sun"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "Made in Hong Kong:1997": {
+    "tmdbId": 26005,
+    "title": "Made in Hong Kong",
+    "year": 1997,
+    "directors": [
+      "Fruit Chan"
+    ],
+    "countries": [
+      "Hong Kong"
+    ]
+  },
+  "The River:1997": {
+    "tmdbId": 54291,
+    "title": "The River",
+    "year": 1997,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "Pickpocket:1997": {
+    "tmdbId": 52103,
+    "title": "Pickpocket",
+    "year": 1997,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "Flowers of Shanghai:1998": {
+    "tmdbId": 45935,
+    "title": "Flowers of Shanghai",
+    "year": 1998,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "The Hole:1998": {
+    "tmdbId": 47060,
+    "title": "The Hole",
+    "year": 1999,
+    "directors": [
+      "Tsai Ming-liang"
+    ],
+    "countries": [
+      "Taiwan",
+      "France"
+    ]
+  },
+  "Darkness and Light:1999": {
+    "tmdbId": 176651,
+    "title": "Darkness and Light",
+    "year": 1999,
+    "directors": [
+      "Chang Tso-chi"
+    ]
+  },
+  "Yang ± Yin: Gender in Chinese Cinema:1996": {
+    "tmdbId": 182820,
+    "title": "Yang ± Yin: Gender in Chinese Cinema",
+    "year": 1998,
+    "directors": [
+      "Stanley Kwan Kam-Pang"
+    ]
+  },
+  "The King of Masks:1996": {
+    "tmdbId": 25471,
+    "title": "The King of Masks",
+    "year": 1995,
+    "directors": [
+      "Wu Tianming"
+    ]
+  },
+  "Frozen:1996": {
+    "tmdbId": 68413,
+    "title": "Frozen",
+    "year": 1996,
+    "directors": [
+      "Wang Xiaoshuai"
+    ]
+  },
+  "Not One Less:1999": {
+    "tmdbId": 36210,
+    "title": "Not One Less",
+    "year": 1999,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Seventeen Years:1999": {
+    "tmdbId": 41455,
+    "title": "Seventeen Years",
+    "year": 1999,
+    "directors": [
+      "Zhang Yuan"
+    ]
+  },
+  "Jiang Hu: Life on the Road:1999": {
+    "tmdbId": 449064,
+    "title": "Jiang Hu: Life on the Road",
+    "year": 1999,
+    "directors": [
+      "Wu Wenguang"
+    ]
+  },
+  "The Mission:1999": {
+    "tmdbId": 45871,
+    "title": "The Mission",
+    "year": 1999,
+    "directors": [
+      "Johnnie To"
+    ]
+  },
+  "Fatal Decision:2000": {
+    "tmdbId": 364542,
+    "title": "Fatal Decision",
+    "year": 2000,
+    "directors": [
+      "Yu Benzheng"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Suzhou River:2000": {
+    "tmdbId": 11599,
+    "title": "Suzhou River",
+    "year": 2000,
+    "directors": [
+      "Lou Ye"
+    ]
+  },
+  "Zhou Yu's Train:2002": {
+    "tmdbId": 61477,
+    "title": "Zhou Yu's Train",
+    "year": 2002,
+    "directors": [
+      "Sun Zhou"
+    ]
+  },
+  "Infernal Affairs:2002": {
+    "tmdbId": 10775,
+    "title": "Infernal Affairs",
+    "year": 2002,
+    "directors": [
+      "Alan Mak Siu-Fai",
+      "Andrew Lau Wai-Keung"
+    ]
+  },
+  "Hero:2002": {
+    "tmdbId": 79,
+    "title": "Hero",
+    "year": 2002,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Railroad of Hope:2002": {
+    "tmdbId": 282820,
+    "title": "Railroad of Hope",
+    "year": 2002,
+    "directors": [
+      "Ning Ying"
+    ]
+  },
+  "Little Cheung:1999": {
+    "tmdbId": 18822,
+    "title": "Little Cheung",
+    "year": 1999,
+    "directors": [
+      "Fruit Chan"
+    ]
+  },
+  "The Skywalk Is Gone:2002": {
+    "tmdbId": 179129,
+    "title": "The Skywalk Is Gone",
+    "year": 2002,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "Blind Shaft:2003": {
+    "tmdbId": 11492,
+    "title": "Blind Shaft",
+    "year": 2003,
+    "directors": [
+      "Li Yang"
+    ]
+  },
+  "The Hand:2004": {
+    "tmdbId": 846716,
+    "title": "The Hand",
+    "year": 2004,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "The World:2004": {
+    "tmdbId": 41292,
+    "title": "The World",
+    "year": 2004,
+    "directors": [
+      "Jia Zhangke"
+    ],
+    "countries": [
+      "China",
+      "France",
+      "Japan"
+    ]
+  },
+  "House of Flying Daggers:2004": {
+    "tmdbId": 9550,
+    "title": "House of Flying Daggers",
+    "year": 2004,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Fuck Cinema:2005": {
+    "tmdbId": 233854,
+    "title": "Fuck Cinema",
+    "year": 2004,
+    "directors": [
+      "Wu Wenguang"
+    ]
+  },
+  "The Wayward Cloud:2005": {
+    "tmdbId": 36253,
+    "title": "The Wayward Cloud",
+    "year": 2005,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "Shanghai Dreams:2005": {
+    "tmdbId": 101908,
+    "title": "Shanghai Dreams",
+    "year": 2005,
+    "directors": [
+      "Wang Xiaoshuai"
+    ]
+  },
+  "Three Times:2005": {
+    "tmdbId": 11554,
+    "title": "Three Times",
+    "year": 2005,
+    "directors": [
+      "Hou Hsiao-hsien"
+    ]
+  },
+  "Grain in Ear:2005": {
+    "tmdbId": 118189,
+    "title": "Grain in Ear",
+    "year": 2005,
+    "directors": [
+      "Zhang Lu"
+    ]
+  },
+  "Oxhide:2005": {
+    "tmdbId": 163888,
+    "title": "Oxhide",
+    "year": 2006,
+    "directors": [
+      "Liu Jiayin"
+    ]
+  },
+  "Betelnut:2006": {
+    "tmdbId": 148728,
+    "title": "Betelnut",
+    "year": 2006,
+    "directors": [
+      "Yang Heng"
+    ]
+  },
+  "I Don't Want to Sleep Alone:2006": {
+    "tmdbId": 12130,
+    "title": "I Don't Want to Sleep Alone",
+    "year": 2006,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "Summer Palace:2006": {
+    "tmdbId": 17422,
+    "title": "Summer Palace",
+    "year": 2006,
+    "directors": [
+      "Lou Ye"
+    ]
+  },
+  "And the Spring Comes:2007": {
+    "tmdbId": 72219,
+    "title": "And the Spring Comes",
+    "year": 2007,
+    "directors": [
+      "Gu Changwei"
+    ]
+  },
+  "Peacock:2005": {
+    "tmdbId": 11728,
+    "title": "Peacock",
+    "year": 2005,
+    "directors": [
+      "Gu Changwei"
+    ]
+  },
+  "Everlasting Regret:2005": {
+    "tmdbId": 47293,
+    "title": "Everlasting Regret",
+    "year": 2005,
+    "directors": [
+      "Stanley Kwan Kam-Pang"
+    ]
+  },
+  "Lust, Caution:2007": {
+    "tmdbId": 4588,
+    "title": "Lust, Caution",
+    "year": 2007,
+    "directors": [
+      "Ang Lee"
+    ]
+  },
+  "Please Vote for Me:2007": {
+    "tmdbId": 38052,
+    "title": "Please Vote for Me",
+    "year": 2007,
+    "directors": [
+      "Weijun Chen"
+    ],
+    "countries": [
+      "China",
+      "Denmark",
+      "France",
+      "South Africa"
+    ]
+  },
+  "Exiled:2006": {
+    "tmdbId": 13807,
+    "title": "Exiled",
+    "year": 2006,
+    "directors": [
+      "Johnnie To"
+    ]
+  },
+  "Little Moth:2007": {
+    "tmdbId": 127029,
+    "title": "Little Moth",
+    "year": 2008,
+    "directors": [
+      "Peng Tao"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Chronicle of a Chinese Woman:2007": {
+    "tmdbId": 149100,
+    "title": "Fengming: A Chinese Memoir",
+    "year": 2007,
+    "directors": [
+      "Wang Bing"
+    ]
+  },
+  "Tuya's Marriage:2007": {
+    "tmdbId": 2694,
+    "title": "Tuya's Marriage",
+    "year": 2006,
+    "directors": [
+      "Wang Quan'an"
+    ],
+    "countries": [
+      "China",
+      "Mongolia"
+    ]
+  },
+  "The Sun Also Rises:2007": {
+    "tmdbId": 51885,
+    "title": "The Sun Also Rises",
+    "year": 2007,
+    "directors": [
+      "Jiang Wen"
+    ]
+  },
+  "Sparrow:2008": {
+    "tmdbId": 7346,
+    "title": "Sparrow",
+    "year": 2008,
+    "directors": [
+      "Johnnie To"
+    ]
+  },
+  "24 City:2008": {
+    "tmdbId": 29972,
+    "title": "24 City",
+    "year": 2008,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "Disorder:2009": {
+    "tmdbId": 102809,
+    "title": "Disorder",
+    "year": 2009,
+    "directors": [
+      "Huang Weikai"
+    ]
+  },
+  "Cannot Live Without You:2009": {
+    "tmdbId": 98868,
+    "title": "Cannot Live Without You",
+    "year": 2009,
+    "directors": [
+      "Leon Dai"
+    ]
+  },
+  "New Castle:2010": {
+    "tmdbId": 449068,
+    "title": "New Castle",
+    "year": 2010,
+    "directors": [
+      "Guo Hengqi"
+    ]
+  },
+  "Wild China:2008": {
+    "tmdbId": null,
+    "skipped": true,
+    "reason": "series"
+  },
+  "Karamay:2010": {
+    "tmdbId": 182655,
+    "title": "Karamay",
+    "year": 2010,
+    "directors": [
+      "Xu Xin"
+    ]
+  },
+  "Petition:2009": {
+    "tmdbId": 124991,
+    "title": "Petition",
+    "year": 2009,
+    "directors": [
+      "Zhao Liang"
+    ]
+  },
+  "Warriors of the Rainbow: Seediq Bale I:2011": {
+    "tmdbId": 98344,
+    "title": "Warriors of the Rainbow: Seediq Bale - Part 1: The Sun Flag",
+    "year": 2011,
+    "directors": [
+      "Wei Te-sheng"
+    ]
+  },
+  "Winter Vacation:2010": {
+    "tmdbId": 95361,
+    "title": "Winter Vacation",
+    "year": 2011,
+    "directors": [
+      "Li Hongqi"
+    ]
+  },
+  "I Wish I Knew:2010": {
+    "tmdbId": 57395,
+    "title": "I Wish I Knew",
+    "year": 2010,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "A Simple Life:2011": {
+    "tmdbId": 91186,
+    "title": "A Simple Life",
+    "year": 2012,
+    "directors": [
+      "Ann Hui"
+    ]
+  },
+  "Fujian Blue:2007": {
+    "tmdbId": 186131,
+    "title": "Fujian Blue",
+    "year": 2007,
+    "directors": [
+      "Weng Shouming"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Born in Beijing:2012": {
+    "tmdbId": 518659,
+    "title": "Born in Beijing",
+    "year": 2011,
+    "directors": [
+      "Li Ma"
+    ]
+  },
+  "Beyond Beauty: Taiwan from Above:2013": {
+    "tmdbId": 241693,
+    "title": "Beyond Beauty: Taiwan from Above",
+    "year": 2013,
+    "directors": [
+      "Chi Po-Lin"
+    ]
+  },
+  "Fly with the Crane:2012": {
+    "tmdbId": 127907,
+    "title": "Fly With the Crane",
+    "year": 2012,
+    "directors": [
+      "Li Ruijun"
+    ]
+  },
+  "The Grandmaster:2013": {
+    "tmdbId": 44865,
+    "title": "The Grandmaster",
+    "year": 2013,
+    "directors": [
+      "Wong Kar-Wai"
+    ]
+  },
+  "City of Life and Death:2009": {
+    "tmdbId": 21345,
+    "title": "City of Life and Death",
+    "year": 2009,
+    "directors": [
+      "Lu Chuan"
+    ]
+  },
+  "Stray Dogs:2013": {
+    "tmdbId": 209840,
+    "title": "Stray Dogs",
+    "year": 2014,
+    "directors": [
+      "Tsai Ming-liang"
+    ],
+    "countries": [
+      "Taiwan",
+      "France"
+    ]
+  },
+  "Blind Massage:2014": {
+    "tmdbId": 256106,
+    "title": "Blind Massage",
+    "year": 2014,
+    "directors": [
+      "Lou Ye"
+    ]
+  },
+  "Black Coal, Thin Ice:2014": {
+    "tmdbId": 255756,
+    "title": "Black Coal, Thin Ice",
+    "year": 2014,
+    "directors": [
+      "Diao Yinan"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Journey to the West:2014": {
+    "tmdbId": 255554,
+    "title": "Journey to the West",
+    "year": 2014,
+    "directors": [
+      "Tsai Ming-liang"
+    ]
+  },
+  "Flowers of Taipei: Taiwan New Cinema:2014": {
+    "tmdbId": 310799,
+    "title": "Flowers of Taipei: Taiwan New Cinema",
+    "year": 2014,
+    "directors": [
+      "Hsieh Chin-Lin"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "'Til Madness Do Us Part:2013": {
+    "tmdbId": 214775,
+    "title": "'Til Madness Do Us Part",
+    "year": 2014,
+    "directors": [
+      "Wang Bing"
+    ]
+  },
+  "Tharlo:2015": {
+    "tmdbId": 358808,
+    "title": "Tharlo",
+    "year": 2015,
+    "directors": [
+      "Pema Tseden"
+    ]
+  },
+  "Kaili Blues:2015": {
+    "tmdbId": 362178,
+    "title": "Kaili Blues",
+    "year": 2016,
+    "directors": [
+      "Bi Gan"
+    ]
+  },
+  "Coming Home:2014": {
+    "tmdbId": 259943,
+    "title": "Coming Home",
+    "year": 2014,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "I Am Not Madame Bovary:2016": {
+    "tmdbId": 400114,
+    "title": "I Am Not Madame Bovary",
+    "year": 2016,
+    "directors": [
+      "Feng Xiaogang"
+    ]
+  },
+  "End of Summer:2017": {
+    "tmdbId": 491815,
+    "title": "End of Summer",
+    "year": 2017,
+    "directors": [
+      "Zhou Quan"
+    ]
+  },
+  "White Ant:2016": {
+    "tmdbId": 420687,
+    "title": "White Ant",
+    "year": 2017,
+    "directors": [
+      "Chu Hsien-jer"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "The Family:2015": {
+    "tmdbId": 404738,
+    "title": "The Family",
+    "year": 2015,
+    "directors": [
+      "Liu Shumin"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Behemoth:2015": {
+    "tmdbId": 352202,
+    "title": "Behemoth",
+    "year": 2015,
+    "directors": [
+      "Zhao Liang"
+    ]
+  },
+  "Have a Nice Day:2017": {
+    "tmdbId": 437220,
+    "title": "Have a Nice Day",
+    "year": 2018,
+    "directors": [
+      "Liu Jian"
+    ]
+  },
+  "Love Education:2017": {
+    "tmdbId": 482590,
+    "title": "Love Education",
+    "year": 2017,
+    "directors": [
+      "Sylvia Chang"
+    ]
+  },
+  "Ash Is Purest White:2018": {
+    "tmdbId": 441393,
+    "title": "Ash Is Purest White",
+    "year": 2018,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "Dead Pigs:2018": {
+    "tmdbId": 491305,
+    "title": "Dead Pigs",
+    "year": 2018,
+    "directors": [
+      "Cathy Yan"
+    ]
+  },
+  "Dead Souls:2018": {
+    "tmdbId": 517772,
+    "title": "Dead Souls",
+    "year": 2018,
+    "directors": [
+      "Wang Bing"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "Long Day's Journey Into Night:2018": {
+    "tmdbId": 486898,
+    "title": "Long Day's Journey Into Night",
+    "year": 2018,
+    "directors": [
+      "Bi Gan"
+    ]
+  },
+  "Like a Flowing River:2018": {
+    "excluded": true
+  },
+  "Better Days:2019": {
+    "tmdbId": 575813,
+    "title": "Better Days",
+    "year": 2019,
+    "directors": [
+      "Derek Tsang Kwok-Cheung"
+    ],
+    "countries": [
+      "China",
+      "Hong Kong",
+      "United Kingdom"
+    ]
+  },
+  "The Wild Goose Lake:2019": {
+    "tmdbId": 575428,
+    "title": "The Wild Goose Lake",
+    "year": 2019,
+    "directors": [
+      "Diao Yinan"
+    ],
+    "countries": [
+      "China",
+      "France"
+    ]
+  },
+  "Le Moulin:2015": {
+    "tmdbId": 380069,
+    "title": "Le Moulin",
+    "year": 2017,
+    "directors": [
+      "Huang Ya-Li"
+    ]
+  },
+  "76 Days:2020": {
+    "tmdbId": 728928,
+    "title": "76 Days",
+    "year": 2020,
+    "directors": [
+      "Weixi Chen",
+      "Hao Wu"
+    ]
+  },
+  "A Sun:2019": {
+    "tmdbId": 622951,
+    "title": "A Sun",
+    "year": 2019,
+    "directors": [
+      "Chung Mong-hong"
+    ]
+  },
+  "Someday or One Day:2019": {
+    "tmdbId": null,
+    "skipped": true,
+    "reason": "series"
+  },
+  "Taipei Suicide Story:2020": {
+    "tmdbId": 741780,
+    "title": "Taipei Suicide Story",
+    "year": 2020,
+    "directors": [
+      "KEFF"
+    ]
+  },
+  "The Bad Kids:2020": {
+    "tmdbId": null,
+    "skipped": true,
+    "reason": "series"
+  },
+  "Return to Dust:2022": {
+    "tmdbId": 928720,
+    "title": "Return to Dust",
+    "year": 2022,
+    "directors": [
+      "Li Ruijun"
+    ]
+  },
+  "A Short Story:2022": {
+    "tmdbId": 944934,
+    "title": "A Short Story",
+    "year": 2022,
+    "directors": [
+      "Bi Gan"
+    ],
+    "countries": [
+      "China"
+    ]
+  },
+  "A New Old Play:2021": {
+    "tmdbId": 513305,
+    "title": "A New Old Play",
+    "year": 2022,
+    "directors": [
+      "Qiu Jiongjiong"
+    ],
+    "countries": [
+      "China",
+      "France",
+      "Hong Kong"
+    ]
+  },
+  "Dwelling in the Fuchun Mountains:2019": {
+    "tmdbId": 596881,
+    "title": "Dwelling in the Fuchun Mountains",
+    "year": 2020,
+    "directors": [
+      "Gu Xiaogang"
+    ]
+  },
+  "Caught by the Tides:2024": {
+    "tmdbId": 1136837,
+    "title": "Caught by the Tides",
+    "year": 2025,
+    "directors": [
+      "Jia Zhangke"
+    ]
+  },
+  "Resurrection:2025": {
+    "tmdbId": 878608,
+    "title": "Resurrection",
+    "year": 2025,
+    "directors": [
+      "Bi Gan"
+    ]
+  },
+  "Days:2020": {
+    "tmdbId": 662400,
+    "title": "Days",
+    "year": 2021,
+    "directors": [
+      "Tsai Ming-liang"
+    ],
+    "countries": [
+      "Taiwan"
+    ]
+  },
+  "Paths of the Soul:2015": {
+    "tmdbId": 358908,
+    "title": "Paths of the Soul",
+    "year": 2016,
+    "directors": [
+      "Zhang Yang"
+    ]
+  },
+  "One Second:2020": {
+    "tmdbId": 575089,
+    "title": "One Second",
+    "year": 2020,
+    "directors": [
+      "Zhang Yimou"
+    ]
+  },
+  "Chungking Express 2020:2022": {
+    "excluded": true
+  }
+}
