@@ -285,7 +285,7 @@ if (toEnrich.length) {
       done++;
       if (!data?.tmdbId) errors++;
     }));
-    writeFileSync(CACHE_FILE, JSON.stringify(cache));
+    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
     const pct = Math.round(done / toEnrich.length * 100);
     const eta = done > 0 ? Math.round(((toEnrich.length - done) / done) * ((Date.now() - start) / 1000)) : '?';
     process.stdout.write(`\r  ${done}/${toEnrich.length} (${pct}%)  eta ~${eta}s   `);
@@ -304,7 +304,7 @@ if (toUpgrade.length) {
       await upgradeOne(uri, cache[uri]);
       done++;
     }));
-    writeFileSync(CACHE_FILE, JSON.stringify(cache));
+    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
     const pct = Math.round(done / toUpgrade.length * 100);
     process.stdout.write(`\r  ${done}/${toUpgrade.length} (${pct}%)   `);
     await new Promise(r => setTimeout(r, 50));
@@ -322,7 +322,7 @@ if (toUpgradeRelease.length) {
       await upgradeOne(uri, cache[uri]);
       done++;
     }));
-    writeFileSync(CACHE_FILE, JSON.stringify(cache));
+    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
     process.stdout.write(`\r  ${done}/${toUpgradeRelease.length}   `);
     await new Promise(r => setTimeout(r, 50));
   }

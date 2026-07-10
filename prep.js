@@ -67,7 +67,7 @@ function loadJSON(file, fallback = {}) {
   if (!existsSync(file)) return fallback;
   try { return JSON.parse(readFileSync(file, 'utf-8')); } catch { return fallback; }
 }
-function saveJSON(file, data) { writeFileSync(file, JSON.stringify(data)); }
+function saveJSON(file, data) { writeFileSync(file, JSON.stringify(data, null, 2)); }
 
 let cache       = loadJSON(CACHE_FILE);
 let dirCache    = loadJSON(DIR_CACHE_FILE);

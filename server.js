@@ -79,7 +79,7 @@ try { directorCache = JSON.parse(readFileSync(DIRECTOR_CACHE_FILE, 'utf-8')); } 
 // Strip the comment key
 delete seriesGroups['_comment'];
 
-function saveSeriesCache() { writeFileSync(SERIES_CACHE_FILE, JSON.stringify(seriesCache)); }
+function saveSeriesCache() { writeFileSync(SERIES_CACHE_FILE, JSON.stringify(seriesCache, null, 2)); }
 
 async function fetchSeriesData(seriesName) {
   const { tmdbTvId } = seriesGroups[seriesName];
@@ -165,7 +165,7 @@ const enrichStatus = { total: 0, done: 0, running: false, errors: 0 };
 function loadCSV(filename) {
   return parse(readFileSync(join(DATA_DIR, filename), 'utf-8'), { columns: true, skip_empty_lines: true });
 }
-function saveCache() { writeFileSync(CACHE_FILE, JSON.stringify(tmdbCache)); }
+function saveCache() { writeFileSync(CACHE_FILE, JSON.stringify(tmdbCache, null, 2)); }
 
 // ── TMDB rate limiter ─────────────────────────────────────────────────────────
 
@@ -892,7 +892,7 @@ app.post('/api/overrides', async (req, res) => {
 // ── Director filmography ──────────────────────────────────────────────────────
 
 function saveDirectorCache() {
-  writeFileSync(DIRECTOR_CACHE_FILE, JSON.stringify(directorCache));
+  writeFileSync(DIRECTOR_CACHE_FILE, JSON.stringify(directorCache, null, 2));
 }
 
 function buildLibrarySets() {
