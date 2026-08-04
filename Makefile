@@ -4,12 +4,13 @@
 help:
 	@echo "Movie Night — available targets:"
 	@echo ""
-	@echo "  make run            Rebuild (enrich + posters) then start the server"
-	@echo "  make dev            Start the server with auto-reload (--watch)"
+	@echo "  make run            Start the server (http://localhost:3000)"
+	@echo "  make start          Same as make run"
+	@echo "  make dev            Start with auto-reload (--watch)"
 	@echo ""
-	@echo "  make enrich         Fetch TMDB metadata for all movies (watchlist + ratings)"
+	@echo "  make enrich         Fetch TMDB metadata for all movies"
 	@echo "  make posters        Download poster images to public/posters/"
-	@echo "  make rebuild        Full rebuild: enrich → download posters"
+	@echo "  make rebuild        Full rebuild: enrich → posters"
 	@echo ""
 	@echo "  make install        Install npm dependencies"
 	@echo ""
@@ -18,11 +19,10 @@ help:
 
 # ── Server ────────────────────────────────────────────────────────────────────
 
-run: rebuild
+run:
 	node server.js
 
-start:
-	node server.js
+start: run
 
 dev:
 	node --watch server.js
@@ -35,7 +35,6 @@ enrich:
 posters: tmdb-cache.json
 	node download-posters.js
 
-# Full rebuild from scratch (assumes cache already exists; run enrich first if needed)
 rebuild: enrich posters
 	@echo "✅ Rebuild complete."
 
@@ -52,7 +51,7 @@ install:
 
 clean-cache:
 	rm -f tmdb-cache.json
-	@echo "Cache deleted. Run 'make enrich' to rebuild."
+	@echo "Cache deleted. Run 'make enrich' (or 'make rebuild') to rebuild."
 
 clean-posters:
 	rm -rf public/posters/
