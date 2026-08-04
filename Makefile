@@ -1,4 +1,4 @@
-.PHONY: help run start dev enrich posters rebuild install clean-cache clean-posters
+.PHONY: help run start dev enrich posters rebuild install clean-posters
 
 # Default target
 help:
@@ -8,13 +8,12 @@ help:
 	@echo "  make start          Same as make run"
 	@echo "  make dev            Start with auto-reload (--watch)"
 	@echo ""
-	@echo "  make enrich         Fetch TMDB metadata for all movies"
+	@echo "  make enrich         Fetch TMDB metadata (keeps existing cache order)"
 	@echo "  make posters        Download poster images to public/posters/"
 	@echo "  make rebuild        Full rebuild: enrich → posters"
 	@echo ""
 	@echo "  make install        Install npm dependencies"
 	@echo ""
-	@echo "  make clean-cache    Delete tmdb-cache.json (forces full re-enrich)"
 	@echo "  make clean-posters  Delete all cached poster images"
 
 # ── Server ────────────────────────────────────────────────────────────────────
@@ -48,10 +47,6 @@ install:
 	npm install
 
 # ── Cleanup ───────────────────────────────────────────────────────────────────
-
-clean-cache:
-	rm -f tmdb-cache.json
-	@echo "Cache deleted. Run 'make enrich' (or 'make rebuild') to rebuild."
 
 clean-posters:
 	rm -rf public/posters/

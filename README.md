@@ -52,8 +52,7 @@ That's it — open the browser and enjoy.
 |---------|----------------|
 | `make run` | Start the server |
 | `make rebuild` | Enrich from TMDB + download posters |
-| `make enrich` | Fetch / refresh TMDB metadata only |
-| `make clean-cache` | Delete `tmdb-cache.json` (full re-enrich next time) |
+| `make enrich` | Fetch / refresh TMDB metadata (appends to cache, keeps order) |
 | `make clean-posters` | Delete cached poster images |
 | `make dev` | Start with auto-reload |
 

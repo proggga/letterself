@@ -160,12 +160,30 @@ let ratingsList  = [];
 let watchedList  = [];   // full rows from watched.csv
 let watchedSet   = new Set();
 let tmdbCache    = {};
+let tmdbCacheKeyOrder = [];
 const enrichStatus = { total: 0, done: 0, running: false, errors: 0 };
 
 function loadCSV(filename) {
   return parse(readFileSync(join(DATA_DIR, filename), 'utf-8'), { columns: true, skip_empty_lines: true });
 }
-function saveCache() { writeFileSync(CACHE_FILE, JSON.stringify(tmdbCache, null, 2)); }
+// Preserve on-disk key order; new URIs are appended at the end for clean git diffs.
+function saveCache() {
+  const ordered = {};
+  const seen = new Set();
+  for (const k of tmdbCacheKeyOrder) {
+    if (Object.prototype.hasOwnProperty.call(tmdbCache, k)) {
+      ordered[k] = tmdbCache[k];
+      seen.add(k);
+    }
+  }
+  for (const k of Object.keys(tmdbCache)) {
+    if (!seen.has(k)) {
+      ordered[k] = tmdbCache[k];
+      tmdbCacheKeyOrder.push(k);
+    }
+  }
+  writeFileSync(CACHE_FILE, JSON.stringify(ordered, null, 2));
+}
 
 // ── TMDB rate limiter ─────────────────────────────────────────────────────────
 
@@ -2029,7 +2047,10 @@ function init() {
   } catch {}
 
   if (existsSync(CACHE_FILE)) {
-    try { tmdbCache = JSON.parse(readFileSync(CACHE_FILE, 'utf-8')); } catch {}
+    try {
+      tmdbCache = JSON.parse(readFileSync(CACHE_FILE, 'utf-8'));
+      tmdbCacheKeyOrder = Object.keys(tmdbCache);
+    } catch {}
   }
 
   // Merge local library entries on top of Letterboxd CSVs

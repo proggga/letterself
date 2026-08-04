@@ -68,6 +68,26 @@ const allMovies = [...allMoviesMap.values()];
 
 let cache = {};
 if (existsSync(CACHE_FILE)) { try { cache = JSON.parse(readFileSync(CACHE_FILE, 'utf-8')); } catch {} }
+// Preserve on-disk key order so enrich appends new URIs at the end (clean git diffs).
+const cacheKeyOrder = Object.keys(cache);
+
+function saveCache() {
+  const ordered = {};
+  const seen = new Set();
+  for (const k of cacheKeyOrder) {
+    if (Object.prototype.hasOwnProperty.call(cache, k)) {
+      ordered[k] = cache[k];
+      seen.add(k);
+    }
+  }
+  for (const k of Object.keys(cache)) {
+    if (!seen.has(k)) {
+      ordered[k] = cache[k];
+      cacheKeyOrder.push(k);
+    }
+  }
+  writeFileSync(CACHE_FILE, JSON.stringify(ordered, null, 2));
+}
 
 // Overrides: { "https://boxd.it/XXX": null } = skip, { "https://boxd.it/XXX": 12345 } = use this TMDB ID
 let overrides = {};
@@ -273,19 +293,21 @@ async function upgradeOne(uri, entry) {
 const BATCH = 20;
 const start = Date.now();
 
-// Phase 1: Enrich missing
+// Phase 1: Enrich missing (apply results in batch order so new keys append stably)
 if (toEnrich.length) {
   console.log(`Phase 1: Enriching ${toEnrich.length} new movies...`);
   let done = 0, errors = 0;
   for (let i = 0; i < toEnrich.length; i += BATCH) {
-    await Promise.all(toEnrich.slice(i, i + BATCH).map(async movie => {
+    const batch = toEnrich.slice(i, i + BATCH);
+    const results = await Promise.all(batch.map(movie => enrichOne(movie)));
+    batch.forEach((movie, j) => {
       const uri  = movie['Letterboxd URI'];
-      const data = await enrichOne(movie);
+      const data = results[j];
       cache[uri] = data ?? { failed: true, failedAt: Date.now() };
       done++;
       if (!data?.tmdbId) errors++;
-    }));
-    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+    });
+    saveCache();
     const pct = Math.round(done / toEnrich.length * 100);
     const eta = done > 0 ? Math.round(((toEnrich.length - done) / done) * ((Date.now() - start) / 1000)) : '?';
     process.stdout.write(`\r  ${done}/${toEnrich.length} (${pct}%)  eta ~${eta}s   `);
@@ -304,7 +326,7 @@ if (toUpgrade.length) {
       await upgradeOne(uri, cache[uri]);
       done++;
     }));
-    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+    saveCache();
     const pct = Math.round(done / toUpgrade.length * 100);
     process.stdout.write(`\r  ${done}/${toUpgrade.length} (${pct}%)   `);
     await new Promise(r => setTimeout(r, 50));
@@ -322,7 +344,7 @@ if (toUpgradeRelease.length) {
       await upgradeOne(uri, cache[uri]);
       done++;
     }));
-    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+    saveCache();
     process.stdout.write(`\r  ${done}/${toUpgradeRelease.length}   `);
     await new Promise(r => setTimeout(r, 50));
   }
