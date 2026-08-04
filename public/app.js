@@ -1566,7 +1566,7 @@ function renderStats(d) {
   const { overview, decades, genres, countries, languages, divergence, pace, seasonal,
           popularityTiers, lengthBuckets, tasteProfile, diaryTotal, totalRewatches, rewatches,
           recentPopular, rarestGems, yearProgress, yearHighlights, rareGemMinAgeYears,
-          watchlistEta, radarChart, directorSpotlight, ratingEvolution, genreDecadeHeatmap } = d;
+          watchStreaks, watchlistEta, radarChart, directorSpotlight, ratingEvolution, genreDecadeHeatmap } = d;
 
   // ── Overview cards
   const ratingDistMax = Math.max(...overview.ratingDist.map(x => x.count), 1);
@@ -1892,6 +1892,30 @@ function renderStats(d) {
         <div class="stat-card"><div class="stat-card-value">${yearProgress.totalWithRepeats.toLocaleString()}</div><div class="stat-card-label">Total watches (incl. rewatches)</div></div>
         <div class="stat-card"><div class="stat-card-value">${yearProgress.avgPerDay}</div><div class="stat-card-label">Films per day (avg)</div></div>
         <div class="stat-card"><div class="stat-card-value">${yearProgress.hoursWatched.toLocaleString()}h</div><div class="stat-card-label">Est. hours since Jan 1</div></div>
+      </div>
+    </div>` : ''}
+
+    ${watchStreaks?.longest ? `
+    <div class="stats-section">
+      <div class="stats-section-title">Watch streaks — consecutive days without gaps</div>
+      <div class="stats-overview">
+        <div class="stat-card">
+          <div class="stat-card-value">${watchStreaks.longest.days} day${watchStreaks.longest.days === 1 ? '' : 's'}</div>
+          <div class="stat-card-label">Longest streak · ${watchStreaks.longest.rangeLabel}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value">${watchStreaks.averageDays} / ${watchStreaks.medianDays}</div>
+          <div class="stat-card-label">Avg / median streak (days)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-value">${watchStreaks.averageFilms} / ${watchStreaks.medianFilms}</div>
+          <div class="stat-card-label">Avg / median films per streak</div>
+        </div>
+        ${watchStreaks.current ? `
+        <div class="stat-card">
+          <div class="stat-card-value">${watchStreaks.current.days} day${watchStreaks.current.days === 1 ? '' : 's'}</div>
+          <div class="stat-card-label">${watchStreaks.current.active ? 'Current streak' : 'Most recent streak'} · ${watchStreaks.current.rangeLabel}</div>
+        </div>` : ''}
       </div>
     </div>` : ''}
 

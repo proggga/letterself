@@ -1643,6 +1643,88 @@ app.get('/api/analytics', (req, res) => {
     const ed = parseInt(end.slice(8, 10), 10);
     return sm === em ? `${sm} ${sd}—${ed}` : `${sm} ${sd}—${em} ${ed}`;
   };
+
+  // ── Watch streaks (consecutive calendar days with ≥1 diary entry)
+  const filmsPerDay = {};
+  diary.forEach(e => {
+    const d = e['Watched Date'] || e['Date'];
+    if (!d || d.length < 10) return;
+    filmsPerDay[d] = (filmsPerDay[d] || 0) + 1;
+  });
+  const uniqueWatchDays = Object.keys(filmsPerDay).sort();
+  const dayMs = 86400000;
+  const daysApart = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / dayMs);
+  const filmsInRange = (start, end) => {
+    let n = 0;
+    for (const d of uniqueWatchDays) {
+      if (d < start) continue;
+      if (d > end) break;
+      n += filmsPerDay[d];
+    }
+    return n;
+  };
+  const streaks = [];
+  if (uniqueWatchDays.length) {
+    let streakStart = uniqueWatchDays[0];
+    let streakEnd = uniqueWatchDays[0];
+    let streakLen = 1;
+    for (let i = 1; i < uniqueWatchDays.length; i++) {
+      if (daysApart(uniqueWatchDays[i - 1], uniqueWatchDays[i]) === 1) {
+        streakEnd = uniqueWatchDays[i];
+        streakLen++;
+      } else {
+        streaks.push({ days: streakLen, start: streakStart, end: streakEnd, films: filmsInRange(streakStart, streakEnd) });
+        streakStart = uniqueWatchDays[i];
+        streakEnd = uniqueWatchDays[i];
+        streakLen = 1;
+      }
+    }
+    streaks.push({ days: streakLen, start: streakStart, end: streakEnd, films: filmsInRange(streakStart, streakEnd) });
+  }
+  const longestRaw = streaks.reduce((best, s) => (!best || s.days > best.days ? s : best), null);
+  const medianOf = (arr) => {
+    if (!arr.length) return 0;
+    const sorted = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2
+      ? sorted[mid]
+      : Math.round((sorted[mid - 1] + sorted[mid]) / 2 * 10) / 10;
+  };
+  const avgStreakDays = streaks.length
+    ? Math.round(streaks.reduce((sum, s) => sum + s.days, 0) / streaks.length * 10) / 10
+    : 0;
+  const avgStreakFilms = streaks.length
+    ? Math.round(streaks.reduce((sum, s) => sum + s.films, 0) / streaks.length * 10) / 10
+    : 0;
+  const medianStreakDays = medianOf(streaks.map(s => s.days));
+  const medianStreakFilms = medianOf(streaks.map(s => s.films));
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const lastStreak = streaks[streaks.length - 1] || null;
+  const currentActive = lastStreak && daysApart(lastStreak.end, todayStr) <= 1;
+  const watchStreaks = {
+    totalDays: uniqueWatchDays.length,
+    totalStreaks: streaks.length,
+    averageDays: avgStreakDays,
+    medianDays: medianStreakDays,
+    averageFilms: avgStreakFilms,
+    medianFilms: medianStreakFilms,
+    longest: longestRaw ? {
+      days: longestRaw.days,
+      films: longestRaw.films,
+      start: longestRaw.start,
+      end: longestRaw.end,
+      rangeLabel: weekRangeLabel(longestRaw.start, longestRaw.end),
+    } : null,
+    current: lastStreak ? {
+      days: lastStreak.days,
+      films: lastStreak.films,
+      start: lastStreak.start,
+      end: lastStreak.end,
+      rangeLabel: weekRangeLabel(lastStreak.start, lastStreak.end),
+      active: !!currentActive,
+    } : null,
+  };
+
   const isoWeekOf = (dateStr) => {
     const d = new Date(dateStr + 'T12:00:00');
     const target = new Date(d);
@@ -1911,6 +1993,7 @@ app.get('/api/analytics', (req, res) => {
     rareGemMinAgeYears: RARE_GEM_MIN_AGE_YEARS,
     yearProgress,
     yearHighlights,
+    watchStreaks,
     watchlistEta: {
       remaining:   remaining.length,
       hoursLeft:   watchlistHoursLeft,
