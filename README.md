@@ -40,7 +40,7 @@ The app uses the latest folder in `archive/`.
 4. **Enrich + run**
 
 ```bash
-make rebuild   # fetch TMDB metadata + posters (first time / after a new export)
+make rebuild   # enrich missing + refresh votes/overviews from TMDB, then posters
 make run       # start → http://localhost:3000
 ```
 
@@ -51,8 +51,8 @@ That's it — open the browser and enjoy.
 | Command | What it does |
 |---------|----------------|
 | `make run` | Start the server |
-| `make rebuild` | Enrich from TMDB + download posters |
-| `make enrich` | Fetch / refresh TMDB metadata (appends to cache, keeps order) |
+| `make rebuild` | Enrich + refresh TMDB votes/overviews/posters, then download posters |
+| `make enrich` | Fetch missing TMDB metadata only (appends to cache, keeps order) |
 | `make clean-posters` | Delete cached poster images |
 | `make dev` | Start with auto-reload |
 

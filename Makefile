@@ -10,7 +10,7 @@ help:
 	@echo ""
 	@echo "  make enrich         Fetch TMDB metadata (keeps existing cache order)"
 	@echo "  make posters        Download poster images to public/posters/"
-	@echo "  make rebuild        Full rebuild: enrich → posters"
+	@echo "  make rebuild        Enrich + refresh votes/overviews/posters from TMDB → posters"
 	@echo ""
 	@echo "  make install        Install npm dependencies"
 	@echo ""
@@ -34,7 +34,9 @@ enrich:
 posters: tmdb-cache.json
 	node download-posters.js
 
-rebuild: enrich posters
+rebuild:
+	node enrich.js --refresh
+	$(MAKE) posters
 	@echo "✅ Rebuild complete."
 
 tmdb-cache.json:

@@ -1,14 +1,17 @@
-// Standalone enrichment — run with: node enrich.js
-// Does three things:
+// Standalone enrichment — run with: node enrich.js [--refresh]
+// Does three things by default:
 //   1. Enrich watchlist movies missing from cache (search + details)
 //   2. Enrich rated/watched movies missing from cache (same)
 //   3. Upgrade cache entries that are missing countries/language (details-only, fast)
+// With --refresh (used by `make rebuild`): also re-fetch existing entries to update
+// vote counts, overviews, posters, etc. — in place, preserving cache key order.
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'fs';
 import { parse } from 'csv-parse/sync';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const REFRESH = process.argv.includes('--refresh');
 
 function latestDataDir(root) {
   const archiveDir = join(root, 'archive');
@@ -123,15 +126,21 @@ const toUpgradeRelease = allMovies.filter(m => {
   const c = cache[m['Letterboxd URI']];
   return c?.tmdbId && c.releaseDate === undefined && !toUpgrade.find(u => u['Letterboxd URI'] === m['Letterboxd URI']) && year >= THIS_YEAR - 1;
 });
+const libraryUris = new Set(allMovies.map(m => m['Letterboxd URI']));
+// Refresh in existing cache order so git diffs stay localized to changed fields.
+const toRefresh = REFRESH
+  ? cacheKeyOrder.filter(uri => libraryUris.has(uri) && cache[uri]?.tmdbId)
+  : [];
 const alreadyOk = Object.values(cache).filter(v => v?.tmdbId && v.countries !== undefined).length;
 
 console.log(`\n🎬 Movies total:   ${allMovies.length} (${watchlist.length} watchlist + ${ratingsList.length} rated)`);
 console.log(`   To enrich:      ${toEnrich.length}`);
 console.log(`   To upgrade:     ${toUpgrade.length} (add countries/language to existing entries)`);
 if (toUpgradeRelease.length) console.log(`   Release dates:  ${toUpgradeRelease.length} recent movies missing release date`);
+if (REFRESH) console.log(`   To refresh:     ${toRefresh.length} (votes / overview / posters)`);
 console.log(`   Already done:   ${alreadyOk}\n`);
 
-if (!toEnrich.length && !toUpgrade.length && !toUpgradeRelease.length) {
+if (!toEnrich.length && !toUpgrade.length && !toUpgradeRelease.length && !toRefresh.length) {
   console.log('✓ Nothing to do — cache is complete and up to date.');
   process.exit(0);
 }
@@ -288,6 +297,58 @@ async function upgradeOne(uri, entry) {
   } catch { return false; }
 }
 
+function sameValue(a, b) {
+  if (a === b) return true;
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    return a.every((v, i) => v === b[i]);
+  }
+  return false;
+}
+
+function setIfChanged(entry, key, value) {
+  if (!sameValue(entry[key], value)) {
+    entry[key] = value;
+    return true;
+  }
+  return false;
+}
+
+// Re-fetch an existing entry and update mutable fields in place (keeps key order / minimizes git diffs).
+async function refreshOne(uri, entry) {
+  const mediaType = entry.mediaType === 'tv' ? 'tv' : 'movie';
+  try {
+    const d = await tmdbFetch(`${TMDB_BASE}/${mediaType}/${entry.tmdbId}?api_key=${TMDB_KEY}&language=en-US&append_to_response=credits`);
+    let changed = false;
+    const runtime = mediaType === 'tv'
+      ? ((d.episode_run_time || [])[0] || null)
+      : (d.runtime || null);
+    const releaseDate = mediaType === 'tv' ? (d.first_air_date || null) : (d.release_date || null);
+    const directors = mediaType === 'tv'
+      ? (d.created_by || []).map(c => c.name)
+      : (d.credits?.crew || []).filter(c => c.job === 'Director').map(c => c.name);
+    changed = setIfChanged(entry, 'runtime', runtime) || changed;
+    changed = setIfChanged(entry, 'overview', d.overview || '') || changed;
+    changed = setIfChanged(entry, 'voteAverage', Math.round((d.vote_average || 0) * 10) / 10) || changed;
+    changed = setIfChanged(entry, 'voteCount', d.vote_count || 0) || changed;
+    changed = setIfChanged(entry, 'posterPath', d.poster_path || null) || changed;
+    changed = setIfChanged(entry, 'backdropPath', d.backdrop_path || null) || changed;
+    changed = setIfChanged(entry, 'genres', (d.genres || []).map(g => g.name)) || changed;
+    changed = setIfChanged(entry, 'tagline', d.tagline || '') || changed;
+    if (mediaType === 'movie') {
+      changed = setIfChanged(entry, 'imdbId', d.imdb_id || null) || changed;
+    }
+    changed = setIfChanged(entry, 'countries', (d.production_countries || []).map(c => c.name)) || changed;
+    changed = setIfChanged(entry, 'language', d.original_language || null) || changed;
+    changed = setIfChanged(entry, 'releaseDate', releaseDate) || changed;
+    changed = setIfChanged(entry, 'directors', directors) || changed;
+    return changed;
+  } catch (e) {
+    process.stderr.write(`  ✗ refresh ${uri}: ${e.message}\n`);
+    return false;
+  }
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 const BATCH = 20;
@@ -349,6 +410,25 @@ if (toUpgradeRelease.length) {
     await new Promise(r => setTimeout(r, 50));
   }
   console.log(`\n✓ Phase 3 done.`);
+}
+
+// Phase 4: Refresh existing TMDB data (explicit --refresh / make rebuild only)
+if (toRefresh.length) {
+  console.log(`\nPhase 4: Refreshing ${toRefresh.length} cached movies from TMDB...`);
+  const refreshStart = Date.now();
+  let done = 0, changed = 0;
+  for (let i = 0; i < toRefresh.length; i += BATCH) {
+    const batch = toRefresh.slice(i, i + BATCH);
+    const results = await Promise.all(batch.map(uri => refreshOne(uri, cache[uri])));
+    results.forEach(didChange => { if (didChange) changed++; });
+    done += batch.length;
+    saveCache();
+    const pct = Math.round(done / toRefresh.length * 100);
+    const eta = done > 0 ? Math.round(((toRefresh.length - done) / done) * ((Date.now() - refreshStart) / 1000)) : '?';
+    process.stdout.write(`\r  ${done}/${toRefresh.length} (${pct}%)  ${changed} updated  eta ~${eta}s   `);
+    await new Promise(r => setTimeout(r, 50));
+  }
+  console.log(`\n✓ Phase 4 done. ${changed}/${toRefresh.length} entries had updates.`);
 }
 
 const total = Object.values(cache).filter(v => v?.tmdbId).length;
