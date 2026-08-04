@@ -10,6 +10,8 @@ Browse your Letterboxd watchlist, pick a movie night, and explore personal stats
 make install
 ```
 
+Deps come from the public npm registry (`registry.npmjs.org`). A project `.npmrc` pins that so a private npm mirror config won’t break installs.
+
 2. **Add a TMDB API key**
 
 Get a free key at [themoviedb.org/settings/api](https://www.themoviedb.org/settings/api), then:
@@ -21,11 +23,7 @@ cp .env.example .env
 
 3. **Add your Letterboxd export**
 
-```bash
-mkdir -p archive
-```
-
-Export your data from [letterboxd.com/settings/data](https://letterboxd.com/settings/data), unzip it, and drop the folder into `archive/`:
+The repo includes an empty `archive/` folder. Export your data from [letterboxd.com/settings/data](https://letterboxd.com/settings/data), unzip it, and drop the folder into `archive/`:
 
 ```text
 archive/

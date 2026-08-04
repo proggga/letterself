@@ -1,4 +1,5 @@
 archive/*
+!archive/.gitkeep
 public/posters/
 
 top500.csv
